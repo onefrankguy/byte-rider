@@ -4,7 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "postbuild": "cd dist && zip -9 ../game.zip index.html && npm run check-size",
+    "check-size": "node ./check-size.js; exit 0"
   },
   "devDependencies": {
     "html-webpack-inline-source-plugin": "0.0.10",
