@@ -19,7 +19,11 @@ module.exports = (_, argv) => {
     ],
     devServer: {
       stats: 'minimal',
-      overlay: true,
+      overlay: {
+        warnings: true,
+        errors: true,
+      },
+      watchContentBase: true,
     }
   };
 
