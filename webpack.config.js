@@ -25,7 +25,7 @@ module.exports = (_, argv) => {
         minify: isProduction && {
           collapseWhitespace: true,
         },
-        inlineSource: isProduction && '\.(js|css)$',
+        inlineSource: isProduction && '\.(js|css)$', // eslint-disable-line no-useless-escape
       }),
       new HtmlWebpackInlineSourcePlugin(),
       new OptimizeCssAssetsPlugin({}),
@@ -40,7 +40,7 @@ module.exports = (_, argv) => {
         errors: true,
       },
       watchContentBase: true,
-    }
+    },
   };
 
   return config;

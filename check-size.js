@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 
 const fs = require('fs');
 
@@ -11,7 +12,7 @@ fs.stat('game.zip', (err, stats) => {
   }
 
   const bytes = stats.size;
-  const percent = (bytes / MAX * 100).toFixed(2);
+  const percent = ((bytes * 100) / MAX).toFixed(2);
   console.log(`${bytes} bytes (used ${percent}%)`);
   console.log(`${MAX - bytes} bytes remaining`);
 
@@ -20,3 +21,5 @@ fs.stat('game.zip', (err, stats) => {
     process.exit(2);
   }
 });
+
+/* eslint-enable no-console */
