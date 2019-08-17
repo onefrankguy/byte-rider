@@ -5,10 +5,13 @@
   "version": "1.0.0",
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "build": "webpack --mode production",
     "lint": "eslint src *.js 2>&1",
-    "postbuild": "cd dist && zip -9 ../game.zip index.html && npm run check-size",
-    "check-size": "node ./check-size.js; exit 0"
+    "prebuild": "npm run lint",
+    "build": "webpack --mode production",
+    "postbuild": "npm run zip",
+    "check-size": "node ./check-size.js; exit 0",
+    "zip": "cd dist && zip -9 ../game.zip index.html",
+    "postzip": "npm run check-size"
   },
   "devDependencies": {
     "css-loader": "^3.2.0",
