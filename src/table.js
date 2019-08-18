@@ -44,6 +44,17 @@ const playCard = (table, player, card) => {
   return copy;
 };
 
+const undrawCard = (table, player, card) => {
+  const copy = Utils.clone(table);
+
+  if (copy[player] && Pile.includes(copy[player].played, card)) {
+    copy[player].played = Pile.remove(copy[player].played, card);
+    copy.stock.unshift(card);
+  }
+
+  return copy;
+};
+
 const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
@@ -54,6 +65,10 @@ const playMove = (table, move) => {
 
   if (isCard(start) && isTable(end)) {
     return playCard(copy, getPlayer(copy, end), start);
+  }
+
+  if (isCard(start) && isStock(end)) {
+    return undrawCard(copy, getPlayer(copy, end), start);
   }
 
   return copy;

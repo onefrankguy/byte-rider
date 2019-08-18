@@ -40,3 +40,18 @@ test('Table#play allows players to play cards from their hand', () => {
   expect(table.y.hand).toStrictEqual([]);
   expect(table.y.played).toStrictEqual(['2C']);
 });
+
+test('Table#play allows players to move cards from the table to the stock', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'Sx-Hx',
+    'AC-Px',
+    'AC-Sx',
+    '2C-Sx',
+  ]);
+
+  expect(table.stock[0]).toBe('AC');
+  expect(table.x.hand).toStrictEqual(['2C']);
+  expect(table.x.played).toStrictEqual([]);
+});
