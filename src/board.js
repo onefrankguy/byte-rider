@@ -20,16 +20,22 @@ Board.create = () => {
   };
 };
 
-const clone = (board) => JSON.parse(JSON.stringify(board || Board.create()));
+Board.clone = (board) => JSON.parse(JSON.stringify(board || Board.create()));
 
 Board.player = (board, card) => {
   const suit = card.split('')[1];
 
-  if (board.xHand.includes(card) || suit === 'x') {
+  if (board.xHand.includes(card)
+    || board.xTable.includes(card)
+    || suit === 'x'
+  ) {
     return 'x';
   }
 
-  if (board.yHand.includes(card) || suit === 'y') {
+  if (board.yHand.includes(card)
+    || board.yTable.includes(card)
+    || suit === 'y'
+  ) {
     return 'y';
   }
 
@@ -39,7 +45,7 @@ Board.player = (board, card) => {
 Board.opponent = (player) => (player === 'x' ? 'y' : 'x');
 
 Board.draw = (board, aPlayer) => {
-  const copy = clone(board);
+  const copy = Board.clone(board);
   const player = (aPlayer || '').toLowerCase();
 
   if (player === 'x' || player === 'y') {
@@ -54,7 +60,7 @@ Board.draw = (board, aPlayer) => {
 };
 
 Board.discard = (board, card) => {
-  const copy = clone(board);
+  const copy = Board.clone(board);
 
   ['xHand', 'yHand', 'xTable', 'yTable'].forEach((place) => {
     if (copy[place].includes(card)) {
@@ -75,7 +81,7 @@ Board.discard = (board, card) => {
 };
 
 Board.play = (board, aCard) => {
-  const copy = clone(board);
+  const copy = Board.clone(board);
   const card = (aCard || '').toUpperCase();
 
   if (copy.xHand.includes(card)) {
@@ -92,17 +98,29 @@ Board.play = (board, aCard) => {
 };
 
 Board.transfer = (board, card) => {
-  const copy = clone(board);
+  let copy = Board.clone(board);
 
   if (copy.xTable.includes(card)) {
     copy.xTable = copy.xTable.filter((c) => c !== card);
     copy.yTable.push(card);
+
+    if (copy.xCovers[card]) {
+      copy.yCovers[card] = copy.xCovers[card];
+      copy = Board.transfer(copy, copy.xCovers[card]);
+    }
+
     return copy;
   }
 
   if (copy.yTable.includes(card)) {
     copy.yTable = copy.yTable.filter((c) => c !== card);
     copy.xTable.push(card);
+
+    if (copy.yCovers[card]) {
+      copy.xCovers[card] = copy.yCovers[card];
+      copy = Board.transfer(copy, copy.yCovers[card]);
+    }
+
     return copy;
   }
 
@@ -110,7 +128,7 @@ Board.transfer = (board, card) => {
 };
 
 Board.cover = (board, aCard, bCard) => {
-  const copy = clone(board);
+  const copy = Board.clone(board);
 
   if (copy.xHand.includes(aCard) && copy.yTable.includes(bCard)) {
     copy.xHand = copy.xHand.filter((c) => c !== aCard);

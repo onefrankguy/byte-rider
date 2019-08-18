@@ -102,3 +102,44 @@ test('Board#discard clears covered cards on bottom', () => {
   expect(newBoard.yCovers).toEqual({});
   expect(newBoard.discard).toEqual([yCard]);
 });
+
+test('Board#transfer moves covered cards', () => {
+  let oldBoard = Board.create();
+  oldBoard = Board.draw(oldBoard, 'x');
+  oldBoard = Board.draw(oldBoard, 'y');
+  oldBoard = Board.play(oldBoard, oldBoard.yHand[0]);
+
+  const xCard = oldBoard.xHand[0];
+  const yCard = oldBoard.yTable[0];
+
+  oldBoard = Board.cover(oldBoard, xCard, yCard);
+
+  const newBoard = Board.transfer(oldBoard, xCard);
+  const newCovers = {};
+  newCovers[xCard] = yCard;
+
+  expect(newBoard.xTable).toEqual([xCard, yCard]);
+  expect(newBoard.xCovers).toEqual(newCovers);
+});
+
+test('Board#transfer moves double covered cards', () => {
+  let oldBoard = Board.create();
+  oldBoard = Board.draw(oldBoard, 'x');
+  oldBoard = Board.draw(oldBoard, 'x');
+  oldBoard = Board.draw(oldBoard, 'y');
+  oldBoard = Board.play(oldBoard, oldBoard.yHand[0]);
+
+  const [xCard1, xCard2] = oldBoard.xHand;
+  const yCard = oldBoard.yTable[0];
+
+  oldBoard = Board.cover(oldBoard, xCard1, yCard);
+  oldBoard = Board.cover(oldBoard, xCard2, xCard1);
+
+  const newBoard = Board.transfer(oldBoard, xCard2);
+  const newCovers = {};
+  newCovers[xCard1] = yCard;
+  newCovers[xCard2] = xCard1;
+
+  expect(newBoard.xTable).toEqual([xCard2, xCard1, yCard]);
+  expect(newBoard.xCovers).toEqual(newCovers);
+});
