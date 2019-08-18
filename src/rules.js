@@ -13,6 +13,8 @@ const isRoyal = (card) => ROYALS.includes(card.split('')[0]);
 
 const isStock = (card) => card.split('')[0] === 'S';
 
+const isThree = (card) => card.split('')[0] === '3';
+const isJack = (card) => card.split('')[0] === 'J';
 const isKing = (card) => card.split('')[0] === 'K';
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
@@ -65,36 +67,75 @@ Rules.playable = (board, card) => {
 
   if (isNumber(card)) {
     // You can play a number card for points.
-    results.push(`B${player}`);
+    results.push(`T${player}`);
 
     // You can discard a number card for an effect.
     results.push(`D${player}`);
 
     // You play a number card on your opponent's equal or lower value card.
-    results.concat(getScuttleable(board[`${opponent}Played`], card));
+    results.concat(getScuttleable(board[`${opponent}Table`], card));
   }
 
   if (isRoyal(card)) {
     // You can play a royal card for a boost.
-    results.push(`B${player}`);
+    results.push(`T${player}`);
   }
 
   return results;
 };
 
 Rules.moves = (board, player) => {
-  const pickable = Rules.pickable(board, player);
-  const playable = Rules.playable(board, player);
-
   const result = [];
 
-  pickable.forEach((start) => {
-    playable.forEach((end) => {
+  Rules.pickable(board, player).forEach((start) => {
+    Rules.playable(board, start).forEach((end) => {
       result.push(`${start}-${end}`);
     });
   });
 
   return result;
+};
+
+Rules.discard = (board, card) => {
+  let copy = Board.clone(board);
+
+  if (isJack(card)) {
+    copy = Board.transfer(copy, card);
+  }
+
+  return Board.discard(copy, card);
+};
+
+Rules.play = (board, move) => {
+  const [start, end] = move.split('-');
+  const player = Board.player(board, start);
+
+  if (start === `S${player}` && end === `H${player}`) {
+    return Board.draw(board, player);
+  }
+
+  if (end === `D${player}`) {
+    let copy = Rules.discard(board, start);
+
+    // Discard all non-point cards in play.
+    if (isThree(start)) {
+      ['xTable', 'yTable'].forEach((place) => {
+        copy[place].slice().forEach((card) => {
+          if (isRoyal(card)) {
+            copy = Rules.discard(board, card);
+          }
+        });
+      });
+    }
+
+    return copy;
+  }
+
+  if (end === `T${player}`) {
+    return Board.play(board, start);
+  }
+
+  return Board.clone(board);
 };
 
 Rules.score = (board, player) => board[`${player}Table`]
