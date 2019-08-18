@@ -11,6 +11,8 @@ Board.create = () => {
   return {
     discard: [],
     stock,
+    xCovers: {},
+    yCovers: {},
     xHand: [],
     yHand: [],
     xTable: [],
@@ -138,6 +140,24 @@ Board.transfer = (board, card) => {
     copy.yTable = copy.yTable.filter((c) => c !== card);
     copy.xTable.push(card);
     return copy;
+  }
+
+  return copy;
+};
+
+Board.cover = (board, aCard, bCard) => {
+  const copy = clone(board);
+
+  if (copy.xHand.includes(aCard) && copy.yTable.includes(bCard)) {
+    copy.xHand = copy.xHand.filter((c) => c !== aCard);
+    copy.yTable.push(aCard);
+    copy.yCovers[aCard] = bCard;
+  }
+
+  if (copy.yHand.includes(aCard) && copy.xTable.includes(bCard)) {
+    copy.yHand = copy.yHand.filter((c) => c !== aCard);
+    copy.xTable.push(aCard);
+    copy.xCovers[aCard] = bCard;
   }
 
   return copy;

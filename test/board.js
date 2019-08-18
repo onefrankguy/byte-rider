@@ -6,6 +6,8 @@ test('Board#create creates an empty board', () => {
 
   expect(board.discard.length).toBe(0);
   expect(board.stock.length).toBe(52);
+  expect(board.xCovers).toEqual({});
+  expect(board.yCovers).toEqual({});
   expect(board.xHand.length).toBe(0);
   expect(board.yHand.length).toBe(0);
   expect(board.xTable.length).toBe(0);
@@ -70,4 +72,22 @@ test('Board#transfer moves a card across the table', () => {
 
   expect(newBoard.xTable.length).toBe(0);
   expect(newBoard.yTable).toEqual([oldBoard.xTable[0]]);
+});
+
+test('Board#cover moves a card over another card', () => {
+  let oldBoard = Board.create();
+  oldBoard = Board.draw(oldBoard, 'x');
+  oldBoard = Board.draw(oldBoard, 'y');
+  oldBoard = Board.play(oldBoard, oldBoard.yHand[0]);
+
+  const xCard = oldBoard.xHand[0];
+  const yCard = oldBoard.yTable[0];
+
+  const newBoard = Board.cover(oldBoard, xCard, yCard);
+  const newCovers = {};
+  newCovers[xCard] = yCard;
+
+  expect(newBoard.xHand.length).toBe(0);
+  expect(newBoard.yTable).toEqual([yCard, xCard]);
+  expect(newBoard.yCovers).toEqual(newCovers);
 });
