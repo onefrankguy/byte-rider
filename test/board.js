@@ -38,31 +38,6 @@ test('Board#play puts the player\'s card on the table', () => {
   expect(newBoard.xTable).toEqual([oldBoard.xHand[0]]);
 });
 
-test('Board#scuttle discards both player\'s cards', () => {
-  let oldBoard = Board.create();
-  oldBoard = Board.draw(oldBoard, 'x');
-  oldBoard = Board.draw(oldBoard, 'y');
-
-  const newBoard = Board.scuttle(oldBoard, oldBoard.xHand[0], oldBoard.yHand[0]);
-
-  expect(newBoard.xHand.length).toBe(0);
-  expect(newBoard.yHand.length).toBe(0);
-  expect(newBoard.discard).toEqual([oldBoard.yHand[0], oldBoard.xHand[0]]);
-});
-
-test('Board#jack transfers a player\'s card', () => {
-  let oldBoard = Board.create();
-  oldBoard = Board.draw(oldBoard, 'x');
-  oldBoard = Board.draw(oldBoard, 'y');
-  oldBoard = Board.play(oldBoard, oldBoard.yHand[0]);
-
-  const newBoard = Board.jack(oldBoard, oldBoard.xHand[0], oldBoard.yTable[0]);
-
-  expect(newBoard.xHand.length).toBe(0);
-  expect(newBoard.yTable.length).toBe(0);
-  expect(newBoard.xTable).toEqual([`${oldBoard.yTable[0]}-${oldBoard.xHand[0]}`]);
-});
-
 test('Board#transfer moves a card across the table', () => {
   let oldBoard = Board.create();
   oldBoard = Board.draw(oldBoard, 'x');

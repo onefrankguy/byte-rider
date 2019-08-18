@@ -91,46 +91,6 @@ Board.play = (board, aCard) => {
   return copy;
 };
 
-Board.scuttle = (board, aCard, bCard) => {
-  const copy = clone(board);
-  const fromCard = (aCard || '').toUpperCase();
-  const toCard = (bCard || '').toUpperCase();
-  const player = Board.player(copy, fromCard);
-  const opponent = Board.opponent(player);
-
-  if (!player || !opponent) {
-    return copy;
-  }
-
-  if (copy[`${player}Hand`].includes(fromCard) && copy[`${opponent}Hand`].includes(toCard)) {
-    copy[`${player}Hand`] = copy[`${player}Hand`].filter((c) => c !== fromCard);
-    copy[`${opponent}Hand`] = copy[`${opponent}Hand`].filter((c) => c !== toCard);
-    copy.discard = copy.discard.concat(toCard, fromCard);
-  }
-
-  return copy;
-};
-
-Board.jack = (board, aCard, bCard) => {
-  const copy = clone(board);
-  const fromCard = (aCard || '').toUpperCase();
-  const toCard = (bCard || '').toUpperCase();
-  const player = Board.player(copy, fromCard);
-  const opponent = Board.opponent(player);
-
-  if (!player || !opponent) {
-    return copy;
-  }
-
-  if (copy[`${player}Hand`].includes(fromCard) && copy[`${opponent}Table`].includes(toCard)) {
-    copy[`${player}Hand`] = copy[`${player}Hand`].filter((c) => c !== fromCard);
-    copy[`${opponent}Table`] = copy[`${opponent}Table`].filter((c) => c !== toCard);
-    copy[`${player}Table`].push(`${toCard}-${fromCard}`);
-  }
-
-  return copy;
-};
-
 Board.transfer = (board, card) => {
   const copy = clone(board);
 
