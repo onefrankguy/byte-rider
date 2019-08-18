@@ -60,21 +60,23 @@ Board.draw = (board, aPlayer) => {
 };
 
 Board.discard = (board, card) => {
-  const copy = Board.clone(board);
+  let copy = Board.clone(board);
+
+  ['xCovers', 'yCovers'].forEach((place) => {
+    Object.keys(copy[place]).forEach((key) => {
+      if (key === card) {
+        delete copy[place][key];
+      } else if (copy[place][key] === card) {
+        copy = Board.discard(board, key);
+      }
+    });
+  });
 
   ['xHand', 'yHand', 'xTable', 'yTable'].forEach((place) => {
     if (copy[place].includes(card)) {
       copy[place] = copy[place].filter((c) => c !== card);
       copy.discard.push(card);
     }
-  });
-
-  ['xCovers', 'yCovers'].forEach((place) => {
-    Object.keys(copy[place]).forEach((key) => {
-      if (key === card || copy[place][key] === card) {
-        delete copy[place][key];
-      }
-    });
   });
 
   return copy;
