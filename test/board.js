@@ -8,8 +8,8 @@ test('Board#create creates an empty board', () => {
   expect(board.stock.length).toBe(52);
   expect(board.xHand.length).toBe(0);
   expect(board.yHand.length).toBe(0);
-  expect(board.xPlayed.length).toBe(0);
-  expect(board.yPlayed.length).toBe(0);
+  expect(board.xTable.length).toBe(0);
+  expect(board.yTable.length).toBe(0);
 });
 
 test('Board#draw puts the top card in the player\'s hand', () => {
@@ -33,7 +33,7 @@ test('Board#play puts the player\'s card on the table', () => {
   const newBoard = Board.play(oldBoard, oldBoard.xHand[0]);
 
   expect(newBoard.xHand.length).toBe(0);
-  expect(newBoard.xPlayed).toEqual([oldBoard.xHand[0]]);
+  expect(newBoard.xTable).toEqual([oldBoard.xHand[0]]);
 });
 
 test('Board#scuttle discards both player\'s cards', () => {
@@ -54,9 +54,9 @@ test('Board#jack transfers a player\'s card', () => {
   oldBoard = Board.draw(oldBoard, 'y');
   oldBoard = Board.play(oldBoard, oldBoard.yHand[0]);
 
-  const newBoard = Board.jack(oldBoard, oldBoard.xHand[0], oldBoard.yPlayed[0]);
+  const newBoard = Board.jack(oldBoard, oldBoard.xHand[0], oldBoard.yTable[0]);
 
   expect(newBoard.xHand.length).toBe(0);
-  expect(newBoard.yPlayed.length).toBe(0);
-  expect(newBoard.xPlayed).toEqual([`${oldBoard.yPlayed[0]}-${oldBoard.xHand[0]}`]);
+  expect(newBoard.yTable.length).toBe(0);
+  expect(newBoard.xTable).toEqual([`${oldBoard.yTable[0]}-${oldBoard.xHand[0]}`]);
 });

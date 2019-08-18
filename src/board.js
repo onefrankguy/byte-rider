@@ -13,8 +13,8 @@ Board.create = () => {
     stock,
     xHand: [],
     yHand: [],
-    xPlayed: [],
-    yPlayed: [],
+    xTable: [],
+    yTable: [],
   };
 };
 
@@ -74,12 +74,12 @@ Board.play = (board, aCard) => {
 
   if (copy.xHand.includes(card)) {
     copy.xHand = copy.xHand.filter((c) => c !== card);
-    copy.xPlayed.push(card);
+    copy.xTable.push(card);
   }
 
   if (copy.yHand.includes(card)) {
     copy.yHand = copy.yHand.filter((c) => c !== card);
-    copy.yPlayed.push(card);
+    copy.yTable.push(card);
   }
 
   return copy;
@@ -116,10 +116,10 @@ Board.jack = (board, aCard, bCard) => {
     return copy;
   }
 
-  if (copy[`${player}Hand`].includes(fromCard) && copy[`${opponent}Played`].includes(toCard)) {
+  if (copy[`${player}Hand`].includes(fromCard) && copy[`${opponent}Table`].includes(toCard)) {
     copy[`${player}Hand`] = copy[`${player}Hand`].filter((c) => c !== fromCard);
-    copy[`${opponent}Played`] = copy[`${opponent}Played`].filter((c) => c !== toCard);
-    copy[`${player}Played`].push(`${toCard}-${fromCard}`);
+    copy[`${opponent}Table`] = copy[`${opponent}Table`].filter((c) => c !== toCard);
+    copy[`${player}Table`].push(`${toCard}-${fromCard}`);
   }
 
   return copy;
