@@ -53,19 +53,23 @@ Board.draw = (board, aPlayer) => {
   return copy;
 };
 
-Board.discard = (board, aCard) => {
+Board.discard = (board, card) => {
   const copy = clone(board);
-  const card = (aCard || '').toUpperCase();
 
-  if (copy.xHand.includes(card)) {
-    copy.xHand = copy.xHand.filter((c) => c !== card);
-    copy.discard.push(card);
-  }
+  ['xHand', 'yHand', 'xTable', 'yTable'].forEach((place) => {
+    if (copy[place].includes(card)) {
+      copy[place] = copy[place].filter((c) => c !== card);
+      copy.discard.push(card);
+    }
+  });
 
-  if (copy.yHand.includes(card)) {
-    copy.yHand = copy.yHand.filter((c) => c !== card);
-    copy.discard.push(card);
-  }
+  ['xCovers', 'yCovers'].forEach((place) => {
+    Object.keys(copy[place]).forEach((key) => {
+      if (key === card || copy[place][key] === card) {
+        delete copy[place][key];
+      }
+    });
+  });
 
   return copy;
 };
