@@ -37,6 +37,10 @@ a, a:visited {
   align-items: center;
 }
 
+.stack {
+  display: inline-grid;
+}
+
 .card {
   display: inline-flex;
   justify-content: center;
