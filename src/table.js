@@ -85,6 +85,22 @@ const undiscardCard = (table, player, card) => {
   return copy;
 };
 
+const stackCard = (table, card1, card2) => {
+  const copy = Utils.clone(table);
+  const player1 = getPlayer(copy, card1);
+
+  if (copy[player1] && Pile.includes(copy[player1].hand, card1)) {
+    const player2 = getPlayer(copy, card2);
+
+    if (copy[player2] && Pile.includes(copy[player2].played, card2)) {
+      copy[player1].hand = Pile.remove(copy[player1].hand, card1);
+      copy[player2].played = Pile.add(copy[player2].played, card1, card2);
+    }
+  }
+
+  return copy;
+};
+
 const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
@@ -107,6 +123,10 @@ const playMove = (table, move) => {
 
   if (isCard(start) && isHand(end)) {
     return undiscardCard(copy, getPlayer(copy, end), start);
+  }
+
+  if (isCard(start) && isCard(end)) {
+    return stackCard(copy, start, end);
   }
 
   return copy;
