@@ -79,6 +79,12 @@ Board.discard = (board, card) => {
     }
   });
 
+  /*
+  if (board.debug) {
+    console.log('discard:', card, '\nbefore:', { ...board, stock: [] }, '\nafter:', { ...copy, stock: [] });
+  }
+  */
+
   return copy;
 };
 

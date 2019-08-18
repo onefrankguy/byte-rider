@@ -13,6 +13,7 @@ const isRoyal = (card) => ROYALS.includes(card.split('')[0]);
 
 const isStock = (card) => card.split('')[0] === 'S';
 
+const isTwo = (card) => card.split('')[0] === '2';
 const isThree = (card) => card.split('')[0] === '3';
 const isJack = (card) => card.split('')[0] === 'J';
 const isKing = (card) => card.split('')[0] === 'K';
@@ -117,12 +118,23 @@ Rules.play = (board, move) => {
   if (end === `D${player}`) {
     let copy = Rules.discard(board, start);
 
+    // Discard all point cards in play.
+    if (isTwo(start)) {
+      ['xTable', 'yTable'].forEach((place) => {
+        copy[place].forEach((card) => {
+          if (isNumber(card)) {
+            copy = Rules.discard(copy, card);
+          }
+        });
+      });
+    }
+
     // Discard all non-point cards in play.
     if (isThree(start)) {
       ['xTable', 'yTable'].forEach((place) => {
-        copy[place].slice().forEach((card) => {
+        copy[place].forEach((card) => {
           if (isRoyal(card)) {
-            copy = Rules.discard(board, card);
+            copy = Rules.discard(copy, card);
           }
         });
       });
