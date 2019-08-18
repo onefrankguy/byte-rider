@@ -11,3 +11,15 @@ test('Table#create creates an empty table', () => {
   expect(table.y.hand).toStrictEqual([]);
   expect(table.y.played).toStrictEqual([]);
 });
+
+test('Table#play allows players to draw cards', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'Sy-Hy',
+  ]);
+
+  expect(table.stock.length).toBe(50);
+  expect(table.x.hand).toStrictEqual(['AC']);
+  expect(table.y.hand).toStrictEqual(['2C']);
+});
