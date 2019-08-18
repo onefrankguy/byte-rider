@@ -41,6 +41,21 @@ test('Table#play allows players to play cards from their hand', () => {
   expect(table.y.played).toStrictEqual(['2C']);
 });
 
+test('Table#play allows players to discard cards from their hand', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'Sx-Hx',
+    'AC-Px',
+    'AC-Sx',
+    '2C-Sx',
+  ]);
+
+  expect(table.stock[0]).toBe('AC');
+  expect(table.x.hand).toStrictEqual(['2C']);
+  expect(table.x.played).toStrictEqual([]);
+});
+
 test('Table#play allows players to move cards from the table to the stock', () => {
   let table = Table.create();
   table = Table.play(table, [
@@ -54,4 +69,19 @@ test('Table#play allows players to move cards from the table to the stock', () =
   expect(table.stock[0]).toBe('AC');
   expect(table.x.hand).toStrictEqual(['2C']);
   expect(table.x.played).toStrictEqual([]);
+});
+
+test('Table#play allows players move cards from the table to the discard', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'Sx-Hx',
+    'AC-Px',
+    'AC-Dx',
+    '2C-Dx',
+  ]);
+
+  expect(table.x.hand).toStrictEqual([]);
+  expect(table.x.played).toStrictEqual([]);
+  expect(table.discard).toStrictEqual(['2C', 'AC']);
 });

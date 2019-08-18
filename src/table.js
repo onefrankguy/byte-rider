@@ -10,6 +10,7 @@ const isCard = (value) => !!VALUES.find((v) => (value || '').startsWith(v));
 const isStock = (value) => (value || '').startsWith('S');
 const isHand = (value) => (value || '').startsWith('H');
 const isTable = (value) => (value || '').startsWith('P');
+const isDiscard = (value) => (value || '').startsWith('D');
 
 const getPlayer = (table, value) => {
   if (Pile.includes(table.x.hand, value) || Pile.includes(table.x.played, value)) {
@@ -55,6 +56,24 @@ const undrawCard = (table, player, card) => {
   return copy;
 };
 
+const discardCard = (table, player, card) => {
+  const copy = Utils.clone(table);
+
+  if (copy[player]) {
+    if (Pile.includes(copy[player].hand, card)) {
+      copy[player].hand = Pile.remove(copy[player].hand, card);
+      copy.discard.unshift(card);
+    }
+
+    if (Pile.includes(copy[player].played, card)) {
+      copy[player].played = Pile.remove(copy[player].played, card);
+      copy.discard.unshift(card);
+    }
+  }
+
+  return copy;
+};
+
 const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
@@ -69,6 +88,10 @@ const playMove = (table, move) => {
 
   if (isCard(start) && isStock(end)) {
     return undrawCard(copy, getPlayer(copy, end), start);
+  }
+
+  if (isCard(start) && isDiscard(end)) {
+    return discardCard(copy, getPlayer(copy, end), start);
   }
 
   return copy;
