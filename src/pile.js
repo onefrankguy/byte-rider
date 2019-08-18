@@ -10,4 +10,6 @@ Pile.remove = (pile, card) => pile.reduce((acc, s) => {
   return stack ? acc.concat(stack) : acc;
 }, []);
 
+Pile.add = (pile, card) => pile.concat(card);
+
 module.exports = Pile;
