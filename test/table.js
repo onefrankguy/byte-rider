@@ -23,3 +23,20 @@ test('Table#play allows players to draw cards', () => {
   expect(table.x.hand).toStrictEqual(['AC']);
   expect(table.y.hand).toStrictEqual(['2C']);
 });
+
+test('Table#play allows players to play cards from their hand', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'AC-Px',
+    'Sy-Hy',
+    '2C-Py',
+    'AD-Py',
+  ]);
+
+  expect(table.stock.length).toBe(50);
+  expect(table.x.hand).toStrictEqual([]);
+  expect(table.x.played).toStrictEqual(['AC']);
+  expect(table.y.hand).toStrictEqual([]);
+  expect(table.y.played).toStrictEqual(['2C']);
+});

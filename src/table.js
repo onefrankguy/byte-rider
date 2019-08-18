@@ -6,8 +6,10 @@ const Table = {};
 const SUITS = ['C', 'D', 'H', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
 
+const isCard = (value) => !!VALUES.find((v) => (value || '').startsWith(v));
 const isStock = (value) => (value || '').startsWith('S');
 const isHand = (value) => (value || '').startsWith('H');
+const isTable = (value) => (value || '').startsWith('P');
 
 const getPlayer = (table, value) => {
   if (Pile.includes(table.x.hand, value) || Pile.includes(table.x.played, value)) {
@@ -31,12 +33,27 @@ const drawCard = (table, player) => {
   return copy;
 };
 
+const playCard = (table, player, card) => {
+  const copy = Utils.clone(table);
+
+  if (copy[player] && Pile.includes(copy[player].hand, card)) {
+    copy[player].hand = Pile.remove(copy[player].hand, card);
+    copy[player].played = Pile.add(copy[player].played, card);
+  }
+
+  return copy;
+};
+
 const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
 
   if (isStock(start) && isHand(end)) {
     return drawCard(copy, getPlayer(copy, end));
+  }
+
+  if (isCard(start) && isTable(end)) {
+    return playCard(copy, getPlayer(copy, end), start);
   }
 
   return copy;
