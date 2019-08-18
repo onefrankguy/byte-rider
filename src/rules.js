@@ -1,3 +1,5 @@
+const Board = require('./board');
+
 const Rules = {};
 
 const VALUES = ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
@@ -22,28 +24,12 @@ const getPoints = (card) => {
 const getScuttleable = (cards, card) => isNumber(card)
   && getPointCards(cards).filter((c) => getPoints(c) < getPoints(card));
 
-const getPlayer = (board, card) => {
-  const suit = card.split('')[1];
-
-  if (board.xHand.includes(card) || suit === 'x') {
-    return 'x';
-  }
-
-  if (board.yHand.includes(card) || suit === 'y') {
-    return 'y';
-  }
-
-  return '';
-};
-
-const getOpponent = (player) => (player === 'x' ? 'y' : 'x');
-
 // You can play your own cards or take one from the stock.
 Rules.pickable = (board, player) => board[`${player}Hand`].concat(`S${player}`);
 
 Rules.playable = (board, card) => {
-  const player = getPlayer(board, card);
-  const opponent = getOpponent(player);
+  const player = Board.player(board, card);
+  const opponent = Board.opponent(player);
 
   // You can't play without an opponent.
   if (!player || !opponent) {
