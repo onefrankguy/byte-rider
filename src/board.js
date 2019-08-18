@@ -125,4 +125,22 @@ Board.jack = (board, aCard, bCard) => {
   return copy;
 };
 
+Board.transfer = (board, card) => {
+  const copy = clone(board);
+
+  if (copy.xTable.includes(card)) {
+    copy.xTable = copy.xTable.filter((c) => c !== card);
+    copy.yTable.push(card);
+    return copy;
+  }
+
+  if (copy.yTable.includes(card)) {
+    copy.yTable = copy.yTable.filter((c) => c !== card);
+    copy.xTable.push(card);
+    return copy;
+  }
+
+  return copy;
+};
+
 module.exports = Board;

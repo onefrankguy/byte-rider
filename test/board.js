@@ -60,3 +60,14 @@ test('Board#jack transfers a player\'s card', () => {
   expect(newBoard.yTable.length).toBe(0);
   expect(newBoard.xTable).toEqual([`${oldBoard.yTable[0]}-${oldBoard.xHand[0]}`]);
 });
+
+test('Board#transfer moves a card across the table', () => {
+  let oldBoard = Board.create();
+  oldBoard = Board.draw(oldBoard, 'x');
+  oldBoard = Board.play(oldBoard, oldBoard.xHand[0]);
+
+  const newBoard = Board.transfer(oldBoard, oldBoard.xTable[0]);
+
+  expect(newBoard.xTable.length).toBe(0);
+  expect(newBoard.yTable).toEqual([oldBoard.xTable[0]]);
+});
