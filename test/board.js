@@ -11,3 +11,27 @@ test('Board#create creates an empty board', () => {
   expect(board.xPlayed.length).toBe(0);
   expect(board.yPlayed.length).toBe(0);
 });
+
+test('Board#draw puts the top card in the player\'s hand', () => {
+  const oldBoard = Board.create();
+  const newBoard = Board.draw(oldBoard, 'x');
+
+  expect(newBoard.stock.length).toBe(oldBoard.stock.length - 1);
+  expect(newBoard.xHand).toEqual([oldBoard.stock[0]]);
+});
+
+test('Board#discard puts the player\'s card in the discard', () => {
+  const oldBoard = Board.draw(Board.create(), 'x');
+  const newBoard = Board.discard(oldBoard, oldBoard.xHand[0]);
+
+  expect(newBoard.xHand.length).toBe(0);
+  expect(newBoard.discard).toEqual([oldBoard.xHand[0]]);
+});
+
+test('Board#play puts the player\'s card on the table', () => {
+  const oldBoard = Board.draw(Board.create(), 'x');
+  const newBoard = Board.play(oldBoard, oldBoard.xHand[0]);
+
+  expect(newBoard.xHand.length).toBe(0);
+  expect(newBoard.xPlayed).toEqual([oldBoard.xHand[0]]);
+});
