@@ -43,7 +43,7 @@ const getScuttleable = (cards, card) => isNumber(card)
   && getPointCards(cards).filter((c) => getPoints(c) < getPoints(card));
 
 // You can play your own cards or take one from the stock.
-Rules.pickable = (board, player) => board[`${player}Hand`].concat(`S${player}`);
+Rules.pickable = (table, player) => (table && table[player] ? table[player].hand.concat(`S${player}`) : []);
 
 Rules.playable = (board, card) => {
   const player = Board.player(board, card);
