@@ -2,6 +2,8 @@ const Pile = {};
 
 const DELIMITER = ':';
 
+Pile.unwrap = (pile) => (pile || []).map((s) => s.split(DELIMITER));
+
 Pile.includes = (pile, card) => (pile || []).find((c) => c.indexOf(card) > -1) !== undefined;
 
 Pile.remove = (pile, card) => (pile || []).reduce((acc, s) => {

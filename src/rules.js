@@ -11,8 +11,7 @@ const isNumber = (card) => NUMBERS.includes(card.split('')[0]);
 
 const isRoyal = (card) => ROYALS.includes(card.split('')[0]);
 
-const isStock = (card) => card.split('')[0] === 'S';
-
+const isStock = (value) => (value || '').startsWith('S');
 const isTwo = (card) => card.split('')[0] === '2';
 const isThree = (card) => card.split('')[0] === '3';
 const isJack = (card) => card.split('')[0] === 'J';

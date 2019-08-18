@@ -1,5 +1,16 @@
 require('./game.scss');
 
-const $ = require('./jquery');
+const Table = require('./table');
+const Renderer = require('./renderer');
 
-$('#game').html('Hello, Game!');
+let table = Table.create();
+table = Table.play(table, [
+  'Sy-Hy', 'Sx-Hx',
+  'Sy-Hy', 'Sx-Hx',
+  'Sy-Hy', 'Sx-Hx',
+  'Sy-Hy', 'Sx-Hx',
+  'Sy-Hy', 'Sx-Hx',
+  'Sy-Hy',
+]);
+
+Renderer.render(table);
