@@ -5,12 +5,15 @@ const Rules = {};
 const VALUES = ['', 'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
 const NUMBERS = ['A', '2', '3', '4', '5', '6', '7', '9', 'T'];
 const ROYALS = ['8', 'J', 'K', 'Q'];
+const WINNING_POINTS = 21;
 
 const isNumber = (card) => NUMBERS.includes(card.split('')[0]);
 
 const isRoyal = (card) => ROYALS.includes(card.split('')[0]);
 
 const isStock = (card) => card.split('')[0] === 'S';
+
+const isKing = (card) => card.split('')[0] === 'K';
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -19,6 +22,18 @@ const getPoints = (card) => {
   const index = VALUES.indexOf(value);
 
   return index > -1 ? index : 0;
+};
+
+const getScore = (card) => {
+  const [value] = card.split('');
+
+  return NUMBERS.includes(value) ? VALUES.indexOf(value) : 0;
+};
+
+const getWinningPoints = (board, player) => {
+  const kings = board[`${player}Table`].filter((c) => isKing(c));
+
+  return WINNING_POINTS + (kings.length * -7);
 };
 
 const getScuttleable = (cards, card) => isNumber(card)
@@ -65,6 +80,37 @@ Rules.playable = (board, card) => {
   }
 
   return results;
+};
+
+Rules.moves = (board, player) => {
+  const pickable = Rules.pickable(board, player);
+  const playable = Rules.playable(board, player);
+
+  const result = [];
+
+  pickable.forEach((start) => {
+    playable.forEach((end) => {
+      result.push(`${start}-${end}`);
+    });
+  });
+
+  return result;
+};
+
+Rules.score = (board, player) => board[`${player}Table`]
+  .map(getScore)
+  .reduce((acc, value) => (acc + value), 0);
+
+Rules.winner = (board) => {
+  if (Rules.score(board, 'x') >= getWinningPoints(board, 'x')) {
+    return 'x';
+  }
+
+  if (Rules.score(board, 'y') >= getWinningPoints(board, 'y')) {
+    return 'y';
+  }
+
+  return '';
 };
 
 module.exports = Rules;
