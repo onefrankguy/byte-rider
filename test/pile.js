@@ -46,3 +46,8 @@ test('Pile#add stacks cards in piles', () => {
 test('Pile#add adds handles invalid piles', () => {
   expect(Pile.add(undefined, 'AS')).toStrictEqual(['AS']);
 });
+
+test('Pile#add adds handles invalid cards', () => {
+  expect(Pile.add(['AC'], undefined)).toStrictEqual(['AC']);
+  expect(Pile.add(['AC'], undefined, 'AC')).toStrictEqual(['AC']);
+});

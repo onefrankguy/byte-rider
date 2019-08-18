@@ -13,8 +13,8 @@ Pile.remove = (pile, card) => (pile || []).reduce((acc, s) => {
 Pile.add = (pile, card, location) => {
   let added = false;
 
-  const result = (pile || []).reduce((acc, s) => {
-    if (s.indexOf(location) > -1) {
+  let result = (pile || []).reduce((acc, s) => {
+    if (card && s.indexOf(location) > -1) {
       added = true;
       return acc.concat(s.split(DELIMITER).concat(card).join(DELIMITER));
     }
@@ -22,7 +22,11 @@ Pile.add = (pile, card, location) => {
     return acc.concat(s);
   }, []);
 
-  return added ? result : result.concat(card);
+  if (card && !added) {
+    result = result.concat(card);
+  }
+
+  return result;
 };
 
 module.exports = Pile;
