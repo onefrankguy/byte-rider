@@ -42,8 +42,21 @@ const getWinningPoints = (board, player) => {
 const getScuttleable = (cards, card) => isNumber(card)
   && getPointCards(cards).filter((c) => getPoints(c) < getPoints(card));
 
-// You can play your own cards or take one from the stock.
-Rules.pickable = (table, player) => (table && table[player] ? table[player].hand.concat(`S${player}`) : []);
+Rules.pickable = (table, player) => {
+  if (!table || !table[player]) {
+    return [];
+  }
+
+  // You can play your own cards.
+  const result = table[player].hand.slice();
+
+  // You can take a card from the stock unless it's empty.
+  if (table.stock.length > 0) {
+    result.push(`S${player}`);
+  }
+
+  return result;
+};
 
 Rules.playable = (board, card) => {
   const player = Board.player(board, card);

@@ -10,9 +10,18 @@ test('Rules#pickable allows players to draw or play cards', () => {
     'Sx-Hx',
   ]);
 
-  const cards = Rules.pickable(table, 'x');
+  expect(Rules.pickable(table, 'x')).toStrictEqual(['AC', '2C', 'Sx']);
+});
 
-  expect(cards).toStrictEqual(['AC', '2C', 'Sx']);
+test('Rules#pickable prevents drawing if the stock is empty', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sx-Hx',
+    'Sx-Hx',
+  ]);
+  table.stock = [];
+
+  expect(Rules.pickable(table, 'x')).toStrictEqual(['AC', '2C']);
 });
 
 test('Rules#pickable handles invalid players and tables', () => {
