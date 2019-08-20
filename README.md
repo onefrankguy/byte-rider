@@ -5,7 +5,7 @@ The beginning of a project for [js13kGames 2019][js13k].
 ## Development ##
 
 [Node][] versions are managed via [NVM][]. The `start` script will launch a
-development server.
+development server on 127.0.0.1:3000.
 
 ```bash
 nvm install

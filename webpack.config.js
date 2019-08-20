@@ -34,6 +34,8 @@ module.exports = (_, argv) => {
       }),
     ],
     devServer: {
+      host: '127.0.0.1',
+      port: 3000,
       stats: 'minimal',
       overlay: {
         warnings: true,
