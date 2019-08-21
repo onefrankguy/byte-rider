@@ -7,7 +7,7 @@ const renderStack = (stack) => {
 
   html += '<div class="stack">';
   stack.forEach((card) => {
-    html += '<div class="card">';
+    html += `<div id="${card}" class="card">`;
     html += card;
     html += '</div>';
   });
