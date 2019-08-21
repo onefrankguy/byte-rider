@@ -22,6 +22,52 @@ Fn.prototype.html = function html(value) {
   return this;
 };
 
+Fn.prototype.click = function click(start, end) {
+  const that = this;
+
+  if (this.element) {
+    if ('ontouchstart' in document.documentElement === false) {
+      this.element.onmousedown = function onmousedown(mouseDownEvent) {
+        if (start) {
+          start(that, mouseDownEvent);
+        }
+        document.onmousemove = function onmousemove(e) {
+          e.preventDefault();
+        };
+        document.onmouseup = function onmouseup(e) {
+          if (end) {
+            end(that, e);
+          }
+          document.onmousemove = undefined;
+          document.onmouseup = undefined;
+        };
+      };
+    } else {
+      this.element.ontouchstart = function ontouchstart(touchStartEvent) {
+        if (start) {
+          start(that, touchStartEvent);
+        }
+        document.ontouchmove = function ontouchmove(e) {
+          e.preventDefault();
+        };
+        document.ontouchend = function ontouchend(e) {
+          if (end) {
+            end(that, e);
+          }
+          document.ontouchmove = undefined;
+          document.ontouchend = undefined;
+        };
+      };
+    }
+  }
+
+  return this;
+};
+
+Fn.prototype.unwrap = function unwrap() {
+  return this.element;
+};
+
 function root(selector) {
   return new Fn(selector);
 }
