@@ -15,8 +15,8 @@ test('Table#create creates an empty table', () => {
 test('Table#play allows players to draw cards', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sy-Hy',
+    'S-Hx',
+    'S-Hy',
   ]);
 
   expect(table.stock.length).toBe(50);
@@ -27,9 +27,9 @@ test('Table#play allows players to draw cards', () => {
 test('Table#play allows players to play cards from their hand', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
+    'S-Hx',
     'AC-Px',
-    'Sy-Hy',
+    'S-Hy',
     '2C-Py',
     'AD-Py',
   ]);
@@ -44,8 +44,8 @@ test('Table#play allows players to play cards from their hand', () => {
 test('Table#play allows players to discard cards from their hand', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
+    'S-Hx',
+    'S-Hx',
     'AC-Px',
     'AC-Sx',
     '2C-Sx',
@@ -59,8 +59,8 @@ test('Table#play allows players to discard cards from their hand', () => {
 test('Table#play allows players to move cards from the table to the stock', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
+    'S-Hx',
+    'S-Hx',
     'AC-Px',
     'AC-Sx',
     '2C-Sx',
@@ -74,11 +74,11 @@ test('Table#play allows players to move cards from the table to the stock', () =
 test('Table#play allows players move cards from the table to the discard', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
+    'S-Hx',
+    'S-Hx',
     'AC-Px',
-    'AC-Dx',
-    '2C-Dx',
+    'AC-D',
+    '2C-D',
   ]);
 
   expect(table.x.hand).toStrictEqual([]);
@@ -89,13 +89,13 @@ test('Table#play allows players move cards from the table to the discard', () =>
 test('Table#play allows players move cards from the discard to their hand', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
-    'Sx-Hx',
+    'S-Hx',
+    'S-Hx',
+    'S-Hx',
     'AC-Px',
     '2C-Px',
-    'AC-Dx',
-    '3C-Dx',
+    'AC-D',
+    '3C-D',
     'AC-Hx',
     '2C-Hx',
   ]);
@@ -108,9 +108,9 @@ test('Table#play allows players move cards from the discard to their hand', () =
 test('Table#play allows players stack cards', () => {
   let table = Table.create();
   table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
-    'Sx-Hx',
+    'S-Hx',
+    'S-Hx',
+    'S-Hx',
     'AC-Px',
     '2C-AC',
     'Sy-Hy',

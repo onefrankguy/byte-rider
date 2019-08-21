@@ -114,11 +114,11 @@ const playMove = (table, move) => {
   }
 
   if (isCard(start) && isStock(end)) {
-    return undrawCard(copy, getPlayer(copy, end), start);
+    return undrawCard(copy, getPlayer(copy, start), start);
   }
 
   if (isCard(start) && isDiscard(end)) {
-    return discardCard(copy, getPlayer(copy, end), start);
+    return discardCard(copy, getPlayer(copy, start), start);
   }
 
   if (isCard(start) && isHand(end)) {
