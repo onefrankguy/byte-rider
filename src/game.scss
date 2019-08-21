@@ -32,31 +32,71 @@ a, a:visited {
 
 /* SCREEN */
 .world {
-  position: relative;
+  display: grid;
   /* Usable area on an iPhone 4 is 320x372 pixels */
   width: 32rem;
   height: 37.2rem;
   margin: 0 auto;
   overflow: hidden;
-  border: 1px solid pink;
 }
 
 /* GAME */
 .game {
-  position: relative;
   display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(7, $cardWidth);
+  grid-template-rows: repeat(8, $cardHeight);
+  grid-template-areas:
+    '. Hy Hy Hy Hy Hy .'
+    '. Hy Hy Hy Hy Hy .'
+    '. Py Py Py Py Py .'
+    'S Py Py Py Py Py D'
+    'S Px Px Px Px Px D'
+    '. Px Px Px Px Px .'
+    '. Hx Hx Hx Hx Hx .'
+    '. Hx Hx Hx Hx Hx .'
+  ;
 }
 
-.pile {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: $cardHeight;
+.Hy {
+  grid-area: Hy;
+}
+
+.Py {
+  grid-area: Py;
   border: 1px solid pink;
 }
 
+.S {
+  grid-area: S;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.D {
+  grid-area: D;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.Px {
+  grid-area: Px;
+  border: 1px solid pink;
+}
+
+.Hx {
+  grid-area: Hx;
+}
+
+
+.pile {
+}
+
 .stack {
-  display: inline-grid;
+  display: inline-flex;
 }
 
 .card {

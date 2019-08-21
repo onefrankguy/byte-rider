@@ -10,23 +10,12 @@ let input = [];
 let picked;
 
 const offBoard = (_, event) => {
-  if (event.target && (event.target.matches('.card') || event.target.matches('.pile'))) {
-    let { id } = event.target;
-
-    if (id === 'xHand') {
-      id = 'Hx';
-    }
-    if (id === 'xNumbers' || id === 'xRoyals') {
-      id = 'Px';
-    }
-
-    if (id) {
-      event.stopPropagation();
-      input.push(id);
-      [table, picked] = Engine.tick(table, 'x', ...input);
-      input = picked ? [picked] : [];
-      Renderer.invalidate(table, picked);
-    }
+  if (event.target && (event.target.matches('.card') || event.target.matches('.pile')) && event.target.id) {
+    event.stopPropagation();
+    input.push(event.target.id);
+    [table, picked] = Engine.tick(table, 'x', ...input);
+    input = picked ? [picked] : [];
+    Renderer.invalidate(table, picked);
   }
 };
 
