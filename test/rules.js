@@ -92,23 +92,23 @@ test('Rules#play(3) discards all non-point cards', () => {
 });
 
 test('Rules#winner shows the player if they win', () => {
-  const board = Board.create();
-  board.xTable = ['TC', 'TD', 'AH'];
+  const table = Table.create();
+  table.x.played = ['TC', 'TD', 'AH'];
 
-  expect(Rules.winner(board)).toEqual('x');
+  expect(Rules.winner(table)).toEqual('x');
 });
 
 test('Rules#winner shows nothing if no one wins', () => {
-  const board = Board.create();
-  board.xTable = ['TC', 'TS'];
-  board.yTable = ['TH', 'TD'];
+  const table = Table.create();
+  table.x.played = ['TC', 'TS'];
+  table.y.played = ['TH', 'TD'];
 
-  expect(Rules.winner(board)).toEqual('');
+  expect(Rules.winner(table)).toEqual('');
 });
 
 test('Rules#winner accounts for kings when scoring', () => {
-  const board = Board.create();
-  board.yTable = ['TC', 'TD', 'KH'];
+  const table = Table.create();
+  table.y.played = ['TC', 'TD', 'KH'];
 
-  expect(Rules.winner(board)).toEqual('y');
+  expect(Rules.winner(table)).toEqual('y');
 });

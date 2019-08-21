@@ -15,7 +15,6 @@ const isStock = (value) => (value || '').startsWith('S');
 const isTwo = (card) => card.split('')[0] === '2';
 const isThree = (card) => card.split('')[0] === '3';
 const isJack = (card) => card.split('')[0] === 'J';
-const isKing = (card) => card.split('')[0] === 'K';
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -29,13 +28,11 @@ const getPoints = (card) => {
 const getScore = (card) => {
   const [value] = card.split('');
 
-  return NUMBERS.includes(value) ? VALUES.indexOf(value) : 0;
-};
+  if (NUMBERS.includes(value)) {
+    return VALUES.indexOf(value);
+  }
 
-const getWinningPoints = (board, player) => {
-  const kings = board[`${player}Table`].filter((c) => isKing(c));
-
-  return WINNING_POINTS + (kings.length * -7);
+  return value === 'K' ? 7 : 0;
 };
 
 const getScuttleable = (cards, card) => isNumber(card)
@@ -162,16 +159,20 @@ Rules.play = (board, move) => {
   return Board.clone(board);
 };
 
-Rules.score = (board, player) => board[`${player}Table`]
-  .map(getScore)
-  .reduce((acc, value) => (acc + value), 0);
+Rules.score = (table, player) => {
+  if (!table || !table[player]) {
+    return 0;
+  }
 
-Rules.winner = (board) => {
-  if (Rules.score(board, 'x') >= getWinningPoints(board, 'x')) {
+  return table[player].played.map(getScore).reduce((acc, value) => (acc + value), 0);
+};
+
+Rules.winner = (table) => {
+  if (Rules.score(table, 'x') >= WINNING_POINTS) {
     return 'x';
   }
 
-  if (Rules.score(board, 'y') >= getWinningPoints(board, 'y')) {
+  if (Rules.score(table, 'y') >= WINNING_POINTS) {
     return 'y';
   }
 
