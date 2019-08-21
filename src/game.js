@@ -9,6 +9,12 @@ let table;
 let input = [];
 let picked;
 
+const onBoard = (_, event) => {
+  if (event.target && (event.target.matches('.card'))) {
+    $(event.target).addClass('picked');
+  }
+};
+
 const offBoard = (_, event) => {
   if (event.target && (event.target.matches('.card') || event.target.matches('.pile')) && event.target.id) {
     event.stopPropagation();
@@ -26,7 +32,7 @@ Game.reset = () => {
 };
 
 Game.play = () => {
-  $('#board').click(undefined, offBoard);
+  $('#board').click(onBoard, offBoard);
 
   Game.reset();
 };

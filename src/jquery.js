@@ -14,6 +14,22 @@ function Fn(selector) {
   return this;
 }
 
+Fn.prototype.addClass = function addClass(value) {
+  if (this.element && this.element.classList && value) {
+    this.element.classList.add(value);
+  }
+
+  return this;
+};
+
+Fn.prototype.removeClass = function removeClass(value) {
+  if (this.element && this.element.classList) {
+    this.element.classList.remove(value);
+  }
+
+  return this;
+};
+
 Fn.prototype.html = function html(value) {
   if (this.element) {
     this.element.innerHTML = value;

@@ -48,7 +48,7 @@ Rules.pickable = (table, player) => {
 
   // You can take a card from the stock unless it's empty.
   if (table.stock.length > 0) {
-    result.push(`S${player}`);
+    result.push('S');
   }
 
   return result;

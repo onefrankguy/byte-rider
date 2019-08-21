@@ -65,7 +65,7 @@ a, a:visited {
 
 .Py {
   grid-area: Py;
-  border: 1px solid pink;
+  border: 1px solid gray;
 }
 
 .S {
@@ -84,7 +84,7 @@ a, a:visited {
 
 .Px {
   grid-area: Px;
-  border: 1px solid pink;
+  border: 1px solid gray;
 }
 
 .Hx {
@@ -106,4 +106,8 @@ a, a:visited {
   width: $cardWidth;
   height: $cardHeight;
   border: 1px solid $textColor;
+}
+
+.picked {
+  background-color: gray;
 }

@@ -19,15 +19,18 @@ const renderPile = (pile) => Pile.unwrap(pile).map(renderStack).join('');
 
 const Renderer = {};
 
-Renderer.render = (table) => {
+Renderer.render = (table, picked) => {
   $('#Hy').html(renderPile(table.y.hand));
   $('#Py').html(renderPile(table.y.played));
   $('#Px').html(renderPile(table.x.played));
   $('#Hx').html(renderPile(table.x.hand));
+  $('#S').removeClass('picked');
+  $('#D').removeClass('picked');
+  $(`#${picked}`).addClass('picked');
 };
 
-Renderer.invalidate = (table) => {
-  requestAnimationFrame(() => Renderer.render(table));
+Renderer.invalidate = (table, picked) => {
+  requestAnimationFrame(() => Renderer.render(table, picked));
 };
 
 module.exports = Renderer;

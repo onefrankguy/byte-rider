@@ -9,16 +9,16 @@ Engine.tick = (table, player, start, end) => {
     return [Utils.clone(table), undefined];
   }
 
+  const move = `${start}-${end}`;
+  console.log(`${player}: ${move}`);
+
   if (start && end) {
-    const move = `${start}-${end}`;
     const next = Table.play(table, [move]);
-
-    console.log(`${player}: ${move}`);
-
     return [next, undefined];
   }
 
-  const picked = [end, start].filter((value) => value);
+  const pickable = Rules.pickable(table, player);
+  const picked = [end, start].filter((value) => pickable.includes(value));
   return [Utils.clone(table), ...picked];
 };
 
