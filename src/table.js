@@ -30,6 +30,18 @@ Table.player = (table, value) => {
   return table[result] ? result : '';
 };
 
+Table.opponent = (player) => {
+  if (player === 'x') {
+    return 'y';
+  }
+
+  if (player === 'y') {
+    return 'x';
+  }
+
+  return '';
+};
+
 const drawCard = (table, player) => {
   const copy = Utils.clone(table);
 

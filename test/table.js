@@ -48,6 +48,16 @@ test('Table#player handles invalid tables and values', () => {
   expect(Table.player(table, undefined)).toStrictEqual('');
 });
 
+test('Table#opponent finds the right opponent', () => {
+  expect(Table.opponent('x')).toStrictEqual('y');
+  expect(Table.opponent('y')).toStrictEqual('x');
+  expect(Table.opponent('z')).toStrictEqual('');
+});
+
+test('Table#opponent handles players', () => {
+  expect(Table.opponent(undefined)).toStrictEqual('');
+});
+
 test('Table#play allows players to draw cards', () => {
   let table = Table.create();
   table = Table.play(table, [
