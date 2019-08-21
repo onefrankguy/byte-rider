@@ -12,7 +12,11 @@ const isHand = (value) => (value || '').startsWith('H');
 const isTable = (value) => (value || '').startsWith('P');
 const isDiscard = (value) => (value || '').startsWith('D');
 
-const getPlayer = (table, value) => {
+Table.player = (table, value) => {
+  if (!table || !value) {
+    return '';
+  }
+
   if (Pile.includes(table.x.hand, value) || Pile.includes(table.x.played, value)) {
     return 'x';
   }
@@ -21,7 +25,9 @@ const getPlayer = (table, value) => {
     return 'y';
   }
 
-  return (value || '').split('')[1] || '';
+  const result = (value || '').split('')[1] || '';
+
+  return table[result] ? result : '';
 };
 
 const drawCard = (table, player) => {
@@ -87,10 +93,10 @@ const undiscardCard = (table, player, card) => {
 
 const stackCard = (table, card1, card2) => {
   const copy = Utils.clone(table);
-  const player1 = getPlayer(copy, card1);
+  const player1 = Table.player(copy, card1);
 
   if (copy[player1] && Pile.includes(copy[player1].hand, card1)) {
-    const player2 = getPlayer(copy, card2);
+    const player2 = Table.player(copy, card2);
 
     if (copy[player2] && Pile.includes(copy[player2].played, card2)) {
       copy[player1].hand = Pile.remove(copy[player1].hand, card1);
@@ -106,23 +112,23 @@ const playMove = (table, move) => {
   const [start, end] = (move || '').split('-');
 
   if (isStock(start) && isHand(end)) {
-    return drawCard(copy, getPlayer(copy, end));
+    return drawCard(copy, Table.player(copy, end));
   }
 
   if (isCard(start) && isTable(end)) {
-    return playCard(copy, getPlayer(copy, end), start);
+    return playCard(copy, Table.player(copy, end), start);
   }
 
   if (isCard(start) && isStock(end)) {
-    return undrawCard(copy, getPlayer(copy, start), start);
+    return undrawCard(copy, Table.player(copy, start), start);
   }
 
   if (isCard(start) && isDiscard(end)) {
-    return discardCard(copy, getPlayer(copy, start), start);
+    return discardCard(copy, Table.player(copy, start), start);
   }
 
   if (isCard(start) && isHand(end)) {
-    return undiscardCard(copy, getPlayer(copy, end), start);
+    return undiscardCard(copy, Table.player(copy, end), start);
   }
 
   if (isCard(start) && isCard(end)) {

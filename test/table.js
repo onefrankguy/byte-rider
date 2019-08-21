@@ -12,6 +12,42 @@ test('Table#create creates an empty table', () => {
   expect(table.y.played).toStrictEqual([]);
 });
 
+test('Table#player checks cards players are holding', () => {
+  const table = Table.create();
+  table.x.hand = ['AC'];
+  table.y.hand = ['2C'];
+
+  expect(Table.player(table, 'AC')).toStrictEqual('x');
+  expect(Table.player(table, '2C')).toStrictEqual('y');
+  expect(Table.player(table, '3C')).toStrictEqual('');
+});
+
+test('Table#player checks cards players have played', () => {
+  const table = Table.create();
+  table.x.played = ['AC'];
+  table.y.played = ['2C'];
+
+  expect(Table.player(table, 'AC')).toStrictEqual('x');
+  expect(Table.player(table, '2C')).toStrictEqual('y');
+  expect(Table.player(table, '3C')).toStrictEqual('');
+});
+
+test('Table#player checks card attributes', () => {
+  const table = Table.create();
+
+  expect(Table.player(table, 'Hx')).toStrictEqual('x');
+  expect(Table.player(table, 'Hy')).toStrictEqual('y');
+  expect(Table.player(table, 'Hz')).toStrictEqual('');
+  expect(Table.player(table, 'H')).toStrictEqual('');
+});
+
+test('Table#player handles invalid tables and values', () => {
+  const table = Table.create();
+
+  expect(Table.player(undefined, 'Hx')).toStrictEqual('');
+  expect(Table.player(table, undefined)).toStrictEqual('');
+});
+
 test('Table#play allows players to draw cards', () => {
   let table = Table.create();
   table = Table.play(table, [
