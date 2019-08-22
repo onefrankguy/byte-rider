@@ -60,7 +60,7 @@ test('Rules#moves shows allowed moves', () => {
   ]);
 });
 
-test('Rules#play(2) discards all point cards', () => {
+test.skip('Rules#play(2) discards all point cards', () => {
   const oldBoard = Board.create();
   oldBoard.xHand = ['2C'];
   oldBoard.xTable = ['TH'];
@@ -75,7 +75,7 @@ test('Rules#play(2) discards all point cards', () => {
   expect(newBoard.discard).toEqual(['2C', 'TH', 'JC', 'AD']);
 });
 
-test('Rules#play(3) discards all non-point cards', () => {
+test.skip('Rules#play(3) discards all non-point cards', () => {
   const oldBoard = Board.create();
   oldBoard.xHand = ['3C'];
   oldBoard.xTable = ['TH'];
