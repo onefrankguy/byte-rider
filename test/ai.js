@@ -1,16 +1,15 @@
 /* global test, expect */
-const Board = require('../src/board');
+const Table = require('../src/table');
 const AI = require('../src/ai');
 
-test.skip('AI#winning shows winning moves', () => {
-  const board = Board.create();
-  // X can play a King to win or discard a three to remove the Jack
-  board.xHand = ['KH', '3S', '6D'];
-  board.xTable = ['TC', '4C'];
-  board.yTable = ['TH', 'JS'];
-  board.yCovers = { JS: 'TH' };
+test('AI#winning shows winning moves', () => {
+  const table = Table.create();
+  // X can play a King to win
+  table.x.hand = ['KH', '3S', '6D'];
+  table.x.played = ['TC', '4C'];
+  table.y.played = ['TH', 'JS'];
 
-  const moves = AI.winning(board, 'x');
+  const moves = AI.winning(table, 'x');
 
-  expect(moves).toEqual(['KH-Tx', '3S-Dx']);
+  expect(moves).toEqual(['KH-Px']);
 });

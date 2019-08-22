@@ -1,7 +1,5 @@
-const Board = require('./board');
 const Table = require('./table');
 const Pile = require('./pile');
-const Utils = require('./utils');
 
 const Rules = {};
 
@@ -16,7 +14,6 @@ const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
 const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
-const isJack = (card) => card.split('')[0] === 'J';
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -115,11 +112,9 @@ Rules.play = (table, move) => {
     return table;
   }
 
-  let moves = [];
+  let moves = [move];
 
   if (isDiscard(end)) {
-    moves.push(move);
-
     // Discard all point cards in play.
     if (isTwo(start)) {
       ['x', 'y'].forEach((player) => {

@@ -1,6 +1,5 @@
 /* global test, expect */
 const Table = require('../src/table');
-const Board = require('../src/board');
 const Rules = require('../src/rules');
 
 test('Rules#pickable allows players to draw or play cards', () => {
