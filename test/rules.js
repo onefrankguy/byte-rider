@@ -60,34 +60,32 @@ test('Rules#moves shows allowed moves', () => {
   ]);
 });
 
-test.skip('Rules#play(2) discards all point cards', () => {
-  const oldBoard = Board.create();
-  oldBoard.xHand = ['2C'];
-  oldBoard.xTable = ['TH'];
-  oldBoard.yTable = ['KS', 'AD', 'JC'];
-  oldBoard.yCovers = { JC: 'AD' };
+test('Rules#play(2) discards all point cards', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['2C'];
+  oldTable.x.played = ['TH'];
+  oldTable.y.played = ['KS', 'AD', 'JC'];
 
-  const newBoard = Rules.play(oldBoard, '2C-Dx');
+  const newTable = Rules.play(oldTable, '2C-Dx');
 
-  expect(newBoard.xHand).toEqual([]);
-  expect(newBoard.xTable).toEqual([]);
-  expect(newBoard.yTable).toEqual(['KS']);
-  expect(newBoard.discard).toEqual(['2C', 'TH', 'JC', 'AD']);
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual([]);
+  expect(newTable.y.played).toStrictEqual(['KS', 'JC']);
+  expect(newTable.discard).toStrictEqual(['AD', 'TH', '2C']);
 });
 
-test.skip('Rules#play(3) discards all non-point cards', () => {
-  const oldBoard = Board.create();
-  oldBoard.xHand = ['3C'];
-  oldBoard.xTable = ['TH'];
-  oldBoard.yTable = ['KS', 'AD', 'JC'];
-  oldBoard.yCovers = { JC: 'AD' };
+test('Rules#play(3) discards all non-point cards', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['3C'];
+  oldTable.x.played = ['TH'];
+  oldTable.y.played = ['KS', 'AD', 'JC'];
 
-  const newBoard = Rules.play(oldBoard, '3C-Dx');
+  const newTable = Rules.play(oldTable, '3C-Dx');
 
-  expect(newBoard.xHand).toEqual([]);
-  expect(newBoard.xTable).toEqual(['TH', 'AD']);
-  expect(newBoard.yTable).toEqual([]);
-  expect(newBoard.discard).toEqual(['3C', 'KS', 'JC']);
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.x.played).toEqual(['TH']);
+  expect(newTable.y.played).toEqual(['AD']);
+  expect(newTable.discard).toEqual(['JC', 'KS', '3C']);
 });
 
 test('Rules#winner shows the player if they win', () => {
