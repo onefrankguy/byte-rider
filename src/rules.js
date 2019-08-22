@@ -1,4 +1,6 @@
 const Board = require('./board');
+const Table = require('./table');
+const Pile = require('./pile');
 
 const Rules = {};
 
@@ -48,15 +50,15 @@ Rules.pickable = (table, player) => {
 
   // You can take a card from the stock unless it's empty.
   if (table.stock.length > 0) {
-    result.push('S');
+    result.push(`S${player}`);
   }
 
   return result;
 };
 
-Rules.playable = (board, card) => {
-  const player = Board.player(board, card);
-  const opponent = Board.opponent(player);
+Rules.playable = (table, card) => {
+  const player = Table.player(table, card);
+  const opponent = Table.opponent(player);
 
   // You can't play without an opponent.
   if (!player || !opponent) {
@@ -64,12 +66,12 @@ Rules.playable = (board, card) => {
   }
 
   // You can take a card if the stock's not empty.
-  if (isStock(card) && board.stock.length > 0) {
+  if (isStock(card) && table.stock.length > 0) {
     return [`H${player}`];
   }
 
-  // You can play cards from your hand.
-  if (!board[`${player}Hand`].includes(card)) {
+  // You can only play cards from your hand.
+  if (!Pile.includes(table[player].hand, card)) {
     return [];
   }
 
@@ -77,28 +79,28 @@ Rules.playable = (board, card) => {
 
   if (isNumber(card)) {
     // You can play a number card for points.
-    results.push(`T${player}`);
+    results.push(`P${player}`);
 
     // You can discard a number card for an effect.
     results.push(`D${player}`);
 
     // You play a number card on your opponent's equal or lower value card.
-    results.concat(getScuttleable(board[`${opponent}Table`], card));
+    results.concat(getScuttleable(table[player].played, card));
   }
 
   if (isRoyal(card)) {
     // You can play a royal card for a boost.
-    results.push(`T${player}`);
+    results.push(`P${player}`);
   }
 
   return results;
 };
 
-Rules.moves = (board, player) => {
+Rules.moves = (table, player) => {
   const result = [];
 
-  Rules.pickable(board, player).forEach((start) => {
-    Rules.playable(board, start).forEach((end) => {
+  Rules.pickable(table, player).forEach((start) => {
+    Rules.playable(table, start).forEach((end) => {
       result.push(`${start}-${end}`);
     });
   });

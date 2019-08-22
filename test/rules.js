@@ -36,26 +36,25 @@ test('Rules#pickable handles invalid players and tables', () => {
 });
 
 test('Rules#playable allows players to draw cards', () => {
-  const board = Board.create();
-  const playable = Rules.playable(board, 'Sx');
+  const table = Table.create();
+  const playable = Rules.playable(table, 'Sx');
 
   expect(playable).toEqual(['Hx']);
 });
 
 test('Rules#moves shows allowed moves', () => {
-  const board = Board.create();
-  board.xHand = ['KH', '3S', '6D'];
-  board.xTable = ['TC', '4C'];
-  board.yTable = ['TH', 'JS'];
-  board.yCovers = { JS: 'TH' };
+  const table = Table.create();
+  table.x.hand = ['KH', '3S', '6D'];
+  table.x.played = ['TC', '4C'];
+  table.y.played = ['TH:JS'];
 
-  const moves = Rules.moves(board, 'x');
+  const moves = Rules.moves(table, 'x');
 
   expect(moves).toEqual([
-    'KH-Tx',
-    '3S-Tx',
+    'KH-Px',
+    '3S-Px',
     '3S-Dx',
-    '6D-Tx',
+    '6D-Px',
     '6D-Dx',
     'Sx-Hx',
   ]);
