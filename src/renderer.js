@@ -24,8 +24,8 @@ Renderer.render = (table, picked) => {
   $('#Py').html(renderPile(table.y.played));
   $('#Px').html(renderPile(table.x.played));
   $('#Hx').html(renderPile(table.x.hand));
-  $('#S').removeClass('picked');
-  $('#D').removeClass('picked');
+  $('#Sx').removeClass('picked');
+  $('#Dx').removeClass('picked');
   $(`#${picked}`).addClass('picked');
 };
 
