@@ -22,8 +22,14 @@ test('Pile#remove removes a card from the pile', () => {
   expect(Pile.remove(['AC', 'AD', 'AS', 'AH'], 'AD')).toStrictEqual(['AC', 'AS', 'AH']);
 });
 
-test('Pile#remove removes a stacked card from the pile', () => {
-  expect(Pile.remove(['AC', 'AD:AS:AH'], 'AS')).toStrictEqual(['AC', 'AD:AH']);
+test('Pile#remove removes a stack from the pile', () => {
+  expect(Pile.remove(['AC', 'AD:AS', 'AH'], 'AD:AS')).toStrictEqual(['AC', 'AH']);
+});
+
+test('Pile#remove removes a stacked card and everything above it from the pile', () => {
+  expect(Pile.remove(['AC', 'AD:AS:AH'], 'AH')).toStrictEqual(['AC', 'AD:AS']);
+  expect(Pile.remove(['AC', 'AD:AS:AH'], 'AS')).toStrictEqual(['AC', 'AD']);
+  expect(Pile.remove(['AC', 'AD:AS:AH'], 'AD')).toStrictEqual(['AC']);
 });
 
 test('Pile#remove skips cards not in the pile', () => {

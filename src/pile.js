@@ -7,9 +7,16 @@ Pile.unwrap = (pile) => (pile || []).map((s) => s.split(DELIMITER));
 Pile.includes = (pile, card) => (pile || []).find((c) => c.indexOf(card) > -1) !== undefined;
 
 Pile.remove = (pile, card) => (pile || []).reduce((acc, s) => {
-  const stack = s.split(DELIMITER).filter((c) => c !== card).join(DELIMITER);
+  let found = false;
+  const stack = s.split(DELIMITER).filter((c) => {
+    if (c === card) {
+      found = true;
+    }
 
-  return stack ? acc.concat(stack) : acc;
+    return !found;
+  }).join(DELIMITER);
+
+  return s !== card && stack ? acc.concat(stack) : acc;
 }, []);
 
 Pile.add = (pile, card, location) => {
