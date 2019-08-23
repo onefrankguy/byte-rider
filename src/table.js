@@ -97,6 +97,11 @@ const discardCard = (table, player, card) => {
     }
   }
 
+  if (Pile.includes(copy.stock, card)) {
+    copy.stock = Pile.remove(copy.stock, card);
+    copy.discard.unshift(card);
+  }
+
   return copy;
 };
 
