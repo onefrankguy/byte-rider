@@ -74,6 +74,21 @@ test('Rules#play(A) discards a non-point card', () => {
   expect(newTable.discard).toStrictEqual(['AC', 'KS']);
 });
 
+test('Rules#play(A) discards a non-point card', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['AC'];
+  oldTable.x.played = ['JC'];
+  oldTable.y.played = ['KS'];
+  oldTable.stock = [];
+
+  const newTable = Rules.play(oldTable, 'AC-KS');
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['JC']);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['AC', 'KS']);
+});
+
 test('Rules#play(2) discards all point cards', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['2C'];
@@ -102,6 +117,20 @@ test('Rules#play(3) discards all non-point cards', () => {
   expect(newTable.x.played).toEqual(['TH']);
   expect(newTable.y.played).toEqual(['AD']);
   expect(newTable.discard).toEqual(['JC', 'KS', '3C']);
+});
+
+test('Rules#play(4) returns any card to the stock', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['4C'];
+  oldTable.y.played = ['KS'];
+  oldTable.stock = ['AC'];
+
+  const newTable = Rules.play(oldTable, '4C-KS');
+
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.y.played).toEqual([]);
+  expect(newTable.discard).toEqual(['4C']);
+  expect(newTable.stock).toEqual(['KS', 'AC']);
 });
 
 test('Rules#winner shows the player if they win', () => {

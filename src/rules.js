@@ -10,11 +10,13 @@ const WINNING_POINTS = 21;
 
 const isNumber = (card) => NUMBERS.includes((card || '').split('')[0]);
 const isRoyal = (card) => ROYALS.includes((card || '').split('')[0]);
+const isCard = (card) => isNumber(card) || isRoyal(card);
 const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
 const isAce = (card) => (card || '').startsWith('A');
 const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
+const isFour = (card) => (card || '').startsWith('4');
 const isEight = (card) => (card || '').startsWith('8');
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
@@ -90,6 +92,11 @@ Rules.playable = (table, card) => {
     if (isAce(card)) {
       results = results.concat(table[opponent].played.filter(isRoyal));
     }
+
+    // Return any card in play to the top of the stock.
+    if (isFour(card)) {
+      results = results.concat(table[opponent].played);
+    }
   }
 
   if (isRoyal(card)) {
@@ -129,8 +136,13 @@ Rules.play = (table, move) => {
     ];
   }
 
-  // Return any card in play to the top of the stack.
-  // if (isFour(start))
+  // Return any card in play to the top of the stock.
+  if (isFour(start) && isCard(end)) {
+    moves = [
+      `${end}-S`,
+      `${start}-D`,
+    ];
+  }
 
   // Choose 2 of your opponent'ss cards that they must discard. If they have more
   // than 5 cards after this, they must discard down to 5 cards.
