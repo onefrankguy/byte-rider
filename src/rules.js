@@ -18,6 +18,7 @@ const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
 const isFour = (card) => (card || '').startsWith('4');
 const isEight = (card) => (card || '').startsWith('8');
+const isQueen = (card) => (card || '').startsWith('Q');
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -90,12 +91,14 @@ Rules.playable = (table, card) => {
 
     // Discard any non-point card in play.
     if (isAce(card)) {
-      results = results.concat(table[opponent].played.filter(isRoyal));
+      const filter = table[opponent].played.find(isQueen) ? isQueen : isRoyal;
+      results = results.concat(table[opponent].played.filter(filter));
     }
 
     // Return any card in play to the top of the stock.
     if (isFour(card)) {
-      results = results.concat(table[opponent].played);
+      const filter = table[opponent].played.find(isQueen) ? isQueen : isRoyal;
+      results = results.concat(table[opponent].played.filter(filter));
     }
   }
 
@@ -144,7 +147,7 @@ Rules.play = (table, move) => {
     ];
   }
 
-  // Choose 2 of your opponent'ss cards that they must discard. If they have more
+  // Choose 2 of your opponent's cards that they must discard. If they have more
   // than 5 cards after this, they must discard down to 5 cards.
   // if (isFive(start))
 
@@ -155,7 +158,7 @@ Rules.play = (table, move) => {
   // Add any card from the discard to your hand.
   // if (isSeven(start))
 
-  // Draw 3 cards. Return 1 card to the top of the stack. Add the other 2 cards
+  // Draw 3 cards. Return 1 card to the top of the stock. Add the other 2 cards
   // to your hand.
   // if (isNine(start))
 
