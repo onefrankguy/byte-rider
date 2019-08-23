@@ -14,6 +14,7 @@ const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
 const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
+const isEight = (card) => (card || '').startsWith('8');
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -114,6 +115,33 @@ Rules.play = (table, move) => {
 
   let moves = [move];
 
+  // Discard any non-point card in play or prevent the last effect from occuring.
+  // if (isAce(start))
+
+  // Return any card in play to the top of the stack.
+  // if (isFour(start))
+
+  // Choose 2 of your opponent'ss cards that they must discard. If they have more
+  // than 5 cards after this, they must discard down to 5 cards.
+  // if (isFive(start))
+
+  // Draw 2 cards. Return 1 card to the top of the stock. Use the other card
+  // immidiately.
+  // if (isSix(start))
+
+  // Add any card from the discard to your hand.
+  // if (isSeven(start))
+
+  // Draw 3 cards. Return 1 card to the top of the stack. Add the other 2 cards
+  // to your hand.
+  // if (isNine(start))
+
+  // Add any card from your opponent's hand to your hand.
+  // if (isTen(start))
+
+  // Transfer control of an opponent's card in play.
+  // if (isJack(start))
+
   if (isDiscard(end)) {
     // Discard all point cards in play.
     if (isTwo(start)) {
@@ -132,7 +160,31 @@ Rules.play = (table, move) => {
     }
   }
 
+  // Your opponent must play with their hand exposed.
+  // if (isEight(start))
+
+  // All your cards in play are protected from effects that target single cards.
+  // Queens are not protected by themselves or other Queens.
+  // if (isQueen(start))
+
+  // Reduce the number of points needed to win by 7.
+  // if (isKing(card))
+
   return Table.play(table, moves);
+};
+
+Rules.visible = (table, player) => {
+  const result = [];
+  const opponent = Table.opponent(player);
+
+  if (table && table[player]) {
+    result.push(player);
+    if (opponent && table[player].played.find(isEight)) {
+      result.push(opponent);
+    }
+  }
+
+  return result;
 };
 
 Rules.score = (table, player) => {
