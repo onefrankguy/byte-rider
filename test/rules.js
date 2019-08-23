@@ -59,11 +59,27 @@ test('Rules#moves shows allowed moves', () => {
   ]);
 });
 
+test('Rules#play(A) discards a non-point card', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['AC'];
+  oldTable.x.played = ['JC'];
+  oldTable.y.played = ['KS'];
+  oldTable.stock = [];
+
+  const newTable = Rules.play(oldTable, 'AC-KS');
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['JC']);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['AC', 'KS']);
+});
+
 test('Rules#play(2) discards all point cards', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['2C'];
   oldTable.x.played = ['TH'];
   oldTable.y.played = ['KS', 'AD', 'JC'];
+  oldTable.stock = [];
 
   const newTable = Rules.play(oldTable, '2C-Dx');
 
@@ -78,6 +94,7 @@ test('Rules#play(3) discards all non-point cards', () => {
   oldTable.x.hand = ['3C'];
   oldTable.x.played = ['TH'];
   oldTable.y.played = ['KS', 'AD', 'JC'];
+  oldTable.stock = [];
 
   const newTable = Rules.play(oldTable, '3C-Dx');
 

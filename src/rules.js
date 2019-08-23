@@ -12,6 +12,7 @@ const isNumber = (card) => NUMBERS.includes((card || '').split('')[0]);
 const isRoyal = (card) => ROYALS.includes((card || '').split('')[0]);
 const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
+const isAce = (card) => (card || '').startsWith('A');
 const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
 const isEight = (card) => (card || '').startsWith('8');
@@ -73,7 +74,7 @@ Rules.playable = (table, card) => {
     return [];
   }
 
-  const results = [];
+  let results = [];
 
   if (isNumber(card)) {
     // You can play a number card for points.
@@ -83,7 +84,12 @@ Rules.playable = (table, card) => {
     results.push(`D${player}`);
 
     // You play a number card on your opponent's equal or lower value card.
-    results.concat(getScuttleable(table[player].played, card));
+    results = results.concat(getScuttleable(table[opponent].played, card));
+
+    // Discard any non-point card in play.
+    if (isAce(card)) {
+      results = results.concat(table[opponent].played.filter(isRoyal));
+    }
   }
 
   if (isRoyal(card)) {
@@ -116,7 +122,12 @@ Rules.play = (table, move) => {
   let moves = [move];
 
   // Discard any non-point card in play or prevent the last effect from occuring.
-  // if (isAce(start))
+  if (isAce(start) && isRoyal(end)) {
+    moves = [
+      `${end}-D`,
+      `${start}-D`,
+    ];
+  }
 
   // Return any card in play to the top of the stack.
   // if (isFour(start))
