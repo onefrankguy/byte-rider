@@ -63,11 +63,17 @@ test('Table#play allows players to draw cards', () => {
   table = Table.play(table, [
     'S-Hx',
     'S-Hy',
+    'S-Px',
+    'S-Py',
+    'S-D',
   ]);
 
-  expect(table.stock.length).toBe(50);
+  expect(table.stock.length).toBe(47);
   expect(table.x.hand).toStrictEqual(['AC']);
   expect(table.y.hand).toStrictEqual(['2C']);
+  expect(table.x.played).toStrictEqual(['3C']);
+  expect(table.y.played).toStrictEqual(['4C']);
+  expect(table.discard).toStrictEqual(['5C']);
 });
 
 test('Table#play allows players to play cards from their hand', () => {

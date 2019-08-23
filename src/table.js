@@ -42,11 +42,19 @@ Table.opponent = (player) => {
   return '';
 };
 
-const drawCard = (table, player) => {
+const drawCard = (table, player, end) => {
   const copy = Utils.clone(table);
 
-  if (copy[player]) {
+  if (copy[player] && isHand(end)) {
     copy[player].hand = Pile.add(copy[player].hand, copy.stock.shift());
+  }
+
+  if (copy[player] && isTable(end)) {
+    copy[player].played = Pile.add(copy[player].played, copy.stock.shift());
+  }
+
+  if (isDiscard(end)) {
+    copy.discard = Pile.add(copy.discard, copy.stock.shift());
   }
 
   return copy;
@@ -123,8 +131,8 @@ const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
 
-  if (isStock(start) && isHand(end)) {
-    return drawCard(copy, Table.player(copy, end));
+  if (isStock(start)) {
+    return drawCard(copy, Table.player(copy, end), end);
   }
 
   if (isCard(start) && isTable(end)) {
