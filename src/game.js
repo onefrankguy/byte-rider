@@ -27,8 +27,10 @@ const offBoard = (_, event) => {
 
 Game.reset = () => {
   table = Table.create();
+  table = Table.deal(table, 'x');
   input = [];
   picked = undefined;
+  Renderer.invalidate(table, picked);
 };
 
 Game.play = () => {

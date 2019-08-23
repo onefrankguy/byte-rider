@@ -185,4 +185,22 @@ Table.play = (table, moves) => {
   return copy;
 };
 
+Table.deal = (table, player) => {
+  let copy = Utils.clone(table);
+  const opponent = Table.opponent(player);
+
+  if (player && opponent) {
+    const moves = [];
+    for (let i = 0; i < 5; i += 1) {
+      moves.push(`S${opponent}-H${opponent}`);
+      moves.push(`S${player}-H${player}`);
+    }
+    moves.push(`S${opponent}-H${opponent}`);
+    copy.stock = Utils.shuffle(copy.stock);
+    copy = Table.play(copy, moves);
+  }
+
+  return copy;
+};
+
 module.exports = Table;
