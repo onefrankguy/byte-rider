@@ -169,6 +169,19 @@ test('Rules#chain(A) plays for points', () => {
   ]);
 });
 
+test('Rules#chain(A) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['AC'];
+  table.y.played = ['AH'];
+
+  const moves = Rules.chain(table, 'AC');
+
+  expect(moves).toStrictEqual([
+    ['AC-Px'],
+    ['AC-AH'],
+  ]);
+});
+
 test('Rules#chain(2) discards all point cards in play', () => {
   const table = Table.create();
   table.x.hand = ['2C'];
@@ -193,6 +206,20 @@ test('Rules#chain(2) plays for points', () => {
 
   expect(moves).toStrictEqual([
     ['2C-Px'],
+  ]);
+});
+
+test('Rules#chain(2) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['2C'];
+  table.y.played = ['2H'];
+
+  const moves = Rules.chain(table, '2C');
+
+  expect(moves).toStrictEqual([
+    ['2C-Dx'],
+    ['2C-Px'],
+    ['2C-2H'],
   ]);
 });
 
@@ -223,6 +250,20 @@ test('Rules#chain(3) plays for points', () => {
   ]);
 });
 
+test('Rules#chain(3) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['3C'];
+  table.x.played = [];
+  table.y.played = ['3H'];
+
+  const moves = Rules.chain(table, '3C');
+
+  expect(moves).toStrictEqual([
+    ['3C-Px'],
+    ['3C-3H'],
+  ]);
+});
+
 test('Rules#chain(4) returns any card in play to the top of the stock', () => {
   const table = Table.create();
   table.x.hand = ['4C'];
@@ -246,6 +287,20 @@ test('Rules#chain(4) plays for points', () => {
 
   expect(moves).toStrictEqual([
     ['4C-Px'],
+  ]);
+});
+
+test('Rules#chain(4) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['4C'];
+  table.y.played = ['4H'];
+
+  const moves = Rules.chain(table, '4C');
+
+  expect(moves).toStrictEqual([
+    ['4C-Dx', '4H-Sy'],
+    ['4C-Px'],
+    ['4C-4H'],
   ]);
 });
 
@@ -289,6 +344,19 @@ test('Rules#chain(5) plays for points', () => {
 
   expect(moves).toStrictEqual([
     ['5C-Px'],
+  ]);
+});
+
+test('Rules#chain(5) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['5C'];
+  table.y.played = ['5H'];
+
+  const moves = Rules.chain(table, '5C');
+
+  expect(moves).toStrictEqual([
+    ['5C-Px'],
+    ['5C-5H'],
   ]);
 });
 
@@ -339,6 +407,20 @@ test('Rules#chain(6) plays for points', () => {
   ]);
 });
 
+test('Rules#chain(6) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['6C'];
+  table.y.played = ['6H'];
+  table.stock = [];
+
+  const moves = Rules.chain(table, '6C');
+
+  expect(moves).toStrictEqual([
+    ['6C-Px'],
+    ['6C-6H'],
+  ]);
+});
+
 test('Rules#chain(7) chooses 1 card from the discard', () => {
   const table = Table.create();
   table.x.hand = ['7C'];
@@ -362,6 +444,20 @@ test('Rules#chain(7) plays for points', () => {
 
   expect(moves).toStrictEqual([
     ['7C-Px'],
+  ]);
+});
+
+test('Rules#chain(7) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['7C'];
+  table.y.played = ['7H'];
+  table.discard = [];
+
+  const moves = Rules.chain(table, '7C');
+
+  expect(moves).toStrictEqual([
+    ['7C-Px'],
+    ['7C-7H'],
   ]);
 });
 
@@ -416,6 +512,20 @@ test('Rules#chain(9) plays for points', () => {
   ]);
 });
 
+test('Rules#chain(9) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['9C'];
+  table.y.played = ['9H'];
+  table.stock = ['AC'];
+
+  const moves = Rules.chain(table, '9C');
+
+  expect(moves).toStrictEqual([
+    ['9C-Px'],
+    ['9C-9H'],
+  ]);
+});
+
 test('Rules#chain(T) chooses 1 card from your opponent\'s hand', () => {
   const table = Table.create();
   table.x.hand = ['TC'];
@@ -439,6 +549,19 @@ test('Rules#chain(T) plays for points', () => {
 
   expect(moves).toStrictEqual([
     ['TC-Px'],
+  ]);
+});
+
+test('Rules#chain(T) scuttles', () => {
+  const table = Table.create();
+  table.x.hand = ['TC'];
+  table.y.played = ['TH'];
+
+  const moves = Rules.chain(table, 'TC');
+
+  expect(moves).toStrictEqual([
+    ['TC-Px'],
+    ['TC-TH'],
   ]);
 });
 
