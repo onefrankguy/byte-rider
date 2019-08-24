@@ -17,6 +17,8 @@ const isAce = (card) => (card || '').startsWith('A');
 const isTwo = (card) => (card || '').startsWith('2');
 const isThree = (card) => (card || '').startsWith('3');
 const isFour = (card) => (card || '').startsWith('4');
+const isFive = (card) => (card || '').startsWith('5');
+const isSix = (card) => (card || '').startsWith('6');
 const isEight = (card) => (card || '').startsWith('8');
 const isQueen = (card) => (card || '').startsWith('Q');
 
@@ -108,6 +110,101 @@ Rules.playable = (table, card) => {
   }
 
   return results;
+};
+
+Rules.chain = (table, card) => {
+  const player = Table.player(table, card);
+  const opponent = Table.opponent(player);
+
+  if (!player || !opponent) {
+    return [];
+  }
+
+  // S - Draw the top card from the stock.
+  if (isStock(card)) {
+    return [[`${card}-H${player}`]];
+  }
+
+  // A - Discard any non-point card in play.
+  if (isAce(card)) {
+    return table[opponent].played.filter(isRoyal).map((c) => [`${card}-D${player}`, `${c}-D${opponent}`]);
+  }
+
+  // 2 - Discard all point cards in play.
+  if (isTwo(card)) {
+    return [[`${card}-D${player}`]];
+  }
+
+  // 3 - Discard all non-point cards in play.
+  if (isThree(card)) {
+    return [[`${card}-D${player}`]];
+  }
+
+  // 4 - Return any card in play to the top of the stock.
+  if (isFour(card)) {
+    return table[opponent].played.map((c) => [`${card}-D${player}`, `${c}-S${opponent}`]);
+  }
+
+  // 5 - Choose 2 of your opponent's cards that they must discard. If they have
+  // more than 5 cards after this, they must discard down to 5 cards.
+  if (isFive(card)) {
+    const cards = table[opponent].hand;
+
+    if (cards.length <= 0) {
+      return [[`${card}-D${player}`]];
+    }
+
+    if (cards.length <= 1) {
+      return [[`${card}-D${player}`, `${cards[0]}-D${opponent}`]];
+    }
+
+    const result = [];
+    for (let i = 0; i < cards.length; i += 1) {
+      for (let j = 0; j < cards.length; j += 1) {
+        if (i !== j) {
+          result.push([`${card}-D${player}`, `${cards[i]}-D${opponent}`, `${cards[j]}-D${opponent}`]);
+        }
+      }
+    }
+    return result;
+  }
+
+  // 6 - Draw 2 cards. Return 1 card to the top of the stock. Use the other card
+  // immediately.
+  if (isSix(card)) {
+    const card1 = table.stock[0];
+    const card2 = table.stock[1];
+    if (!card1 && !card2) {
+      const move = [`${card}-D${player}`];
+      return [move];
+    }
+    if (card1 && !card2) {
+      const move = [`${card}-D${player}`, `S${player}-H${player}`];
+      const result = [];
+      const copy = Table.play(table, move);
+      Rules.chain(copy, card1).forEach((r) => {
+        result.push(move.concat(r));
+      });
+      return result;
+    }
+    if (card1 && card2) {
+      const move = [`${card}-D${player}`, `S${player}-H${player}`, `S${player}-H${player}`];
+      const result = [];
+      const m1 = move.concat(`${card1}-S${player}`);
+      const copy1 = Table.play(table, m1);
+      Rules.chain(copy1, card2).forEach((r) => {
+        result.push(m1.concat(r));
+      });
+      const m2 = move.concat(`${card2}-S${player}`);
+      const copy2 = Table.play(table, m2);
+      Rules.chain(copy2, card1).forEach((r) => {
+        result.push(m2.concat(r));
+      });
+      return result;
+    }
+  }
+
+  return [];
 };
 
 Rules.moves = (table, player) => {

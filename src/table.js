@@ -79,6 +79,11 @@ const undrawCard = (table, player, card) => {
     copy.stock.unshift(card);
   }
 
+  if (copy[player] && Pile.includes(copy[player].hand, card)) {
+    copy[player].hand = Pile.remove(copy[player].hand, card);
+    copy.stock.unshift(card);
+  }
+
   return copy;
 };
 
