@@ -132,22 +132,34 @@ Rules.chain = (table, card) => {
 
   // A - Discard any non-point card in play.
   if (isAce(card)) {
-    return table[opponent].played.filter(isRoyal).map((c) => [`${card}-D${player}`, `${c}-D${opponent}`]);
+    return table[opponent].played
+      .filter(isRoyal).map((c) => [`${card}-D${player}`, `${c}-D${opponent}`])
+      .concat([[`${card}-P${player}`]]);
   }
 
   // 2 - Discard all point cards in play.
   if (isTwo(card)) {
-    return [[`${card}-D${player}`]];
+    const result = [[`${card}-P${player}`]];
+    if (table[opponent].played.find(isNumber)) {
+      result.unshift([`${card}-D${player}`]);
+    }
+    return result;
   }
 
   // 3 - Discard all non-point cards in play.
   if (isThree(card)) {
-    return [[`${card}-D${player}`]];
+    const result = [[`${card}-P${player}`]];
+    if (table[opponent].played.find(isRoyal)) {
+      result.unshift([`${card}-D${player}`]);
+    }
+    return result;
   }
 
   // 4 - Return any card in play to the top of the stock.
   if (isFour(card)) {
-    return table[opponent].played.map((c) => [`${card}-D${player}`, `${c}-S${opponent}`]);
+    return table[opponent].played
+      .map((c) => [`${card}-D${player}`, `${c}-S${opponent}`])
+      .concat([[`${card}-P${player}`]]);
   }
 
   // 5 - Choose 2 of your opponent's cards that they must discard. If they have
@@ -156,11 +168,14 @@ Rules.chain = (table, card) => {
     const cards = table[opponent].hand;
 
     if (cards.length <= 0) {
-      return [[`${card}-D${player}`]];
+      return [[`${card}-P${player}`]];
     }
 
     if (cards.length <= 1) {
-      return [[`${card}-D${player}`, `${cards[0]}-D${opponent}`]];
+      return [
+        [`${card}-D${player}`, `${cards[0]}-D${opponent}`],
+        [`${card}-P${player}`],
+      ];
     }
 
     const result = [];
@@ -171,7 +186,7 @@ Rules.chain = (table, card) => {
         }
       }
     }
-    return result;
+    return result.concat([[`${card}-P${player}`]]);
   }
 
   // 6 - Draw 2 cards. Return 1 card to the top of the stock. Use the other card
@@ -180,8 +195,7 @@ Rules.chain = (table, card) => {
     const card1 = table.stock[0];
     const card2 = table.stock[1];
     if (!card1 && !card2) {
-      const move = [`${card}-D${player}`];
-      return [move];
+      return [[`${card}-P${player}`]];
     }
     if (card1 && !card2) {
       const move = [`${card}-D${player}`, `S${player}-H${player}`];
@@ -190,7 +204,7 @@ Rules.chain = (table, card) => {
       Rules.chain(copy, card1).forEach((r) => {
         result.push(move.concat(r));
       });
-      return result;
+      return result.concat([[`${card}-P${player}`]]);
     }
     if (card1 && card2) {
       const move = [`${card}-D${player}`, `S${player}-H${player}`, `S${player}-H${player}`];
@@ -205,13 +219,15 @@ Rules.chain = (table, card) => {
       Rules.chain(copy2, card1).forEach((r) => {
         result.push(m2.concat(r));
       });
-      return result;
+      return result.concat([[`${card}-P${player}`]]);
     }
   }
 
   // 7 - Add one card from the discard to your hand.
-  if (isSeven(card) && table.discard.length > 0) {
-    return table.discard.map((c) => [`${card}-D${player}`, `${c}-H${player}`]);
+  if (isSeven(card)) {
+    return table.discard
+      .map((c) => [`${card}-D${player}`, `${c}-H${player}`])
+      .concat([[`${card}-P${player}`]]);
   }
 
   // 8 - Your opponent must play with their hand exposed.
@@ -232,20 +248,26 @@ Rules.chain = (table, card) => {
         `S${player}-H${player}`,
         `S${player}-H${player}`,
         `${c}-S${player}`,
-      ]);
+      ]).concat([[`${card}-P${player}`]]);
     }
     if (card1 && card2) {
-      return [[
-        `${card}-D${player}`,
-        `S${player}-H${player}`,
-        `S${player}-H${player}`,
-      ]];
+      return [
+        [
+          `${card}-D${player}`,
+          `S${player}-H${player}`,
+          `S${player}-H${player}`,
+        ],
+        [`${card}-P${player}`],
+      ];
     }
+    return [[`${card}-P${player}`]];
   }
 
   // T - Add any card from your opponent's hand to your hand.
   if (isTen(card)) {
-    return table[opponent].hand.map((c) => [`${card}-D${player}`, `${c}-H${player}`]);
+    return table[opponent].hand
+      .map((c) => [`${card}-D${player}`, `${c}-H${player}`])
+      .concat([[`${card}-P${player}`]]);
   }
 
   // J - Transfer control of an opponent's card in play.
