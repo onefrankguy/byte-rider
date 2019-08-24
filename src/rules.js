@@ -19,8 +19,13 @@ const isThree = (card) => (card || '').startsWith('3');
 const isFour = (card) => (card || '').startsWith('4');
 const isFive = (card) => (card || '').startsWith('5');
 const isSix = (card) => (card || '').startsWith('6');
+const isSeven = (card) => (card || '').startsWith('7');
 const isEight = (card) => (card || '').startsWith('8');
+const isNine = (card) => (card || '').startsWith('9');
+const isTen = (card) => (card || '').startsWith('T');
+const isJack = (card) => (card || '').startsWith('J');
 const isQueen = (card) => (card || '').startsWith('Q');
+const isKing = (card) => (card || '').startsWith('K');
 
 const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
@@ -202,6 +207,61 @@ Rules.chain = (table, card) => {
       });
       return result;
     }
+  }
+
+  // 7 - Add one card from the discard to your hand.
+  if (isSeven(card) && table.discard.length > 0) {
+    return table.discard.map((c) => [`${card}-D${player}`, `${c}-H${player}`]);
+  }
+
+  // 8 - Your opponent must play with their hand exposed.
+  if (isEight(card)) {
+    return [[`${card}-P${player}`]];
+  }
+
+  // 9 - Draw 3 cards. Return 1 card to the top of the stock. Add the other 2
+  // cards to your hand.
+  if (isNine(card)) {
+    const card1 = table.stock[0];
+    const card2 = table.stock[1];
+    const card3 = table.stock[2];
+    if (card1 && card2 && card3) {
+      return [card1, card2, card3].map((c) => [
+        `${card}-D${player}`,
+        `S${player}-H${player}`,
+        `S${player}-H${player}`,
+        `S${player}-H${player}`,
+        `${c}-S${player}`,
+      ]);
+    }
+    if (card1 && card2) {
+      return [[
+        `${card}-D${player}`,
+        `S${player}-H${player}`,
+        `S${player}-H${player}`,
+      ]];
+    }
+  }
+
+  // T - Add any card from your opponent's hand to your hand.
+  if (isTen(card)) {
+    return table[opponent].hand.map((c) => [`${card}-D${player}`, `${c}-H${player}`]);
+  }
+
+  // J - Transfer control of an opponent's card in play.
+  if (isJack(card)) {
+    return table[opponent].played.map((c) => [`${card}-D${player}`, `${c}-P${player}`]);
+  }
+
+  // Q - All your cards in play are protected from effects that target single
+  // cards. Queens do not protect themselves or other Queens.
+  if (isQueen(card)) {
+    return [[`${card}-P${player}`]];
+  }
+
+  // K - Reduce the number of ponts needed to win by 7.
+  if (isKing(card)) {
+    return [[`${card}-P${player}`]];
   }
 
   return [];
