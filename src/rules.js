@@ -132,6 +132,8 @@ Rules.chain = (table, card) => {
     return [[`${card}-H${player}`]];
   }
 
+  const points = [[`${card}-P${player}`]];
+
   const scuttle = table[opponent].played.filter(canScuttle(card))
     .map((c) => [`${card}-${c}`]);
 
@@ -139,13 +141,13 @@ Rules.chain = (table, card) => {
   if (isAce(card)) {
     return table[opponent].played
       .filter(isRoyal).map((c) => [`${card}-D${player}`, `${c}-D${opponent}`])
-      .concat([[`${card}-P${player}`]])
+      .concat(points)
       .concat(scuttle);
   }
 
   // 2 - Discard all point cards in play.
   if (isTwo(card)) {
-    const result = [[`${card}-P${player}`]].concat(scuttle);
+    const result = points.concat(scuttle);
     if (table[opponent].played.find(isNumber)) {
       result.unshift([`${card}-D${player}`]);
     }
@@ -154,7 +156,7 @@ Rules.chain = (table, card) => {
 
   // 3 - Discard all non-point cards in play.
   if (isThree(card)) {
-    const result = [[`${card}-P${player}`]].concat(scuttle);
+    const result = points.concat(scuttle);
     if (table[opponent].played.find(isRoyal)) {
       result.unshift([`${card}-D${player}`]);
     }
@@ -165,7 +167,7 @@ Rules.chain = (table, card) => {
   if (isFour(card)) {
     return table[opponent].played
       .map((c) => [`${card}-D${player}`, `${c}-S${opponent}`])
-      .concat([[`${card}-P${player}`]])
+      .concat(points)
       .concat(scuttle);
   }
 
@@ -175,14 +177,13 @@ Rules.chain = (table, card) => {
     const cards = table[opponent].hand;
 
     if (cards.length <= 0) {
-      return [[`${card}-P${player}`]].concat(scuttle);
+      return points.concat(scuttle);
     }
 
     if (cards.length <= 1) {
-      return [
-        [`${card}-D${player}`, `${cards[0]}-D${opponent}`],
-        [`${card}-P${player}`],
-      ].concat(scuttle);
+      return [[`${card}-D${player}`, `${cards[0]}-D${opponent}`]]
+        .concat(points)
+        .concat(scuttle);
     }
 
     const result = [];
@@ -193,7 +194,7 @@ Rules.chain = (table, card) => {
         }
       }
     }
-    return result.concat([[`${card}-P${player}`]]).concat(scuttle);
+    return result.concat(points).concat(scuttle);
   }
 
   // 6 - Draw 2 cards. Return 1 card to the top of the stock. Use the other card
@@ -202,7 +203,7 @@ Rules.chain = (table, card) => {
     const card1 = table.stock[0];
     const card2 = table.stock[1];
     if (!card1 && !card2) {
-      return [[`${card}-P${player}`]].concat(scuttle);
+      return points.concat(scuttle);
     }
     if (card1 && !card2) {
       const move = [`${card}-D${player}`, `S${player}-H${player}`];
@@ -211,7 +212,7 @@ Rules.chain = (table, card) => {
       Rules.chain(copy, card1).forEach((r) => {
         result.push(move.concat(r));
       });
-      return result.concat([[`${card}-P${player}`]]).concat(scuttle);
+      return result.concat(points).concat(scuttle);
     }
     if (card1 && card2) {
       const move = [`${card}-D${player}`, `S${player}-H${player}`, `S${player}-H${player}`];
@@ -226,7 +227,7 @@ Rules.chain = (table, card) => {
       Rules.chain(copy2, card1).forEach((r) => {
         result.push(m2.concat(r));
       });
-      return result.concat([[`${card}-P${player}`]]).concat(scuttle);
+      return result.concat(points).concat(scuttle);
     }
   }
 
@@ -234,7 +235,7 @@ Rules.chain = (table, card) => {
   if (isSeven(card)) {
     return table.discard
       .map((c) => [`${card}-D${player}`, `${c}-H${player}`])
-      .concat([[`${card}-P${player}`]])
+      .concat(points)
       .concat(scuttle);
   }
 
@@ -256,26 +257,23 @@ Rules.chain = (table, card) => {
         `S${player}-H${player}`,
         `S${player}-H${player}`,
         `${c}-S${player}`,
-      ]).concat([[`${card}-P${player}`]]).concat(scuttle);
+      ]).concat(points).concat(scuttle);
     }
     if (card1 && card2) {
-      return [
-        [
-          `${card}-D${player}`,
-          `S${player}-H${player}`,
-          `S${player}-H${player}`,
-        ],
-        [`${card}-P${player}`],
-      ].concat(scuttle);
+      return [[
+        `${card}-D${player}`,
+        `S${player}-H${player}`,
+        `S${player}-H${player}`,
+      ]].concat(points).concat(scuttle);
     }
-    return [[`${card}-P${player}`]].concat(scuttle);
+    return points.concat(scuttle);
   }
 
   // T - Add any card from your opponent's hand to your hand.
   if (isTen(card)) {
     return table[opponent].hand
       .map((c) => [`${card}-D${player}`, `${c}-H${player}`])
-      .concat([[`${card}-P${player}`]])
+      .concat(points)
       .concat(scuttle);
   }
 
