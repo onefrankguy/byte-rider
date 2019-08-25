@@ -6,7 +6,7 @@ AI.winning = (table, player) => {
   const moves = Rules.moves(table, player);
 
   return moves.filter((move) => {
-    const test = Rules.play(table, move);
+    const test = Rules.play(table, player, [move]);
 
     return Rules.winner(test) === player;
   });
