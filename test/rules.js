@@ -119,6 +119,19 @@ test('Rules#play(4) returns any card to the stock', () => {
   expect(newTable.stock).toEqual(['KS', 'AC']);
 });
 
+test('Rules#play(number) scuttles', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['4C'];
+  oldTable.y.played = ['4H'];
+  oldTable.stock = [];
+
+  const newTable = Rules.play(oldTable, 'x', ['4C-4H']);
+
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.y.played).toEqual([]);
+  expect(newTable.discard).toEqual(['4H', '4C']);
+});
+
 test('Rules#chain(S) draws the top card', () => {
   const table = Table.create();
 

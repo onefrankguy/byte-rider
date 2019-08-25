@@ -322,10 +322,11 @@ Rules.play = (table, player, moves) => {
       .filter((c) => c.length > 0);
 
     allowed = moves.slice(1);
-    let play = [move];
+    let play;
 
     // 2 - Discard all point cards in play.
-    if (isTwo(start) && isDiscard(end)) {
+    if (!play && isTwo(start) && isDiscard(end)) {
+      play = [move];
       ['x', 'y'].forEach((p) => {
         play = play.concat(copy[p].played.filter(isNumber)
           .map((c) => `${c}-D${p}`));
@@ -333,11 +334,23 @@ Rules.play = (table, player, moves) => {
     }
 
     // 3 - Discard all non-point cards in play.
-    if (isThree(start) && isDiscard(end)) {
+    if (!play && isThree(start) && isDiscard(end)) {
+      play = [move];
       ['x', 'y'].forEach((p) => {
         play = play.concat(copy[p].played.filter(isRoyal)
           .map((c) => `${c}-D${p}`));
       });
+    }
+
+    // Numbers - Play a number card on an equal or lower value number card.
+    // Discard both cards.
+    if (!play && canScuttle(start)(end)) {
+      const opponent = Table.opponent(player);
+      play = [`${start}-D${player}`, `${end}-D${opponent}`];
+    }
+
+    if (!play) {
+      play = [move];
     }
 
     copy = Table.play(copy, play);
