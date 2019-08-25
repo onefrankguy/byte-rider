@@ -26,13 +26,24 @@ const Renderer = {};
 Renderer.render = (table, picked) => {
   const visible = Rules.visible(table, 'x');
 
-  $('#Hy').html(renderPile(table.y.hand, visible.includes('y')));
-  $('#Py').html(renderPile(table.y.played, true));
-  $('#Px').html(renderPile(table.x.played, true));
-  $('#Hx').html(renderPile(table.x.hand, visible.includes('x')));
-  $('#Sx').removeClass('picked');
-  $('#Dx').removeClass('picked');
-  $(`#${picked}`).addClass('picked');
+  $('#Sx').removeClass('playable').removeClass('picked');
+  $('#Dx').removeClass('playable').removeClass('picked');
+
+  $('#Hy').removeClass('playable').removeClass('picked')
+    .html(renderPile(table.y.hand, visible.includes('y')));
+  $('#Py').removeClass('playable').removeClass('picked')
+    .html(renderPile(table.y.played, true));
+  $('#Px').removeClass('playable').removeClass('picked')
+    .html(renderPile(table.x.played, true));
+  $('#Hx').removeClass('playable').removeClass('picked')
+    .html(renderPile(table.x.hand, visible.includes('x')));
+
+  if (picked) {
+    $(`#${picked}`).addClass('picked');
+    Rules.playable(table, picked).forEach((c) => $(`#${c}`).addClass('playable'));
+  } else {
+    Rules.pickable(table, 'x').forEach((c) => $(`#${c}`).addClass('playable'));
+  }
 };
 
 Renderer.invalidate = (table, picked) => {
