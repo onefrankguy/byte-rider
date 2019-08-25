@@ -75,6 +75,23 @@ test('Rules#play(A) discards a non-point card', () => {
   expect(newTable.discard).toStrictEqual(['KS', 'AC']);
 });
 
+test('Rules#play(A) discards a jacked card', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['AC'];
+  oldTable.x.played = [];
+  oldTable.y.played = ['4H'];
+  oldTable.stock = [];
+  oldTable.jacked = { '4H': ['JH'] };
+
+  const newTable = Rules.play(oldTable, 'x', ['AC-Dx', '4H-Dy']);
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['4H']);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['JH', 'AC']);
+  expect(newTable.jacked).toStrictEqual({ '4H': [] });
+});
+
 test('Rules#play(2) discards all point cards', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['2C'];
@@ -88,6 +105,21 @@ test('Rules#play(2) discards all point cards', () => {
   expect(newTable.x.played).toStrictEqual([]);
   expect(newTable.y.played).toStrictEqual(['KS', 'JC']);
   expect(newTable.discard).toStrictEqual(['AD', 'TH', '2C']);
+});
+
+test('Rules#play(2) discards jacks', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['2C'];
+  oldTable.x.played = ['4H'];
+  oldTable.stock = [];
+  oldTable.jacked = { '4H': ['JH', 'JS'] };
+
+  const newTable = Rules.play(oldTable, 'x', ['2C-Dx']);
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['4H', 'JH', 'JS', '2C']);
+  expect(newTable.jacked).toStrictEqual({ '4H': [] });
 });
 
 test('Rules#play(3) discards all non-point cards', () => {
@@ -105,6 +137,31 @@ test('Rules#play(3) discards all non-point cards', () => {
   expect(newTable.discard).toEqual(['JC', 'KS', '3C']);
 });
 
+test('Rules#play(3) discards jacks', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['3C'];
+  oldTable.x.played = ['4H'];
+  oldTable.y.played = ['4S', '8S'];
+  oldTable.stock = [];
+  oldTable.jacked = {
+    '4H': ['JH'],
+    '4S': ['JC', 'JD'],
+    '8S': ['JS'],
+  };
+
+  const newTable = Rules.play(oldTable, 'x', ['3C-Dx']);
+
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.x.played).toEqual([]);
+  expect(newTable.y.played).toEqual(['4H', '4S']);
+  expect(newTable.discard).toEqual(['8S', 'JS', 'JC', 'JD', 'JH', '3C']);
+  expect(newTable.jacked).toStrictEqual({
+    '4H': [],
+    '4S': [],
+    '8S': [],
+  });
+});
+
 test('Rules#play(4) returns any card to the stock', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['4C'];
@@ -119,6 +176,22 @@ test('Rules#play(4) returns any card to the stock', () => {
   expect(newTable.stock).toEqual(['KS', 'AC']);
 });
 
+test('Rules#play(4) returns jacks to the stock', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['4C'];
+  oldTable.y.played = ['4H'];
+  oldTable.stock = ['AC'];
+  oldTable.jacked = { '4H': ['JS'] };
+
+  const newTable = Rules.play(oldTable, 'x', ['4C-Dx', '4H-Sy']);
+
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.x.played).toEqual(['4H']);
+  expect(newTable.y.played).toEqual([]);
+  expect(newTable.discard).toEqual(['4C']);
+  expect(newTable.stock).toEqual(['JS', 'AC']);
+});
+
 test('Rules#play(number) scuttles', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['4C'];
@@ -130,6 +203,37 @@ test('Rules#play(number) scuttles', () => {
   expect(newTable.x.hand).toEqual([]);
   expect(newTable.y.played).toEqual([]);
   expect(newTable.discard).toEqual(['4H', '4C']);
+});
+
+test('Rules#play(J) jacks cards in play', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['JC'];
+  oldTable.y.played = ['4H'];
+  oldTable.stock = [];
+
+  const newTable = Rules.play(oldTable, 'x', ['JC-Dx', '4H-Px']);
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['4H']);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual([]);
+  expect(newTable.jacked).toStrictEqual({ '4H': ['JC'] });
+});
+
+test('Rules#play(J) double jacks cards in play', () => {
+  const oldTable = Table.create();
+  oldTable.x.played = ['4H'];
+  oldTable.y.hand = ['JS'];
+  oldTable.stock = [];
+  oldTable.jacked = { '4H': ['JC'] };
+
+  const newTable = Rules.play(oldTable, 'y', ['JS-Dy', '4H-Py']);
+
+  expect(newTable.x.played).toStrictEqual([]);
+  expect(newTable.y.hand).toStrictEqual([]);
+  expect(newTable.y.played).toStrictEqual(['4H']);
+  expect(newTable.discard).toStrictEqual([]);
+  expect(newTable.jacked).toStrictEqual({ '4H': ['JC', 'JS'] });
 });
 
 test('Rules#chain(S) draws the top card', () => {
@@ -151,6 +255,25 @@ test('Rules#chain(A) discards any non-point card in play', () => {
 
   expect(moves).toStrictEqual([
     ['AC-Dx', 'KC-Dy'],
+    ['AC-Dx', '8C-Dy'],
+    ['AC-Px'],
+  ]);
+});
+
+test('Rules#chain(A) discards any jacked card in play', () => {
+  const table = Table.create();
+  table.x.hand = ['AC'];
+  table.y.played = ['KC', '2C', '8C'];
+  table.jacked = {
+    '2C': ['JH'],
+    '8C': ['JD'],
+  };
+
+  const moves = Rules.chain(table, 'x', 'AC');
+
+  expect(moves).toStrictEqual([
+    ['AC-Dx', 'KC-Dy'],
+    ['AC-Dx', '2C-Dy'],
     ['AC-Dx', '8C-Dy'],
     ['AC-Px'],
   ]);
@@ -227,6 +350,20 @@ test('Rules#chain(3) discards all non-point card in play', () => {
   table.x.hand = ['3C'];
   table.x.played = ['KC'];
   table.y.played = ['QC'];
+
+  const moves = Rules.chain(table, 'x', '3C');
+
+  expect(moves).toStrictEqual([
+    ['3C-Dx'],
+    ['3C-Px'],
+  ]);
+});
+
+test('Rules#chain(3) discards all jacks in play', () => {
+  const table = Table.create();
+  table.x.hand = ['3C'];
+  table.y.played = ['4H'];
+  table.jacked = { '4H': ['JH'] };
 
   const moves = Rules.chain(table, 'x', '3C');
 

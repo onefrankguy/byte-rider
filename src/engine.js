@@ -20,6 +20,7 @@ Engine.tick = (table, player, start, end) => {
       move = AI.move(next, opponent);
       next = Rules.play(next, opponent, [move]);
       console.log('y played', move);
+
       while (next[opponent].allowed.length > 0) {
         move = AI.move(next, opponent);
         next = Rules.play(next, opponent, [move]);

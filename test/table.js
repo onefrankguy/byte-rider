@@ -6,6 +6,7 @@ test('Table#create creates an empty table', () => {
 
   expect(table.stock.length).toBe(52);
   expect(table.discard).toStrictEqual([]);
+  expect(table.jacked).toStrictEqual({});
   expect(table.x.hand).toStrictEqual([]);
   expect(table.x.played).toStrictEqual([]);
   expect(table.x.allowed).toStrictEqual([]);

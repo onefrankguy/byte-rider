@@ -99,6 +99,7 @@ Table.deck = () => {
 Table.create = () => ({
   stock: Table.deck(),
   discard: [],
+  jacked: {},
   x: {
     hand: [],
     played: [],
