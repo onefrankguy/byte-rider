@@ -6,7 +6,6 @@ const Table = {};
 const SUITS = ['C', 'D', 'H', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
 
-const isCard = (value) => !!VALUES.find((v) => (value || '').startsWith(v));
 const isStock = (value) => (value || '').startsWith('S');
 const isHand = (value) => (value || '').startsWith('H');
 const isTable = (value) => (value || '').startsWith('P');
@@ -42,133 +41,44 @@ Table.opponent = (player) => {
   return '';
 };
 
-const drawCard = (table, player, end) => {
-  const copy = Utils.clone(table);
-
-  if (copy[player] && isHand(end)) {
-    copy[player].hand = Pile.add(copy[player].hand, copy.stock.shift());
-  }
-
-  if (copy[player] && isTable(end)) {
-    copy[player].played = Pile.add(copy[player].played, copy.stock.shift());
-  }
-
-  if (isDiscard(end)) {
-    copy.discard = Pile.add(copy.discard, copy.stock.shift());
-  }
-
-  return copy;
-};
-
-const playCard = (table, player, card) => {
-  const copy = Utils.clone(table);
-
-  if (copy[player] && Pile.includes(copy[player].hand, card)) {
-    copy[player].hand = Pile.remove(copy[player].hand, card);
-    copy[player].played = Pile.add(copy[player].played, card);
-  }
-
-  const opponent = Table.opponent(player);
-  if (copy[opponent] && Pile.includes(copy[opponent].played, card)) {
-    copy[opponent].played = Pile.remove(copy[opponent].played, card);
-    copy[player].played = Pile.add(copy[player].played, card);
-  }
-
-  return copy;
-};
-
-const undrawCard = (table, player, card) => {
-  const copy = Utils.clone(table);
-
-  if (copy[player] && Pile.includes(copy[player].played, card)) {
-    copy[player].played = Pile.remove(copy[player].played, card);
-    copy.stock.unshift(card);
-  }
-
-  if (copy[player] && Pile.includes(copy[player].hand, card)) {
-    copy[player].hand = Pile.remove(copy[player].hand, card);
-    copy.stock.unshift(card);
-  }
-
-  return copy;
-};
-
-const discardCard = (table, player, card) => {
-  const copy = Utils.clone(table);
-
-  if (copy[player]) {
-    if (Pile.includes(copy[player].hand, card)) {
-      copy[player].hand = Pile.remove(copy[player].hand, card);
-      copy.discard.unshift(card);
-    }
-
-    if (Pile.includes(copy[player].played, card)) {
-      copy[player].played = Pile.remove(copy[player].played, card);
-      copy.discard.unshift(card);
-    }
-  }
-
-  if (Pile.includes(copy.stock, card)) {
-    copy.stock = Pile.remove(copy.stock, card);
-    copy.discard.unshift(card);
-  }
-
-  return copy;
-};
-
-const undiscardCard = (table, player, card) => {
-  const copy = Utils.clone(table);
-
-  if (copy[player] && Pile.includes(copy.discard, card)) {
-    copy.discard = Pile.remove(copy.discard, card);
-    copy[player].hand = Pile.add(copy[player].hand, card);
-  }
-
-  return copy;
-};
-
-const stackCard = (table, card1, card2) => {
-  const copy = Utils.clone(table);
-  const player1 = Table.player(copy, card1);
-
-  if (copy[player1] && Pile.includes(copy[player1].hand, card1)) {
-    const player2 = Table.player(copy, card2);
-
-    if (copy[player2] && Pile.includes(copy[player2].played, card2)) {
-      copy[player1].hand = Pile.remove(copy[player1].hand, card1);
-      copy[player2].played = Pile.add(copy[player2].played, card1, card2);
-    }
-  }
-
-  return copy;
-};
-
 const playMove = (table, move) => {
   const copy = Utils.clone(table);
   const [start, end] = (move || '').split('-');
+  const player = Table.player(copy, end);
+  let card = start;
 
   if (isStock(start)) {
-    return drawCard(copy, Table.player(copy, end), end);
+    card = copy.stock.shift();
   }
 
-  if (isCard(start) && isTable(end)) {
-    return playCard(copy, Table.player(copy, end), start);
+  if (isDiscard(start)) {
+    card = copy.discard.shift();
   }
 
-  if (isCard(start) && isStock(end)) {
-    return undrawCard(copy, Table.player(copy, start), start);
+  ['x', 'y'].forEach((p) => {
+    ['hand', 'played'].forEach((pile) => {
+      copy[p][pile] = Pile.remove(copy[p][pile], card);
+    });
+  });
+
+  ['stock', 'discard'].forEach((pile) => {
+    copy[pile] = Pile.remove(copy[pile], card);
+  });
+
+  if (card && isStock(end)) {
+    copy.stock.unshift(card);
   }
 
-  if (isCard(start) && isDiscard(end)) {
-    return discardCard(copy, Table.player(copy, start), start);
+  if (card && isDiscard(end)) {
+    copy.discard.unshift(card);
   }
 
-  if (isCard(start) && isHand(end)) {
-    return undiscardCard(copy, Table.player(copy, end), start);
+  if (card && player && isHand(end)) {
+    copy[player].hand = Pile.add(copy[player].hand, card);
   }
 
-  if (isCard(start) && isCard(end)) {
-    return stackCard(copy, start, end);
+  if (card && player && isTable(end)) {
+    copy[player].played = Pile.add(copy[player].played, card);
   }
 
   return copy;
