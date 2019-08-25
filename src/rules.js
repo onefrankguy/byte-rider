@@ -84,56 +84,6 @@ Rules.playable = (table, card) => {
   }
 
   return [...result];
-  /*
-  const opponent = Table.opponent(player);
-
-  // You can't play without an opponent.
-  if (!player || !opponent) {
-    return [];
-  }
-
-  // You can take a card if the stock's not empty.
-  if (isStock(card) && table.stock.length > 0) {
-    return [`H${player}`];
-  }
-
-  // You can only play cards from your hand.
-  if (!Pile.includes(table[player].hand, card)) {
-    return [];
-  }
-
-  let results = [];
-
-  if (isNumber(card)) {
-    // You can play a number card for points.
-    results.push(`P${player}`);
-
-    // You can discard a number card for an effect.
-    results.push(`D${player}`);
-
-    // You play a number card on your opponent's equal or lower value card.
-    results = results.concat(getScuttleable(table[opponent].played, card));
-
-    // Discard any non-point card in play.
-    if (isAce(card)) {
-      const filter = table[opponent].played.find(isQueen) ? isQueen : isRoyal;
-      results = results.concat(table[opponent].played.filter(filter));
-    }
-
-    // Return any card in play to the top of the stock.
-    if (isFour(card)) {
-      const filter = table[opponent].played.find(isQueen) ? isQueen : isRoyal;
-      results = results.concat(table[opponent].played.filter(filter));
-    }
-  }
-
-  if (isRoyal(card)) {
-    // You can play a royal card for a boost.
-    results.push(`P${player}`);
-  }
-
-  return results;
-  */
 };
 
 Rules.chain = (table, card) => {
@@ -381,82 +331,6 @@ Rules.play = (table, player, moves) => {
   }
 
   return Rules.play(copy, player, allowed);
-  /*
-  const [start, end] = (move || '').split('-');
-
-  if (!table || !start || !end) {
-    return table;
-  }
-
-  let moves = [move];
-
-  // Discard any non-point card in play or prevent the last effect from occuring.
-  if (isAce(start) && isRoyal(end)) {
-    moves = [
-      `${end}-D`,
-      `${start}-D`,
-    ];
-  }
-
-  // Return any card in play to the top of the stock.
-  if (isFour(start) && isCard(end)) {
-    moves = [
-      `${end}-S`,
-      `${start}-D`,
-    ];
-  }
-
-  // Choose 2 of your opponent's cards that they must discard. If they have more
-  // than 5 cards after this, they must discard down to 5 cards.
-  // if (isFive(start))
-
-  // Draw 2 cards. Return 1 card to the top of the stock. Use the other card
-  // immidiately.
-  // if (isSix(start))
-
-  // Add any card from the discard to your hand.
-  // if (isSeven(start))
-
-  // Draw 3 cards. Return 1 card to the top of the stock. Add the other 2 cards
-  // to your hand.
-  // if (isNine(start))
-
-  // Add any card from your opponent's hand to your hand.
-  // if (isTen(start))
-
-  // Transfer control of an opponent's card in play.
-  // if (isJack(start))
-
-  if (isDiscard(end)) {
-    // Discard all point cards in play.
-    if (isTwo(start)) {
-      ['x', 'y'].forEach((player) => {
-        moves = moves.concat(table[player].played.filter(isNumber)
-          .map((card) => `${card}-D`));
-      });
-    }
-
-    // Discard all non-point cards in play.
-    if (isThree(start)) {
-      ['x', 'y'].forEach((player) => {
-        moves = moves.concat(table[player].played.filter(isRoyal)
-          .map((card) => `${card}-D`));
-      });
-    }
-  }
-
-  // Your opponent must play with their hand exposed.
-  // if (isEight(start))
-
-  // All your cards in play are protected from effects that target single cards.
-  // Queens are not protected by themselves or other Queens.
-  // if (isQueen(start))
-
-  // Reduce the number of points needed to win by 7.
-  // if (isKing(card))
-
-  return Table.play(table, moves);
-  */
 };
 
 Rules.visible = (table, player) => {
