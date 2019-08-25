@@ -54,7 +54,7 @@ a, a:visited {
     'S Px Px Px Px Px D'
     '. Px Px Px Px Px .'
     '. Hx Hx Hx Hx Hx .'
-    '. Hx Hx Hx Hx Hx .'
+    '. Hx Hx Hx Hx Hx R'
   ;
 }
 
@@ -88,6 +88,14 @@ a, a:visited {
 
 .Hx {
   grid-area: Hx;
+}
+
+.reset {
+  grid-area: R;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  border: 1px solid gray;
 }
 
 .stack {

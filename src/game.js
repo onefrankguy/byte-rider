@@ -10,8 +10,9 @@ let input = [];
 let picked;
 
 const onBoard = (_, event) => {
-  if (event.target && event.target.matches('.help')) {
+  if (event.target && event.target.matches('.reset')) {
     event.stopPropagation();
+    $(event.target).addClass('picked');
     return;
   }
 
@@ -21,9 +22,10 @@ const onBoard = (_, event) => {
 };
 
 const offBoard = (_, event) => {
-  if (event.target && event.target.matches('.help')) {
+  if (event.target && event.target.matches('.reset')) {
     event.stopPropagation();
-    $(event.target).toggleClass('picked');
+    Game.reset();
+    $(event.target).removeClass('picked');
     return;
   }
 
