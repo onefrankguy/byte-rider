@@ -11,7 +11,7 @@ Engine.tick = (table, player, start, end) => {
   }
 
   let move = `${start}-${end}`;
-  if (Rules.moves(table, player).includes(move)) {
+  if (Rules.allowed(table, player, move)) {
     let next = Rules.play(table, player, [move]);
     console.log('x played', move);
 

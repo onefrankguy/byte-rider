@@ -1,4 +1,4 @@
-const $ = require('./jquery');
+const jQuery = require('./jquery');
 const Pile = require('./pile');
 const Rules = require('./rules');
 
@@ -21,30 +21,38 @@ const renderStack = (stack, visible) => {
 const renderPile = (pile, visible) => Pile.unwrap(pile)
   .map((stack) => renderStack(stack, visible)).join('');
 
-const fixDiscard = (id) => (id === 'Dy' ? 'Dx' : id);
+const $ = (id) => {
+  if (id === 'Dy') {
+    return jQuery('#Dx');
+  }
+  if (id === 'Sy') {
+    return jQuery('#Sx');
+  }
+  return jQuery(`#${id}`);
+};
 
 const Renderer = {};
 
 Renderer.render = (table, picked) => {
   const visible = Rules.visible(table, 'x');
 
-  $('#Sx').removeClass('playable').removeClass('picked');
-  $('#Dx').removeClass('playable').removeClass('picked');
+  $('Sx').removeClass('playable').removeClass('picked');
+  $('Dx').removeClass('playable').removeClass('picked');
 
-  $('#Hy').removeClass('playable').removeClass('picked')
+  $('Hy').removeClass('playable').removeClass('picked')
     .html(renderPile(table.y.hand, visible.includes('y')));
-  $('#Py').removeClass('playable').removeClass('picked')
+  $('Py').removeClass('playable').removeClass('picked')
     .html(renderPile(table.y.played, true));
-  $('#Px').removeClass('playable').removeClass('picked')
+  $('Px').removeClass('playable').removeClass('picked')
     .html(renderPile(table.x.played, true));
-  $('#Hx').removeClass('playable').removeClass('picked')
+  $('Hx').removeClass('playable').removeClass('picked')
     .html(renderPile(table.x.hand, visible.includes('x')));
 
   if (picked) {
-    $(`#${fixDiscard(picked)}`).addClass('picked');
-    Rules.playable(table, 'x', picked).forEach((c) => $(`#${fixDiscard(c)}`).addClass('playable'));
+    $(picked).addClass('picked');
+    Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
   } else {
-    Rules.pickable(table, 'x').forEach((c) => $(`#${fixDiscard(c)}`).addClass('playable'));
+    Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
   }
 };
 

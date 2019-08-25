@@ -26,6 +26,14 @@ const isJack = (card) => (card || '').startsWith('J');
 const isQueen = (card) => (card || '').startsWith('Q');
 const isKing = (card) => (card || '').startsWith('K');
 
+const fixDS = (value) => (value || '')
+  .replace(/Dx/g, 'D')
+  .replace(/Dy/g, 'D')
+  .replace(/Sx/g, 'S')
+  .replace(/Sy/g, 'S');
+
+const isEqual = (value1, value2) => fixDS(value1) === fixDS(value2);
+
 const getPoints = (card) => {
   const [value] = card.split('');
   const index = VALUES.indexOf(value);
@@ -40,7 +48,7 @@ const getScore = (card) => {
     return VALUES.indexOf(value);
   }
 
-  return value === 'K' ? 7 : 0;
+  return isKing(value) ? 7 : 0;
 };
 
 const canScuttle = (card) => (c) => isNumber(card) && isNumber(c) && getPoints(c) <= getPoints(card);
@@ -81,7 +89,7 @@ Rules.playable = (table, player, card) => {
 
     allowed.forEach((chain) => {
       const [start, end] = (chain[0] || '').split('-');
-      if (start === card && end) {
+      if (isEqual(start, card) && end) {
         result.add(end);
       }
     });
@@ -290,6 +298,8 @@ Rules.moves = (table, player) => {
   return [...result];
 };
 
+Rules.allowed = (table, player, move) => Rules.moves(table, player).find((m) => isEqual(m, move));
+
 Rules.play = (table, player, moves) => {
   const [move] = (moves || []);
   if (!table || !player || !move) {
@@ -307,7 +317,7 @@ Rules.play = (table, player, moves) => {
     }
 
     copy[player].allowed = copy[player].allowed
-      .filter((c) => c[0] === move)
+      .filter((c) => isEqual(c[0], move))
       .map((c) => c.slice(1))
       .filter((c) => c.length > 0);
 
