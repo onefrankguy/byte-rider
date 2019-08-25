@@ -30,6 +30,12 @@ Fn.prototype.removeClass = function removeClass(value) {
   return this;
 };
 
+Fn.prototype.toggleClass = function toggleClass(value) {
+  if (this.element && this.element.classList) {
+    this.element.classList.toggle(value);
+  }
+};
+
 Fn.prototype.html = function html(value) {
   if (this.element) {
     this.element.innerHTML = value;

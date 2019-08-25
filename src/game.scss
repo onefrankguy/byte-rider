@@ -44,7 +44,6 @@ a, a:visited {
 .game {
   display: grid;
   justify-content: center;
-  align-content: center;
   grid-template-columns: repeat(7, $cardWidth);
   grid-template-rows: repeat(8, $cardHeight);
   grid-template-areas:
@@ -110,4 +109,9 @@ a, a:visited {
 
 .playable {
   background-color: darkslategray;
+}
+
+/* INFO */
+.info {
+  font-size: 1rem;
 }

@@ -445,4 +445,79 @@ Rules.winner = (table) => {
   return '';
 };
 
+Rules.info = (card) => {
+  const result = {};
+
+  if (isAce(card)) {
+    result.name = 'Automated Response';
+    result.effect = 'Discard any non-point card in play or prevent an effect from occuring.';
+  }
+
+  if (isTwo(card)) {
+    result.name = 'Viral Infection';
+    result.effect = 'Discard all point cards in play.';
+  }
+
+  if (isThree(card)) {
+    result.name = 'Logic Bomb';
+    result.effect = 'Discard all non-point cards in play.';
+  }
+
+  if (isFour(card)) {
+    result.name = 'Stack Corruption';
+    result.effect = 'Return any card in play to the top of the stack.';
+  }
+
+  if (isFive(card)) {
+    result.name = 'Code Review';
+    result.effect = 'Choose 2 of your opponent\'s cards that they must discard. '
+    + 'If they have more than 5 cards after this, they must discard down to 5 cards.';
+  }
+
+  if (isSix(card)) {
+    result.name = 'Branch Prediction';
+    result.effect = 'Draw 2 cards. Return 1 card to the top of the stock. '
+    + 'Use the other card immediately.';
+  }
+
+  if (isSeven(card)) {
+    result.name = 'Data Recovery';
+    result.effect = 'Add any card from the discard to your hand.';
+  }
+
+  if (isNine(card)) {
+    result.name = 'Energy Drink';
+    result.effect = 'Draw 3 cards. Return one card to the top of the stock. '
+    + 'Add the other 2 cards to your hand.';
+  }
+
+  if (isTen(card)) {
+    result.name = 'Phishing Campaign';
+    result.effect = 'Add any card from your opponent\'s hand to your hand.';
+  }
+
+  if (isEight(card)) {
+    result.name = 'Network Monitor';
+    result.effect = 'Your opponent must play with their hand exposed.';
+  }
+
+  if (isJack(card)) {
+    result.name = 'Trojan Horse';
+    result.effect = 'Transfer control of an opponent\'s card in play.';
+  }
+
+  if (isQueen(card)) {
+    result.name = 'Filtering Router';
+    result.effect = 'All your cards in play are protected from effects that target single cards. '
+    + 'Routers are not protected by themselves or other Routers.';
+  }
+
+  if (isKing(card)) {
+    result.name = 'War Dialer';
+    result.effect = 'Reduce the number of points needed to win by 7.';
+  }
+
+  return result;
+};
+
 module.exports = Rules;

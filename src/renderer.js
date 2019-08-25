@@ -31,6 +31,22 @@ const $ = (id) => {
   return jQuery(`#${id}`);
 };
 
+const renderInfo = (picked) => {
+  const info = Rules.info(picked);
+  let html = '';
+
+  if (info.name) {
+    html += `<strong>${info.name}</strong>`;
+  }
+
+  if (info.effect) {
+    html += ' &mdash; ';
+    html += info.effect;
+  }
+
+  $('info').html(html);
+};
+
 const Renderer = {};
 
 Renderer.render = (table, picked) => {
@@ -55,6 +71,8 @@ Renderer.render = (table, picked) => {
   } else {
     Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
   }
+
+  renderInfo(picked);
 };
 
 Renderer.invalidate = (table, picked) => {
