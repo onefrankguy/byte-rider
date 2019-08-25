@@ -8,8 +8,10 @@ test('Table#create creates an empty table', () => {
   expect(table.discard).toStrictEqual([]);
   expect(table.x.hand).toStrictEqual([]);
   expect(table.x.played).toStrictEqual([]);
+  expect(table.x.allowed).toStrictEqual([]);
   expect(table.y.hand).toStrictEqual([]);
   expect(table.y.played).toStrictEqual([]);
+  expect(table.y.allowed).toStrictEqual([]);
 });
 
 test('Table#player checks cards players are holding', () => {
@@ -122,8 +124,9 @@ test('Table#play allows players to move cards from the table to the stock', () =
     '2C-Sx',
   ]);
 
-  expect(table.stock[0]).toBe('AC');
-  expect(table.x.hand).toStrictEqual(['2C']);
+  expect(table.stock[0]).toBe('2C');
+  expect(table.stock[1]).toBe('AC');
+  expect(table.x.hand).toStrictEqual([]);
   expect(table.x.played).toStrictEqual([]);
 });
 

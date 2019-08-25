@@ -186,10 +186,12 @@ Table.create = () => ({
   x: {
     hand: [],
     played: [],
+    allowed: [],
   },
   y: {
     hand: [],
     played: [],
+    allowed: [],
   },
 });
 
