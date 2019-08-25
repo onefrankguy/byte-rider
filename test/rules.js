@@ -266,13 +266,13 @@ test('Rules#chain(3) scuttles', () => {
 test('Rules#chain(4) returns any card in play to the top of the stock', () => {
   const table = Table.create();
   table.x.hand = ['4C'];
-  table.y.played = ['KC', 'QC'];
+  table.y.played = ['KC', 'TH'];
 
   const moves = Rules.chain(table, 'x', '4C');
 
   expect(moves).toStrictEqual([
     ['4C-Dx', 'KC-Sy'],
-    ['4C-Dx', 'QC-Sy'],
+    ['4C-Dx', 'TH-Sy'],
     ['4C-Px'],
   ]);
 });
@@ -577,7 +577,7 @@ test('Rules#chain(J) transfers control of an opponent\'s card in play', () => {
   ]);
 });
 
-test('Rules#chain(Q) protects your cards in play from effects that target single cards', () => {
+test('Rules#chain(Q) protects your cards in play', () => {
   const table = Table.create();
   table.x.hand = ['QC'];
 
@@ -585,6 +585,47 @@ test('Rules#chain(Q) protects your cards in play from effects that target single
 
   expect(moves).toStrictEqual([
     ['QC-Px'],
+  ]);
+});
+
+test('Rules#chain(Q) protects your cards in play from A', () => {
+  const table = Table.create();
+  table.x.played = ['QC', 'QH', '8C'];
+  table.y.hand = ['AC'];
+
+  const moves = Rules.chain(table, 'y', 'AC');
+
+  expect(moves).toStrictEqual([
+    ['AC-Dy', 'QC-Dx'],
+    ['AC-Dy', 'QH-Dx'],
+    ['AC-Py'],
+  ]);
+});
+
+test('Rules#chain(Q) protects your cards in play from 4', () => {
+  const table = Table.create();
+  table.x.played = ['QC', 'QH', '8C'];
+  table.y.hand = ['4C'];
+
+  const moves = Rules.chain(table, 'y', '4C');
+
+  expect(moves).toStrictEqual([
+    ['4C-Dy', 'QC-Sx'],
+    ['4C-Dy', 'QH-Sx'],
+    ['4C-Py'],
+  ]);
+});
+
+test('Rules#chain(Q) protects your cards in play from J', () => {
+  const table = Table.create();
+  table.x.played = ['QC', 'QH', '8C'];
+  table.y.hand = ['JC'];
+
+  const moves = Rules.chain(table, 'y', 'JC');
+
+  expect(moves).toStrictEqual([
+    ['JC-Dy', 'QC-Py'],
+    ['JC-Dy', 'QH-Py'],
   ]);
 });
 

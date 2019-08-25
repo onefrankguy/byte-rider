@@ -10,6 +10,7 @@ const WINNING_POINTS = 21;
 
 const isNumber = (card) => NUMBERS.includes((card || '').split('')[0]);
 const isRoyal = (card) => ROYALS.includes((card || '').split('')[0]);
+const isCard = (card) => isNumber(card) || isRoyal(card);
 const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
 const isAce = (card) => (card || '').startsWith('A');
@@ -117,8 +118,10 @@ Rules.chain = (table, player, card) => {
 
   // A - Discard any non-point card in play.
   if (isAce(card)) {
+    const filter = table[opponent].played.find(isQueen) ? isQueen : isRoyal;
     return table[opponent].played
-      .filter(isRoyal).map((c) => [`${card}-D${player}`, `${c}-D${opponent}`])
+      .filter(filter)
+      .map((c) => [`${card}-D${player}`, `${c}-D${opponent}`])
       .concat(points)
       .concat(scuttle);
   }
@@ -143,7 +146,9 @@ Rules.chain = (table, player, card) => {
 
   // 4 - Return any card in play to the top of the stock.
   if (isFour(card)) {
+    const filter = table[opponent].played.find(isQueen) ? isQueen : isCard;
     return table[opponent].played
+      .filter(filter)
       .map((c) => [`${card}-D${player}`, `${c}-S${opponent}`])
       .concat(points)
       .concat(scuttle);
@@ -257,7 +262,10 @@ Rules.chain = (table, player, card) => {
 
   // J - Transfer control of an opponent's card in play.
   if (isJack(card)) {
-    return table[opponent].played.map((c) => [`${card}-D${player}`, `${c}-P${player}`]);
+    const filter = table[opponent].played.find(isQueen) ? isQueen : isCard;
+    return table[opponent].played
+      .filter(filter)
+      .map((c) => [`${card}-D${player}`, `${c}-P${player}`]);
   }
 
   // Q - All your cards in play are protected from effects that target single
