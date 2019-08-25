@@ -1,5 +1,5 @@
 const Table = require('./table');
-const Pile = require('./pile');
+const Utils = require('./utils');
 
 const Rules = {};
 
@@ -10,7 +10,6 @@ const WINNING_POINTS = 21;
 
 const isNumber = (card) => NUMBERS.includes((card || '').split('')[0]);
 const isRoyal = (card) => ROYALS.includes((card || '').split('')[0]);
-const isCard = (card) => isNumber(card) || isRoyal(card);
 const isStock = (value) => (value || '').startsWith('S');
 const isDiscard = (value) => (value || '').startsWith('D');
 const isAce = (card) => (card || '').startsWith('A');
@@ -26,8 +25,6 @@ const isTen = (card) => (card || '').startsWith('T');
 const isJack = (card) => (card || '').startsWith('J');
 const isQueen = (card) => (card || '').startsWith('Q');
 const isKing = (card) => (card || '').startsWith('K');
-
-const getPointCards = (cards) => cards.filter((c) => isNumber(c));
 
 const getPoints = (card) => {
   const [value] = card.split('');
@@ -46,29 +43,48 @@ const getScore = (card) => {
   return value === 'K' ? 7 : 0;
 };
 
-const getScuttleable = (cards, card) => isNumber(card)
-  && getPointCards(cards).filter((c) => getPoints(c) < getPoints(card));
-
 const canScuttle = (card) => (c) => isNumber(card) && isNumber(c) && getPoints(c) <= getPoints(card);
 
 Rules.pickable = (table, player) => {
-  if (!table || !table[player]) {
-    return [];
+  const result = new Set();
+
+  if (table && table[player]) {
+    table[player].allowed.forEach((chain) => {
+      const [start] = (chain[0] || '').split('-');
+      if (start) {
+        result.add(start);
+      }
+    });
+
+    if (result.size <= 0) {
+      // You can play your own cards.
+      table[player].hand.forEach((card) => result.add(card));
+
+      // You can take a card from the stock unless it's empty.
+      if (table.stock.length > 0) {
+        result.add(`S${player}`);
+      }
+    }
   }
 
-  // You can play your own cards.
-  const result = table[player].hand.slice();
-
-  // You can take a card from the stock unless it's empty.
-  if (table.stock.length > 0) {
-    result.push(`S${player}`);
-  }
-
-  return result;
+  return [...result];
 };
 
 Rules.playable = (table, card) => {
   const player = Table.player(table, card);
+  const result = new Set();
+
+  if (table && table[player]) {
+    table[player].allowed.forEach((chain) => {
+      const end = (chain[0] || '').split('-')[1];
+      if (end) {
+        result.add(end);
+      }
+    });
+  }
+
+  return [...result];
+  /*
   const opponent = Table.opponent(player);
 
   // You can't play without an opponent.
@@ -117,6 +133,7 @@ Rules.playable = (table, card) => {
   }
 
   return results;
+  */
 };
 
 Rules.chain = (table, card) => {
@@ -297,18 +314,74 @@ Rules.chain = (table, card) => {
 };
 
 Rules.moves = (table, player) => {
-  const result = [];
+  const result = new Set();
 
-  Rules.pickable(table, player).forEach((start) => {
-    Rules.playable(table, start).forEach((end) => {
-      result.push(`${start}-${end}`);
+  if (table && table[player]) {
+    table[player].allowed.forEach((chain) => {
+      if (chain[0]) {
+        result.add(chain[0]);
+      }
     });
-  });
+  }
 
-  return result;
+  if (result.size <= 0) {
+    Rules.pickable(table, player).forEach((start) => {
+      Rules.chain(table, start).forEach((chain) => {
+        if (chain[0]) {
+          result.add(chain[0]);
+        }
+      });
+    });
+  }
+
+  return [...result];
 };
 
-Rules.play = (table, move) => {
+Rules.play = (table, player, moves) => {
+  const [move] = (moves || []);
+  if (!table || !player || !move) {
+    return table;
+  }
+
+  let copy = Utils.clone(table);
+  let allowed = [];
+
+  if (copy && copy[player]) {
+    if (copy[player].allowed.length <= 0) {
+      copy[player].allowed = Rules.chain(move);
+    }
+
+    copy[player].allowed = copy[player].allowed
+      .filter((c) => c[0] === move)
+      .map((c) => c.slice(1))
+      .filter((c) => c.length > 0);
+
+    allowed = moves.slice(1);
+    let play = [move];
+
+    const [start, end] = move.split('-');
+
+    // 2 - Discard all point cards in play.
+    if (isTwo(start) && isDiscard(end)) {
+      ['x', 'y'].forEach((p) => {
+        play = play.concat(copy[p].played.filter(isNumber)
+          .map((c) => `${c}-D${p}`));
+      });
+    }
+
+    // 3 - Discard all non-point cards in play.
+    if (isThree(start) && isDiscard(end)) {
+      ['x', 'y'].forEach((p) => {
+        play = play.concat(copy[p].played.filter(isRoyal)
+          .map((c) => `${c}-D${p}`));
+      });
+    }
+
+    copy = Table.play(copy, play);
+  }
+
+  return Rules.play(copy, player, allowed);
+  /*
   const [start, end] = (move || '').split('-');
 
   if (!table || !start || !end) {
@@ -383,6 +456,7 @@ Rules.play = (table, move) => {
   // if (isKing(card))
 
   return Table.play(table, moves);
+  */
 };
 
 Rules.visible = (table, player) => {
