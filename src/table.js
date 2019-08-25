@@ -68,6 +68,12 @@ const playCard = (table, player, card) => {
     copy[player].played = Pile.add(copy[player].played, card);
   }
 
+  const opponent = Table.opponent(player);
+  if (copy[opponent] && Pile.includes(copy[opponent].played, card)) {
+    copy[opponent].played = Pile.remove(copy[opponent].played, card);
+    copy[player].played = Pile.add(copy[player].played, card);
+  }
+
   return copy;
 };
 
