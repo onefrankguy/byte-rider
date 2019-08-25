@@ -2,12 +2,13 @@ const jQuery = require('./jquery');
 const Pile = require('./pile');
 const Rules = require('./rules');
 
-const renderStack = (stack, visible) => {
+const renderStack = (stack, visible, jacked) => {
   let html = '';
 
   html += '<div class="stack">';
   stack.forEach((card) => {
-    html += `<div id="${card}" class="card">`;
+    const jack = `jacked${(jacked[card] || []).length}`;
+    html += `<div id="${card}" class="card ${jack}">`;
     if (visible) {
       html += card;
     }
@@ -18,8 +19,8 @@ const renderStack = (stack, visible) => {
   return html;
 };
 
-const renderPile = (pile, visible) => Pile.unwrap(pile)
-  .map((stack) => renderStack(stack, visible)).join('');
+const renderPile = (pile, visible, jacked) => Pile.unwrap(pile)
+  .map((stack) => renderStack(stack, visible, jacked)).join('');
 
 const $ = (id) => {
   if (id === 'Dy') {
@@ -57,13 +58,13 @@ Renderer.render = (table, picked) => {
     .html(table.discard[0] || 'D');
 
   $('Hy').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.hand, visible.includes('y')));
+    .html(renderPile(table.y.hand, visible.includes('y'), table.jacked));
   $('Py').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.played, true));
+    .html(renderPile(table.y.played, true, table.jacked));
   $('Px').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.played, true));
+    .html(renderPile(table.x.played, true, table.jacked));
   $('Hx').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.hand, visible.includes('x')));
+    .html(renderPile(table.x.hand, visible.includes('x'), table.jacked));
 
   if (picked) {
     $(picked).addClass('picked');
