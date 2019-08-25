@@ -70,19 +70,18 @@ Rules.pickable = (table, player) => {
   return [...result];
 };
 
-Rules.playable = (table, card) => {
-  const player = Table.player(table, card);
+Rules.playable = (table, player, card) => {
   const result = new Set();
 
   if (table && table[player]) {
     let allowed = table[player].allowed.slice();
-    if (allowed.length < 1) {
-      allowed = Rules.chain(table, card);
+    if (allowed.length <= 0) {
+      allowed = Rules.chain(table, player, card);
     }
 
     allowed.forEach((chain) => {
-      const end = (chain[0] || '').split('-')[1];
-      if (end) {
+      const [start, end] = (chain[0] || '').split('-');
+      if (start === card && end) {
         result.add(end);
       }
     });
@@ -91,11 +90,10 @@ Rules.playable = (table, card) => {
   return [...result];
 };
 
-Rules.chain = (table, card) => {
-  const player = Table.player(table, card);
+Rules.chain = (table, player, card) => {
   const opponent = Table.opponent(player);
 
-  if (!player || !opponent) {
+  if (!table || !player || !opponent || !card) {
     return [];
   }
 
@@ -181,7 +179,7 @@ Rules.chain = (table, card) => {
       const move = [`${card}-D${player}`, `S${player}-H${player}`];
       const result = [];
       const copy = Table.play(table, move);
-      Rules.chain(copy, card1).forEach((r) => {
+      Rules.chain(copy, player, card1).forEach((r) => {
         result.push(move.concat(r));
       });
       return result.concat(points).concat(scuttle);
@@ -191,12 +189,12 @@ Rules.chain = (table, card) => {
       const result = [];
       const m1 = move.concat(`${card1}-S${player}`);
       const copy1 = Table.play(table, m1);
-      Rules.chain(copy1, card2).forEach((r) => {
+      Rules.chain(copy1, player, card2).forEach((r) => {
         result.push(m1.concat(r));
       });
       const m2 = move.concat(`${card2}-S${player}`);
       const copy2 = Table.play(table, m2);
-      Rules.chain(copy2, card1).forEach((r) => {
+      Rules.chain(copy2, player, card1).forEach((r) => {
         result.push(m2.concat(r));
       });
       return result.concat(points).concat(scuttle);
@@ -281,7 +279,7 @@ Rules.moves = (table, player) => {
 
   if (result.size <= 0) {
     Rules.pickable(table, player).forEach((start) => {
-      Rules.chain(table, start).forEach((chain) => {
+      Rules.chain(table, player, start).forEach((chain) => {
         if (chain[0]) {
           result.add(chain[0]);
         }
@@ -305,7 +303,7 @@ Rules.play = (table, player, moves) => {
     const [start, end] = move.split('-');
 
     if (copy[player].allowed.length <= 0) {
-      copy[player].allowed = Rules.chain(copy, start);
+      copy[player].allowed = Rules.chain(copy, player, start);
     }
 
     copy[player].allowed = copy[player].allowed
