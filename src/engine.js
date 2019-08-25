@@ -11,16 +11,20 @@ Engine.tick = (table, player, start, end) => {
   }
 
   let move = `${start}-${end}`;
-  console.log('x moves', Rules.moves(table, player));
   if (Rules.moves(table, player).includes(move)) {
     let next = Rules.play(table, player, [move]);
     console.log('x played', move);
 
-    if (Rules.winner(next) !== player) {
+    if (Rules.winner(next) !== player && next[player].allowed.length <= 0) {
       const opponent = Table.opponent(player);
       move = AI.move(next, opponent);
       next = Rules.play(next, opponent, [move]);
       console.log('y played', move);
+      while (next[opponent].allowed.length > 0) {
+        move = AI.move(next, opponent);
+        next = Rules.play(next, opponent, [move]);
+        console.log('y played', move);
+      }
     }
 
     return [next, undefined];

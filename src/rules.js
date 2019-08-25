@@ -75,7 +75,12 @@ Rules.playable = (table, card) => {
   const result = new Set();
 
   if (table && table[player]) {
-    table[player].allowed.forEach((chain) => {
+    let allowed = table[player].allowed.slice();
+    if (allowed.length < 1) {
+      allowed = Rules.chain(table, card);
+    }
+
+    allowed.forEach((chain) => {
       const end = (chain[0] || '').split('-')[1];
       if (end) {
         result.add(end);
@@ -297,8 +302,10 @@ Rules.play = (table, player, moves) => {
   let allowed = [];
 
   if (copy && copy[player]) {
+    const [start, end] = move.split('-');
+
     if (copy[player].allowed.length <= 0) {
-      copy[player].allowed = Rules.chain(move);
+      copy[player].allowed = Rules.chain(copy, start);
     }
 
     copy[player].allowed = copy[player].allowed
@@ -308,8 +315,6 @@ Rules.play = (table, player, moves) => {
 
     allowed = moves.slice(1);
     let play = [move];
-
-    const [start, end] = move.split('-');
 
     // 2 - Discard all point cards in play.
     if (isTwo(start) && isDiscard(end)) {
