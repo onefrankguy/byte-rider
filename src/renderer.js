@@ -2,22 +2,26 @@ const jQuery = require('./jquery');
 const Pile = require('./pile');
 const Rules = require('./rules');
 
-const renderStack = (stack, visible, jacked) => {
+const renderIcon = (card) => {
+  const [value] = (card || '').split('');
   let html = '';
-
-  html += '<div class="stack">';
-  stack.forEach((card) => {
-    const jack = `jacked${(jacked[card] || []).length}`;
-    html += `<div id="${card}" class="card ${jack}">`;
-    if (visible) {
-      html += card;
-    }
-    html += '</div>';
-  });
-  html += '</div>';
-
+  if (value) {
+    html += `<div class="icon i${value}"></div>`;
+  }
   return html;
 };
+
+const renderCard = (card, visible, jacked) => {
+  const jack = `jacked${(jacked[card] || []).length}`;
+  let html = `<div id="${card}" class="card ${jack}">`;
+  if (visible) {
+    html += renderIcon(card);
+  }
+  html += '</div>';
+  return html;
+};
+
+const renderStack = (stack, visible, jacked) => stack.map((c) => renderCard(c, visible, jacked)).join('');
 
 const renderPile = (pile, visible, jacked) => Pile.unwrap(pile)
   .map((stack) => renderStack(stack, visible, jacked)).join('');
@@ -54,8 +58,13 @@ Renderer.render = (table, picked) => {
   const visible = Rules.visible(table, 'x');
 
   $('Sx').removeClass('playable').removeClass('picked');
-  $('Dx').removeClass('playable').removeClass('picked')
-    .html(table.discard[0] || 'D');
+  $('Dx').removeClass('playable').removeClass('picked');
+
+  if (table.discard[0]) {
+    $('Dx').removeClass('trash').html(renderIcon(table.discard[0]));
+  } else {
+    $('Dx').addClass('trash').html('');
+  }
 
   $('Hy').removeClass('playable').removeClass('picked')
     .html(renderPile(table.y.hand, visible.includes('y'), table.jacked));

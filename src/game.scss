@@ -98,8 +98,9 @@ a, a:visited {
   border: 1px solid gray;
 }
 
-.stack {
-  display: inline-flex;
+.pile {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -121,11 +122,17 @@ a, a:visited {
 }
 
 .jacked1:after, .jacked2:after, .jacked3:after, .jacked4:after {
-  display: block;
   position: absolute;
-  left: 0.1rem;
-  bottom: 0.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: -1px;
+  bottom: -1px;
   font-size: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: $backgroundColor;
+  background-color: $textColor;
 }
 
 .jacked1:after {
@@ -134,20 +141,142 @@ a, a:visited {
 
 .jacked2:after {
   content: '2';
-  font-size: 1rem;
 }
 
 .jacked3:after {
   content: '3';
-  font-size: 1rem;
 }
 
 .jacked4:after {
   content: '4';
-  font-size: 1rem;
 }
 
 /* INFO */
 .info {
   font-size: 1rem;
+}
+
+/* ICONS */
+.icon {
+  position: relative;
+  display: block;
+  width: $cardWidth;
+  height: $cardHeight;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.icon:after {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  right: 0;
+  font-size: 0.8rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  color: $backgroundColor;
+  background-color: $textColor;
+  border-radius: 50%;
+}
+
+.iA {
+  background-image: url('../img/walking-turret.svg');
+}
+
+.iA:after {
+  content: '1';
+}
+
+.i2 {
+  background-image: url('../img/skull-with-syringe.svg');
+}
+
+.i2:after {
+  content: '2';
+}
+
+.i3 {
+  background-image: url('../img/mushroom-cloud.svg');
+}
+
+.i3:after {
+  content: '3';
+}
+
+.i4 {
+  background-image: url('../img/cyborg-face.svg');
+}
+
+.i4:after {
+  content: '4';
+}
+
+.i5 {
+  background-image: url('../img/keyboard.svg');
+}
+
+.i5:after {
+  content: '5';
+}
+
+.i6 {
+  background-image: url('../img/family-tree.svg');
+}
+
+.i6:after {
+  content: '6';
+}
+
+.i7 {
+  background-image: url('../img/load.svg');
+}
+
+.i7:after {
+  content: '7';
+}
+
+.i8 {
+  background-image: url('../img/cyber-eye.svg');
+}
+
+.i9 {
+  background-image: url('../img/beer-bottle.svg');
+}
+
+.i9:after {
+  content: '9';
+}
+
+.iT {
+  background-image: url('../img/death-note.svg');
+}
+
+.i9:after {
+  content: '10';
+}
+
+.iJ {
+  background-image: url('../img/trojan-horse.svg');
+}
+
+.iQ {
+  background-image: url('../img/skull-shield.svg');
+}
+
+.iK {
+  background-image: url('../img/cpu.svg');
+}
+
+.stack {
+  background-image: url('../img/stack.svg');
+}
+
+.trash {
+  background-image: url('../img/trash-can.svg');
+}
+
+.invisible {
+  visibility: hidden !important;
 }

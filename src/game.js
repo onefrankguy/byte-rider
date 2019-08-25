@@ -16,7 +16,7 @@ const onBoard = (_, event) => {
     return;
   }
 
-  if (event.target && (event.target.matches('.card'))) {
+  if (event.target && event.target.matches('.card')) {
     $(event.target).addClass('picked');
   }
 };
