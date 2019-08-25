@@ -37,7 +37,8 @@ Renderer.render = (table, picked) => {
   const visible = Rules.visible(table, 'x');
 
   $('Sx').removeClass('playable').removeClass('picked');
-  $('Dx').removeClass('playable').removeClass('picked');
+  $('Dx').removeClass('playable').removeClass('picked')
+    .html(table.discard[0] || 'D');
 
   $('Hy').removeClass('playable').removeClass('picked')
     .html(renderPile(table.y.hand, visible.includes('y')));
