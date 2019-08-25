@@ -10,8 +10,9 @@
     "prebuild": "npm audit && npm run lint && npm run test",
     "build": "webpack --mode production",
     "postbuild": "npm run zip",
+    "sync": "cd dist && rsync -avz --delete --files-from=../manifest.txt ./ frankmitchell.org:/home/public/js13k2019/",
     "check-size": "node ./check-size.js; exit 0",
-    "zip": "cd dist && zip -9 ../game.zip index.html",
+    "zip": "cd dist && zip -9 ../game.zip $(cat ../manifest.txt)",
     "postzip": "npm run check-size"
   },
   "devDependencies": {
