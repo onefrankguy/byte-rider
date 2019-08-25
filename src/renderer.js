@@ -21,6 +21,8 @@ const renderStack = (stack, visible) => {
 const renderPile = (pile, visible) => Pile.unwrap(pile)
   .map((stack) => renderStack(stack, visible)).join('');
 
+const fixDiscard = (id) => (id === 'Dy' ? 'Dx' : id);
+
 const Renderer = {};
 
 Renderer.render = (table, picked) => {
@@ -39,10 +41,10 @@ Renderer.render = (table, picked) => {
     .html(renderPile(table.x.hand, visible.includes('x')));
 
   if (picked) {
-    $(`#${picked}`).addClass('picked');
-    Rules.playable(table, picked).forEach((c) => $(`#${c}`).addClass('playable'));
+    $(`#${fixDiscard(picked)}`).addClass('picked');
+    Rules.playable(table, 'x', picked).forEach((c) => $(`#${fixDiscard(c)}`).addClass('playable'));
   } else {
-    Rules.pickable(table, 'x').forEach((c) => $(`#${c}`).addClass('playable'));
+    Rules.pickable(table, 'x').forEach((c) => $(`#${fixDiscard(c)}`).addClass('playable'));
   }
 };
 
