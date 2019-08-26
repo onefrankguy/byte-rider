@@ -6,7 +6,7 @@ The beginning of a project for [js13kGames 2019][js13k].
 
 * [walking-turret][]
 * [skull-with-syringe][]
-* [mushroom-cloud][]
+* [companion-cube][]
 * [cyborg-face][]
 * [keyboard][]
 * [family-tree][]
@@ -47,7 +47,7 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [NVM]: https://github.com/nvm-sh/nvm "Various (GitHub): Node Version Manager"
 [walking-turret]: https://game-icons.net/1x1/delapouite/walking-turret.html "Delapouite (game-icons.net): An automatic sentry tower that can move along short distances."
 [skull-with-syringe]: https://game-icons.net/1x1/zajkonur/skull-with-syringe.html "Zajkonur (game-icons.net): This cranium has the cure between its teeth."
-[mushroom-cloud]: https://game-icons.net/1x1/lorc/mushroom-cloud.html "Lorc (game-icons.net): That is the kind of spectacle you can expect in Fallout if you decide to follow the dark path."
+[companion-cube]: https://game-icons.net/1x1/delapouite/companion-cube.html "Delapouite (game-icons.net): The ultimate empathy test when Shell is about to destroy it in Portal following the orders of Glados."
 [cyborg-face]: https://game-icons.net/1x1/delapouite/cyborg-face.html "Delapouite (game-icons.net): A emotionless humanoid with some robotic enhancements: an antenna forehead and extra vision."
 [keyboard]: https://game-icons.net/1x1/delapouite/keyboard.html "Delapouite (game-icons.net): To type letters and texts in order to interact with a computer."
 [family-tree]: https://game-icons.net/1x1/delapouite/family-tree.html "Delapouite (game-icons.net): A network of people, connecting parents and children. Like the brackets of a championship."
