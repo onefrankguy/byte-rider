@@ -2,11 +2,18 @@ const jQuery = require('./jquery');
 const Pile = require('./pile');
 const Rules = require('./rules');
 
+const renderValue = (value) => (value ? `${value}<sup>&boxbox;</sup>` : '');
+
 const renderIcon = (card) => {
+  const info = Rules.info(card);
   const [value] = (card || '').split('');
   let html = '';
   if (value) {
-    html += `<div class="icon i${value}"></div>`;
+    html += `<div class="icon i${value}">`;
+    if (info.value) {
+      html += `<div class="value">${renderValue(info.value)}</div>`;
+    }
+    html += '</div>';
   }
   return html;
 };
@@ -38,15 +45,26 @@ const $ = (id) => {
 
 const renderInfo = (picked) => {
   const info = Rules.info(picked);
-  let html = '';
+  let html = '<p>';
 
   if (info.name) {
     html += `<strong>${info.name}</strong>`;
   }
 
-  if (info.effect) {
+  if (info.value) {
     html += ' &mdash; ';
-    html += info.effect;
+    html += renderValue(info.value);
+  }
+
+  if (info.type) {
+    html += ' &mdash; ';
+    html += `<em>${info.type}</em>`;
+  }
+
+  html += '</p>';
+
+  if (info.effect) {
+    html += `<p>${info.effect}</p>`;
   }
 
   $('info').html(html);

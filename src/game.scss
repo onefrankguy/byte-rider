@@ -150,9 +150,12 @@ a, a:visited {
 
 /* INFO */
 .info {
-  font-size: 1rem;
-  width: 5 * $cardWidth;
-  margin: 5px auto;
+  font-size: 1.2rem;
+  margin: 5px;
+}
+
+.info p + p {
+  margin-top: 0.6rem;
 }
 
 /* ICONS */
@@ -165,75 +168,44 @@ a, a:visited {
   pointer-events: none;
 }
 
-.icon:after {
+.icon .value {
   position: absolute;
   display: flex;
-  justify-content: center;
-  align-items: center;
   top: 0;
   right: 0;
-  font-size: 0.8rem;
-  width: 1.4rem;
-  height: 1.4rem;
+  font-size: 1rem;
+  overflow: hidden;
   color: $backgroundColor;
   background-color: $textColor;
-  border-radius: 50%;
+  border: 1px solid $textColor;
 }
 
 .iA {
   background-image: url('../img/walking-turret.svg');
 }
 
-.iA:after {
-  content: '1';
-}
-
 .i2 {
   background-image: url('../img/skull-with-syringe.svg');
-}
-
-.i2:after {
-  content: '2';
 }
 
 .i3 {
   background-image: url('../img/mushroom-cloud.svg');
 }
 
-.i3:after {
-  content: '3';
-}
-
 .i4 {
   background-image: url('../img/cyborg-face.svg');
-}
-
-.i4:after {
-  content: '4';
 }
 
 .i5 {
   background-image: url('../img/keyboard.svg');
 }
 
-.i5:after {
-  content: '5';
-}
-
 .i6 {
   background-image: url('../img/family-tree.svg');
 }
 
-.i6:after {
-  content: '6';
-}
-
 .i7 {
   background-image: url('../img/load.svg');
-}
-
-.i7:after {
-  content: '7';
 }
 
 .i8 {
@@ -244,16 +216,8 @@ a, a:visited {
   background-image: url('../img/beer-bottle.svg');
 }
 
-.i9:after {
-  content: '9';
-}
-
 .iT {
   background-image: url('../img/death-note.svg');
-}
-
-.iT:after {
-  content: '10';
 }
 
 .iJ {
