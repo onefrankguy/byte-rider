@@ -8,6 +8,7 @@ const Game = {};
 let table;
 let input = [];
 let picked;
+let touched;
 
 const onBoard = (_, event) => {
   if (event.target && event.target.matches('.reset')) {
@@ -31,10 +32,11 @@ const offBoard = (_, event) => {
 
   if (event.target && (event.target.matches('.card') || event.target.matches('.pile')) && event.target.id) {
     event.stopPropagation();
-    input.push(event.target.id);
+    touched = event.target.id;
+    input.push(touched);
     [table, picked] = Engine.tick(table, 'x', ...input);
     input = picked ? [picked] : [];
-    Renderer.invalidate(table, picked);
+    Renderer.invalidate(table, picked, touched);
   }
 };
 
@@ -43,7 +45,8 @@ Game.reset = () => {
   table = Table.deal(table, 'x');
   input = [];
   picked = undefined;
-  Renderer.invalidate(table, picked);
+  touched = undefined;
+  Renderer.invalidate(table, picked, touched);
 };
 
 Game.play = () => {

@@ -65,12 +65,12 @@ const renderInfo = (picked) => {
     html += `<p>${info.effect}</p>`;
   }
 
-  $('info').html(html);
+  return html;
 };
 
 const Renderer = {};
 
-Renderer.render = (table, picked) => {
+Renderer.render = (table, picked, touched) => {
   const visible = Rules.visible(table, 'x');
 
   $('Sx').removeClass('playable').removeClass('picked');
@@ -93,11 +93,15 @@ Renderer.render = (table, picked) => {
     Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
   }
 
-  renderInfo(picked);
+  if (visible.includes('y') || !table.y.hand.includes(touched)) {
+    $('info').html(renderInfo(touched));
+  } else {
+    $('info').html('');
+  }
 };
 
-Renderer.invalidate = (table, picked) => {
-  requestAnimationFrame(() => Renderer.render(table, picked));
+Renderer.invalidate = (table, picked, touched) => {
+  requestAnimationFrame(() => Renderer.render(table, picked, touched));
 };
 
 module.exports = Renderer;
