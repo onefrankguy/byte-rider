@@ -1,5 +1,4 @@
 const jQuery = require('./jquery');
-const Pile = require('./pile');
 const Rules = require('./rules');
 
 const renderValue = (value) => (value ? `${value}<sup>&boxbox;</sup>` : '');
@@ -28,10 +27,7 @@ const renderCard = (card, visible, jacked) => {
   return html;
 };
 
-const renderStack = (stack, visible, jacked) => stack.map((c) => renderCard(c, visible, jacked)).join('');
-
-const renderPile = (pile, visible, jacked) => Pile.unwrap(pile)
-  .map((stack) => renderStack(stack, visible, jacked)).join('');
+const renderPile = (pile, visible, jacked) => pile.map((c) => renderCard(c, visible, jacked)).join('');
 
 const $ = (id) => {
   if (id === 'Dy') {

@@ -1,5 +1,4 @@
 const Utils = require('./utils');
-const Pile = require('./pile');
 
 const Table = {};
 
@@ -16,11 +15,11 @@ Table.player = (table, value) => {
     return '';
   }
 
-  if (Pile.includes(table.x.hand, value) || Pile.includes(table.x.played, value)) {
+  if (table.x.hand.includes(value) || table.x.played.includes(value)) {
     return 'x';
   }
 
-  if (Pile.includes(table.y.hand, value) || Pile.includes(table.y.played, value)) {
+  if (table.y.hand.includes(value) || table.y.played.includes(value)) {
     return 'y';
   }
 
@@ -57,12 +56,12 @@ const playMove = (table, move) => {
 
   ['x', 'y'].forEach((p) => {
     ['hand', 'played'].forEach((pile) => {
-      copy[p][pile] = Pile.remove(copy[p][pile], card);
+      copy[p][pile] = copy[p][pile].filter((c) => c !== card);
     });
   });
 
   ['stock', 'discard'].forEach((pile) => {
-    copy[pile] = Pile.remove(copy[pile], card);
+    copy[pile] = copy[pile].filter((c) => c !== card);
   });
 
   if (card && isStock(end)) {
@@ -74,11 +73,11 @@ const playMove = (table, move) => {
   }
 
   if (card && player && isHand(end)) {
-    copy[player].hand = Pile.add(copy[player].hand, card);
+    copy[player].hand.push(card);
   }
 
   if (card && player && isTable(end)) {
-    copy[player].played = Pile.add(copy[player].played, card);
+    copy[player].played.push(card);
   }
 
   return copy;
