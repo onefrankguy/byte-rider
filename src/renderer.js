@@ -39,6 +39,8 @@ const $ = (id) => {
   return jQuery(`#${id}`);
 };
 
+const renderDiscard = (pile) => pile.slice(0, 4).reverse().map((c) => renderCard(c, true, {})).join('');
+
 const renderInfo = (picked) => {
   const info = Rules.info(picked);
   let html = '<p>';
@@ -73,12 +75,7 @@ Renderer.render = (table, picked) => {
 
   $('Sx').removeClass('playable').removeClass('picked');
   $('Dx').removeClass('playable').removeClass('picked');
-
-  if (table.discard[0]) {
-    $('Dx').removeClass('trash').html(renderIcon(table.discard[0]));
-  } else {
-    $('Dx').addClass('trash').html('');
-  }
+  $('discard').html(renderDiscard(table.discard));
 
   $('Hy').removeClass('playable').removeClass('picked')
     .html(renderPile(table.y.hand, visible.includes('y'), table.jacked));
