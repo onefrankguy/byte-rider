@@ -1,8 +1,8 @@
 $backgroundColor: rgba(0, 0, 0, 1);
 $textColor: rgba(255, 255, 255, 1);
 $fontSize: 1.6rem;
-$cardWidth: 4.2rem;
-$cardHeight: 4.2rem;
+$cardWidth: 4.6rem;
+$cardHeight: 4.6rem;
 
 /* RESET */
 * {
@@ -31,73 +31,46 @@ a, a:visited {
 
 /* SCREEN */
 .world {
-  display: grid;
-  /* Usable area on an iPhone 4 is 320x372 pixels */
+  /* Usable area on an iPhone SE is 320x444 pixels */
+  /*
+  height: 44.4rem;
+  border: 1px solid pink;
+  */
   width: 32rem;
-  height: 37.2rem;
   margin: 0 auto;
+  padding: 5px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
 }
 
 /* GAME */
-.game {
-  margin-top: 5px;
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(7, $cardWidth);
-  grid-template-rows: repeat(8, $cardHeight);
-  grid-template-areas:
-    '. Hy Hy Hy Hy Hy .'
-    '. Hy Hy Hy Hy Hy .'
-    '. Py Py Py Py Py .'
-    'S Py Py Py Py Py D'
-    'S Px Px Px Px Px D'
-    '. Px Px Px Px Px .'
-    '. Hx Hx Hx Hx Hx .'
-    '. Hx Hx Hx Hx Hx R'
-  ;
+.board {
+  margin-bottom: 5px;
 }
 
-.Hy {
-  grid-area: Hy;
-}
-
-.Py {
-  grid-area: Py;
-}
-
-.S {
-  grid-area: S;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
-.D {
-  grid-area: D;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-}
-
-.Px {
-  grid-area: Px;
-}
-
-.Hx {
-  grid-area: Hx;
-}
-
-.reset {
-  grid-area: R;
-  display: grid;
-  justify-content: center;
-  align-content: center;
-  border: 1px solid gray;
+.piles {
+  flex-grow: 1;
 }
 
 .pile {
-  display: flex;
   flex-wrap: wrap;
+  height: $cardHeight * 2;
+}
+
+.navi {
+  position: relative;
+}
+
+.discards {
+  flex-grow: 1;
 }
 
 .card {
@@ -151,7 +124,6 @@ a, a:visited {
 /* INFO */
 .info {
   font-size: 1.2rem;
-  margin: 5px;
 }
 
 .info p + p {

@@ -8,15 +8,20 @@
 </head>
 
 <body>
-  <div class="world">
-    <div id="board" class="game">
-      <div class="S"><div id="Sx" class="card stack"></div></div>
-      <div class="D"><div id="Dx" class="card trash"></div></div>
-      <div id="Hy" class="Hy pile"></div>
-      <div id="Py" class="Py pile"></div>
-      <div id="Px" class="Px pile"></div>
-      <div id="Hx" class="Hx pile"></div>
-      <div id="reset" class="reset">R</div>
+  <div class="col world">
+    <div id="board" class="row board">
+      <div class="col piles">
+        <div id="Hy" class="row pile"></div>
+        <div id="Py" class="row pile"></div>
+        <div id="Px" class="row pile"></div>
+        <div id="Hx" class="row pile"></div>
+      </div>
+      <div class="col navi">
+        <div id="Sx" class="card stack"></div>
+        <div id="discards" class="col discards"></div>
+        <div id="Dx" class="card trash"></div>
+        <div id="reset" class="card reset">R</div>
+      </div>
     </div>
     <div id="info" class="info"></div>
   </div>
