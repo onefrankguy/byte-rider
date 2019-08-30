@@ -10,7 +10,9 @@ Engine.tick = (table, player, start, end) => {
     return [Utils.clone(table), undefined];
   }
 
-  let move = `${start}-${end}`;
+  let move = Rules.resolve(table, player, start, end);
+  console.log('x move', move);
+
   if (Rules.allowed(table, player, move)) {
     let next = Rules.play(table, player, [move]);
     console.log('x played', move);
@@ -32,8 +34,14 @@ Engine.tick = (table, player, start, end) => {
   }
 
   const pickable = Rules.pickable(table, player);
-  const picked = [end, start].filter((value) => pickable.includes(value));
-  return [Utils.clone(table), ...picked];
+  const [pick, play] = move.split('-');
+  let [picked] = [play, pick].filter((value) => pickable.includes(value));
+
+  if (start && end && start === picked) {
+    picked = undefined;
+  }
+
+  return [Utils.clone(table), picked];
 };
 
 module.exports = Engine;

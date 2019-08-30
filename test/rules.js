@@ -777,6 +777,49 @@ test('Rules#chain(K) reduces the number of points needed to win by 7', () => {
   ]);
 });
 
+test('Rules#resolve converts unnamed pile to named stock', () => {
+  let table = Table.create();
+  let move = Rules.resolve(table, 'x', 'S', 'Hx');
+
+  expect(move).toStrictEqual('Sx-Hx');
+
+  table.x.hand = ['4C'];
+  table.y.played = ['KS'];
+  table.stock = ['AC'];
+
+  table = Rules.play(table, 'x', ['4C-Dx']);
+  move = Rules.resolve(table, 'x', 'KS', 'S');
+
+  expect(move).toStrictEqual('KS-Sy');
+});
+
+test('Rules#resolve converts unnamed pile to named discard', () => {
+  let table = Table.create();
+  table.y.played = ['KH'];
+  table.stock = ['AC'];
+
+  let move = Rules.resolve(table, 'x', 'S', 'Hx');
+
+  table = Rules.play(table, 'x', [move]);
+  move = Rules.resolve(table, 'x', 'AC', 'S');
+
+  expect(move).toStrictEqual('AC-Dx');
+
+  table = Rules.play(table, 'x', [move]);
+  move = Rules.resolve(table, 'x', 'KH', 'S');
+
+  expect(move).toStrictEqual('KH-Dy');
+});
+
+test('Rules#resolve handles invalid values', () => {
+  const table = Table.create();
+
+  expect(Rules.resolve(undefined, 'x', 'S', 'Hx')).toStrictEqual('S-Hx');
+  expect(Rules.resolve(table, undefined, 'S', 'Hx')).toStrictEqual('S-Hx');
+  expect(Rules.resolve(table, 'x', undefined, 'Hx')).toStrictEqual('undefined-Hx');
+  expect(Rules.resolve(table, 'x', 'S', undefined)).toStrictEqual('Sx-undefined');
+});
+
 test('Rules#winner shows the player if they win', () => {
   const table = Table.create();
   table.x.played = ['TC', 'TD', 'AH'];

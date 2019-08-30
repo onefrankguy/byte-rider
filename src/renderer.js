@@ -30,16 +30,13 @@ const renderCard = (card, visible, jacked) => {
 const renderPile = (pile, visible, jacked) => pile.map((c) => renderCard(c, visible, jacked)).join('');
 
 const $ = (id) => {
-  if (id === 'Dy') {
-    return jQuery('#Dx');
-  }
-  if (id === 'Sy') {
-    return jQuery('#Sx');
+  if (id === 'Dx' || id === 'Dy' || id === 'Sx' || id === 'Sy') {
+    return jQuery('#S');
   }
   return jQuery(`#${id}`);
 };
 
-const renderDiscard = (pile) => pile.slice(0, 4).reverse().map((c) => renderCard(c, true, {})).join('');
+const renderDiscard = (pile) => pile.slice(0, 5).reverse().map((c) => renderCard(c, true, {})).join('');
 
 const renderInfo = (picked) => {
   const info = Rules.info(picked);
@@ -73,8 +70,7 @@ const Renderer = {};
 Renderer.render = (table, picked, touched) => {
   const visible = Rules.visible(table, 'x');
 
-  $('Sx').removeClass('playable').removeClass('picked');
-  $('Dx').removeClass('playable').removeClass('picked');
+  $('S').removeClass('playable').removeClass('picked');
   $('discard').html(renderDiscard(table.discard));
 
   $('Hy').removeClass('playable').removeClass('picked')

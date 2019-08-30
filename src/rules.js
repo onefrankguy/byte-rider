@@ -411,6 +411,34 @@ Rules.play = (table, player, moves) => {
   return Rules.play(copy, player, allowed);
 };
 
+Rules.resolve = (table, player, start, end) => {
+  const moves = Rules.moves(table, player);
+  let pick = start;
+  let play = end;
+
+  if (pick === 'S') {
+    const move = moves.find((m) => {
+      const c = m.split('-')[0];
+      return isStock(c) || isDiscard(c);
+    });
+    if (move) {
+      [pick] = move.split('-');
+    }
+  }
+
+  if (play === 'S') {
+    const move = moves.find((m) => {
+      const c = m.split('-')[1];
+      return isStock(c) || isDiscard(c);
+    });
+    if (move) {
+      [play] = move.split('-').slice(1);
+    }
+  }
+
+  return `${pick}-${play}`;
+};
+
 Rules.visible = (table, player) => {
   const result = [];
   const opponent = Table.opponent(player);
