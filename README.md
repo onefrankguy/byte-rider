@@ -18,7 +18,6 @@ The beginning of a project for [js13kGames 2019][js13k].
 * [skull-shield][]
 * [cpu][]
 * [stack][]
-* [trash-can][]
 
 ## Development ##
 
@@ -59,4 +58,3 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [skull-shield]: https://game-icons.net/1x1/lorc/skull-shield.html "Lorc (game-icons.net): A pugnacious cranium as emblem."
 [cpu]: https://game-icons.net/1x1/delapouite/cpu.html "Delapouite (game-icons.net): The heart of a computer, juggling with bits to process data."
 [stack]: https://game-icons.net/1x1/delapouite/stack.html "Delapouite (game-icons.net): Pile of cards on top of each others, in layers."
-[trash-can]: https://game-icons.net/1x1/delapouite/trash-can.html "Delapouite (game-icons.net): Recycle bin to throw away things to the garbage."
