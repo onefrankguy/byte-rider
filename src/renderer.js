@@ -27,7 +27,17 @@ const renderCard = (card, visible, jacked) => {
   return html;
 };
 
-const renderPile = (pile, visible, jacked) => pile.map((c) => renderCard(c, visible, jacked)).join('');
+const renderPile = (pile, visible, jacked, padding = 10) => {
+  let html = pile.map((c) => renderCard(c, visible, jacked)).join('');
+
+  let blanks = padding - pile.length;
+  while (blanks > 0) {
+    html += '<div class="card invisible"></div>';
+    blanks -= 1;
+  }
+
+  return html;
+};
 
 const $ = (id) => {
   if (id === 'Dx' || id === 'Dy' || id === 'Sx' || id === 'Sy') {

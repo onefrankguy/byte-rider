@@ -17,8 +17,9 @@ const onBoard = (_, event) => {
     return;
   }
 
-  if (event.target && event.target.matches('.card')) {
+  if (event.target && event.target.matches('.card') && event.target.id) {
     $(event.target).addClass('picked');
+    touched = event.target.id;
   }
 };
 
@@ -32,8 +33,7 @@ const offBoard = (_, event) => {
 
   if (event.target && (event.target.matches('.card') || event.target.matches('.pile')) && event.target.id) {
     event.stopPropagation();
-    touched = event.target.id;
-    input.push(touched);
+    input.push(event.target.id);
     [table, picked] = Engine.tick(table, 'x', ...input);
     input = picked ? [picked] : [];
     Renderer.invalidate(table, picked, touched);
