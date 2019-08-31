@@ -7,9 +7,13 @@ AI.winning = (table, player) => {
   const moves = Rules.moves(table, player);
 
   return moves.filter((move) => {
-    const test = Rules.play(table, player, [move]);
+    const [start] = move.split('-');
+    const chain = Rules.chain(table, player, start).filter((c) => c[0] === move);
 
-    return Rules.winner(test) === player;
+    return !!chain.find((c) => {
+      const test = Rules.play(table, player, c);
+      return Rules.winner(test) === player;
+    });
   });
 };
 

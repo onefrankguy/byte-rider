@@ -2,7 +2,7 @@
 const Table = require('../src/table');
 const AI = require('../src/ai');
 
-test('AI#winning shows winning moves', () => {
+test('AI#winning shows winning play moves', () => {
   const table = Table.create();
   // X can play a King to win
   table.x.hand = ['KH', '3S', '6D'];
@@ -12,6 +12,22 @@ test('AI#winning shows winning moves', () => {
   const moves = AI.winning(table, 'x');
 
   expect(moves).toEqual(['KH-Px']);
+});
+
+test('AI#winning shows winning transfer moves', () => {
+  const table = Table.create();
+  // X can play a Jack or Ace to win
+  table.x.hand = ['JH', 'AC'];
+  table.x.played = ['KH', 'KS'];
+  table.y.played = ['KD'];
+  table.jacked = { KD: ['JC'] };
+
+  const moves = AI.winning(table, 'x');
+
+  expect(moves).toEqual([
+    'JH-Dx',
+    'AC-Dx',
+  ]);
 });
 
 test('AI#blocking shows blocking discard(number) moves', () => {
