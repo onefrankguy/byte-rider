@@ -50,6 +50,10 @@ AI.playable = (table, player) => {
 };
 
 AI.moves = (table, player) => {
+  if (table && table[player] && table[player].allowed.length > 0) {
+    return Rules.moves(table, player);
+  }
+
   const winning = AI.winning(table, player);
   if (winning.length > 0) {
     return winning;
