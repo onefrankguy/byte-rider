@@ -5,12 +5,20 @@ const AI = {};
 
 const validHand = (table, player) => table && table[player] && table[player].hand.length <= 6;
 
+const getChain = (table, player, start) => {
+  if (table && table[player] && table[player].allowed.length > 0) {
+    return table[player].allowed.slice();
+  }
+
+  return Rules.chain(table, player, start);
+};
+
 AI.winning = (table, player) => {
   const moves = Rules.moves(table, player);
 
   return moves.filter((move) => {
     const [start] = move.split('-');
-    const chain = Rules.chain(table, player, start).filter((c) => c[0] === move);
+    const chain = getChain(table, player, start).filter((c) => c[0] === move);
 
     return !!chain.find((c) => {
       const test = Rules.play(table, player, c);
@@ -26,7 +34,7 @@ AI.blocking = (table, player) => {
 
   return moves.filter((move) => {
     const [start] = move.split('-');
-    const chain = Rules.chain(table, player, start).filter((c) => c[0] === move);
+    const chain = getChain(table, player, start).filter((c) => c[0] === move);
 
     return !!chain.find((c) => {
       const test = Rules.play(table, player, c);
@@ -40,7 +48,7 @@ AI.playable = (table, player) => {
 
   return moves.filter((move) => {
     const [start] = move.split('-');
-    const chain = Rules.chain(table, player, start).filter((c) => c[0] === move);
+    const chain = getChain(table, player, start).filter((c) => c[0] === move);
 
     return !!chain.find((c) => {
       const test = Rules.play(table, player, c);
@@ -50,10 +58,6 @@ AI.playable = (table, player) => {
 };
 
 AI.moves = (table, player) => {
-  if (table && table[player] && table[player].allowed.length > 0) {
-    return Rules.moves(table, player);
-  }
-
   const winning = AI.winning(table, player);
   if (winning.length > 0) {
     return winning;
