@@ -157,8 +157,7 @@ Rules.chain = (table, player, card) => {
       .concat(scuttle);
   }
 
-  // 5 - Choose 2 of your opponent's cards that they must discard. If they have
-  // more than 5 cards after this, they must discard down to 5 cards.
+  // 5 - Choose 2 of your opponent's cards that they must discard.
   if (isFive(card)) {
     const cards = table[opponent].hand;
 
@@ -480,7 +479,7 @@ Rules.info = (card) => {
     result.name = 'Automated Response';
     result.type = 'Program';
     result.value = 1;
-    result.effect = 'Discard any non-point card in play or prevent an effect from occuring.';
+    result.effect = 'Discard any non-point card in play.';
   }
 
   if (isTwo(card)) {
@@ -501,15 +500,14 @@ Rules.info = (card) => {
     result.name = 'Stack Corruption';
     result.type = 'Program';
     result.value = 4;
-    result.effect = 'Return any card in play to the top of the stack.';
+    result.effect = 'Return any card in play to the top of the stock.';
   }
 
   if (isFive(card)) {
     result.name = 'Code Review';
     result.type = 'Program';
     result.value = 5;
-    result.effect = 'Choose 2 of your opponent\'s cards that they must discard. '
-    + 'If they have more than 5 cards after this, they must discard down to 5 cards.';
+    result.effect = 'Choose 2 of your opponent\'s cards that they must discard.';
   }
 
   if (isSix(card)) {
