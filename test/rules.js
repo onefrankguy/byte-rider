@@ -557,16 +557,17 @@ test('Rules#chain(6) scuttles', () => {
   ]);
 });
 
-test('Rules#chain(7) chooses 1 card from the discard', () => {
+test('Rules#chain(7) chooses 1 card from the top 3 in the discard', () => {
   const table = Table.create();
   table.x.hand = ['7C'];
-  table.discard = ['AC', 'KC'];
+  table.discard = ['AC', 'KC', 'QC', 'JC', 'TC', '9C'];
 
   const moves = Rules.chain(table, 'x', '7C');
 
   expect(moves).toStrictEqual([
     ['7C-Dx', 'AC-Hx'],
     ['7C-Dx', 'KC-Hx'],
+    ['7C-Dx', 'QC-Hx'],
     ['7C-Px'],
   ]);
 });

@@ -216,9 +216,9 @@ Rules.chain = (table, player, card) => {
     }
   }
 
-  // 7 - Add one card from the discard to your hand.
+  // 7 - Add one card from the top 3 in the discard to your hand.
   if (isSeven(card)) {
-    return table.discard
+    return table.discard.slice(0, 3)
       .map((c) => [`${card}-D${player}`, `${c}-H${player}`])
       .concat(points)
       .concat(scuttle);
@@ -522,7 +522,7 @@ Rules.info = (card) => {
     result.name = 'Data Recovery';
     result.type = 'Patch';
     result.value = 7;
-    result.effect = 'Add any card from the discard to your hand.';
+    result.effect = 'Add any card from the top 3 in the discard to your hand.';
   }
 
   if (isEight(card)) {
