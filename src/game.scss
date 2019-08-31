@@ -83,6 +83,7 @@ a, a:visited {
   height: $cardHeight;
   border: 1px solid $textColor;
   margin: $cardMargin;
+  background-color: $backgroundColor;
 }
 
 .picked {

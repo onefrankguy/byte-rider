@@ -1,7 +1,7 @@
 const jQuery = require('./jquery');
 const Rules = require('./rules');
 
-const renderValue = (value) => (value ? `${value}<sup>&boxbox;</sup>` : '');
+const renderValue = (value) => (value >= 0 ? `${value}<sup>&boxbox;</sup>` : '');
 
 const renderIcon = (card) => {
   const info = Rules.info(card);
@@ -56,14 +56,14 @@ const renderInfo = (picked) => {
     html += `<strong>${info.name}</strong>`;
   }
 
-  if (info.value) {
-    html += ' &mdash; ';
-    html += renderValue(info.value);
-  }
-
   if (info.type) {
     html += ' &mdash; ';
     html += `<em>${info.type}</em>`;
+  }
+
+  if (info.value >= 0) {
+    html += ' &mdash; ';
+    html += renderValue(info.value);
   }
 
   html += '</p>';
