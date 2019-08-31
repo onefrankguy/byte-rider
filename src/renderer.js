@@ -27,7 +27,7 @@ const renderCard = (card, visible, jacked) => {
   return html;
 };
 
-const renderPile = (pile, visible, jacked, padding = 10) => {
+const renderPile = (pile, visible, jacked, padding) => {
   let html = pile.map((c) => renderCard(c, visible, jacked)).join('');
 
   let blanks = padding - pile.length;
@@ -46,7 +46,7 @@ const $ = (id) => {
   return jQuery(`#${id}`);
 };
 
-const renderDiscard = (pile) => pile.slice(0, 5).reverse().map((c) => renderCard(c, true, {})).join('');
+const renderDiscard = (pile) => pile.slice(0, 4).reverse().map((c) => renderCard(c, true, {})).join('');
 
 const renderInfo = (picked) => {
   const info = Rules.info(picked);
@@ -84,13 +84,13 @@ Renderer.render = (table, picked, touched) => {
   $('discard').html(renderDiscard(table.discard));
 
   $('Hy').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.hand, visible.includes('y'), table.jacked));
+    .html(renderPile(table.y.hand, visible.includes('y'), table.jacked, 6));
   $('Py').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.played, true, table.jacked));
+    .html(renderPile(table.y.played, true, table.jacked, 10));
   $('Px').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.played, true, table.jacked));
+    .html(renderPile(table.x.played, true, table.jacked, 10));
   $('Hx').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.hand, visible.includes('x'), table.jacked));
+    .html(renderPile(table.x.hand, visible.includes('x'), table.jacked, 10));
 
   if (picked) {
     $(picked).addClass('picked');

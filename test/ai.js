@@ -89,3 +89,21 @@ test('AI#blocking shows blocking scuttle moves', () => {
     '4C-2H',
   ]);
 });
+
+test('AI#playable limits hand size', () => {
+  const table = Table.create();
+  table.x.hand = ['AC', '2C', '3C', '4C', '5C', '6C'];
+  table.stock = ['7C'];
+
+  const moves = AI.playable(table, 'x');
+
+  expect(moves).toStrictEqual([
+    'AC-Px',
+    '2C-Px',
+    '3C-Px',
+    '4C-Px',
+    '5C-Px',
+    '6C-Dx',
+    '6C-Px',
+  ]);
+});

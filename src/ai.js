@@ -3,6 +3,8 @@ const Table = require('./table');
 
 const AI = {};
 
+const validHand = (table, player) => table && table[player] && table[player].hand.length <= 6;
+
 AI.winning = (table, player) => {
   const moves = Rules.moves(table, player);
 
@@ -12,7 +14,7 @@ AI.winning = (table, player) => {
 
     return !!chain.find((c) => {
       const test = Rules.play(table, player, c);
-      return Rules.winner(test) === player;
+      return Rules.winner(test) === player && validHand(test, player);
     });
   });
 };
@@ -28,7 +30,21 @@ AI.blocking = (table, player) => {
 
     return !!chain.find((c) => {
       const test = Rules.play(table, player, c);
-      return Rules.score(test, opponent) < score;
+      return Rules.score(test, opponent) < score && validHand(test, player);
+    });
+  });
+};
+
+AI.playable = (table, player) => {
+  const moves = Rules.moves(table, player);
+
+  return moves.filter((move) => {
+    const [start] = move.split('-');
+    const chain = Rules.chain(table, player, start).filter((c) => c[0] === move);
+
+    return !!chain.find((c) => {
+      const test = Rules.play(table, player, c);
+      return validHand(test, player);
     });
   });
 };
@@ -48,7 +64,7 @@ AI.moves = (table, player) => {
     }
   }
 
-  return Rules.moves(table, player);
+  return AI.playable(table, player);
 };
 
 AI.move = (table, player) => {
