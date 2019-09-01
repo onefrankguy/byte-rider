@@ -346,34 +346,38 @@ Rules.play = (table, player, moves) => {
   // 2 - Discard all point cards in play.
   if (!play && isTwo(start) && isDiscard(end)) {
     play = [move];
-    ['x', 'y'].forEach((p) => {
-      copy[p].played.filter(isNumber).forEach((c) => {
-        let jack = (copy.jacked[c] || []).pop();
-        while (jack) {
-          play.push(`${jack}-D${p}`);
-          jack = (copy.jacked[c] || []).pop();
-        }
-        play.push(`${c}-D${p}`);
+    if (copy[player].hand.includes(start)) {
+      ['x', 'y'].forEach((p) => {
+        copy[p].played.filter(isNumber).forEach((c) => {
+          let jack = (copy.jacked[c] || []).pop();
+          while (jack) {
+            play.push(`${jack}-D${p}`);
+            jack = (copy.jacked[c] || []).pop();
+          }
+          play.push(`${c}-D${p}`);
+        });
       });
-    });
+    }
   }
 
   // 3 - Discard all non-point cards in play.
   if (!play && isThree(start) && isDiscard(end)) {
     play = [move];
-    ['x', 'y'].forEach((p) => {
-      copy[p].played.filter(isJacked(copy)).forEach((c) => {
-        let opponent;
-        let jack = copy.jacked[c].pop();
-        while (jack) {
-          opponent = Table.opponent(opponent || p);
-          play = play.concat([`${jack}-D${p}`, `${c}-P${opponent}`]);
-          jack = copy.jacked[c].pop();
-        }
+    if (copy[player].hand.includes(start)) {
+      ['x', 'y'].forEach((p) => {
+        copy[p].played.filter(isJacked(copy)).forEach((c) => {
+          let opponent;
+          let jack = copy.jacked[c].pop();
+          while (jack) {
+            opponent = Table.opponent(opponent || p);
+            play = play.concat([`${jack}-D${p}`, `${c}-P${opponent}`]);
+            jack = copy.jacked[c].pop();
+          }
+        });
+        play = play.concat(copy[p].played.filter(isRoyal)
+          .map((c) => `${c}-D${p}`));
       });
-      play = play.concat(copy[p].played.filter(isRoyal)
-        .map((c) => `${c}-D${p}`));
-    });
+    }
   }
 
   // 4 - Return any card in play to the top of the stock.

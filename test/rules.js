@@ -111,6 +111,22 @@ test('Rules#play(2) discards jacks', () => {
   expect(newTable.jacked).toStrictEqual({ '4H': [] });
 });
 
+test('Rules#play(2) only triggers if it came from your hand', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['4H', 'QD', '2H'];
+  oldTable.y.hand = ['5C'];
+  oldTable.stock = [];
+
+  let newTable = Rules.play(oldTable, 'x', ['4H-Px']);
+  newTable = Rules.play(newTable, 'y', ['5C-Dy', '2H-Dx', 'QD-Dx']);
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['4H']);
+  expect(newTable.y.hand).toStrictEqual([]);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['QD', '2H', '5C']);
+});
+
 test('Rules#play(3) discards all non-point cards', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['3C'];
@@ -149,6 +165,22 @@ test('Rules#play(3) discards jacks', () => {
     '4S': [],
     '8S': [],
   });
+});
+
+test('Rules#play(3) only triggers if it came from your hand', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['KH', 'QD', '3H'];
+  oldTable.y.hand = ['5C'];
+  oldTable.stock = [];
+
+  let newTable = Rules.play(oldTable, 'x', ['KH-Px']);
+  newTable = Rules.play(newTable, 'y', ['5C-Dy', '3H-Dx', 'QD-Dx']);
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.x.played).toStrictEqual(['KH']);
+  expect(newTable.y.hand).toStrictEqual([]);
+  expect(newTable.y.played).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['QD', '3H', '5C']);
 });
 
 test('Rules#play(4) returns any card to the stock', () => {
