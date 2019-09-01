@@ -41,9 +41,13 @@ const renderPile = (pile, visible, jacked, padding, id) => {
   return html;
 };
 
-const animationId = (id) => {
+const animationId = (table, id) => {
   if (id === 'Dx' || id === 'Dy' || id === 'Sx' || id === 'Sy') {
     return 'S';
+  }
+
+  if (id === 'Hy' && table.y.hand.length >= 6) {
+    return 'Hy';
   }
 
   if (id === 'Px' || id === 'Py' || id === 'Hx' || id === 'Hy') {
@@ -130,8 +134,8 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   }
 
   const [start, end] = move.split('-');
-  const srect = $(animationId(start)).offset();
-  const erect = $(animationId(end)).offset();
+  const srect = $(animationId(oldCopy, start)).offset();
+  const erect = $(animationId(oldCopy, end)).offset();
   const card = start.startsWith('S') ? oldCopy.stock[0] : start;
   const visible = start !== 'Sy';
   const dx = erect.left - srect.left;

@@ -391,7 +391,10 @@ Rules.play = (table, player, moves) => {
   // Discard both cards.
   if (!play && canScuttle(start)(end)) {
     const opponent = Table.opponent(player);
-    play = [`${start}-D${player}`];
+    play = [
+      `${start}-${end}`,
+      `${start}-D${player}`,
+    ];
     if (isJacked(copy)(end)) {
       let jack = copy.jacked[end].pop();
       while (jack) {
