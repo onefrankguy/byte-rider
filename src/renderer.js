@@ -5,7 +5,7 @@ const Table = require('./table');
 
 const renderValue = (value) => (value >= 0 ? `${value}<sup>&boxbox;</sup>` : '');
 
-const renderIcon = (card) => {
+const renderIcon = (card, jacks) => {
   const info = Rules.info(card);
   const [value] = (card || '').split('');
   let html = '';
@@ -13,6 +13,9 @@ const renderIcon = (card) => {
     html += `<div class="icon i${value}">`;
     if (info.value) {
       html += `<div class="value">${renderValue(info.value)}</div>`;
+      if (jacks) {
+        html += `<div class="jacked">${jacks}<span class="iJ">${jacks}</span></div>`;
+      }
     }
     html += '</div>';
   }
@@ -20,10 +23,10 @@ const renderIcon = (card) => {
 };
 
 const renderCard = (card, visible, jacked) => {
-  const jack = `jacked${(jacked[card] || []).length}`;
-  let html = `<div id="${card}" class="card ${jack}">`;
+  const jacks = (jacked[card] || []).length;
+  let html = `<div id="${card}" class="card">`;
   if (visible) {
-    html += renderIcon(card);
+    html += renderIcon(card, jacks);
   }
   html += '</div>';
   return html;

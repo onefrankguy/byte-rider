@@ -121,40 +121,6 @@ a, a:visited {
   ;
 }
 
-.jacked1:after, .jacked2:after, .jacked3:after, .jacked4:after {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  left: 1px;
-  bottom: 1px;
-  font-size: 1rem;
-  width: 1.5rem;
-  height: 1.5rem;
-  color: $textColor;
-  padding: 0.1rem;
-  background-color: $backgroundColor;
-  border-top: 1px solid $textColor;
-  border-right: 1px solid $textColor;
-  border-top-right-radius: 0.5rem;
-}
-
-.jacked1:after {
-  content: '1';
-}
-
-.jacked2:after {
-  content: '2';
-}
-
-.jacked3:after {
-  content: '3';
-}
-
-.jacked4:after {
-  content: '4';
-}
-
 /* INFO */
 .info {
   font-size: 1.2rem;
@@ -171,6 +137,7 @@ a, a:visited {
   width: $cardWidth;
   height: $cardHeight;
   background-repeat: no-repeat;
+  background-position: center center;
   pointer-events: none;
 }
 
@@ -178,15 +145,39 @@ a, a:visited {
   position: absolute;
   display: flex;
   top: 1px;
-  right: 1px;
+  left: 1px;
   font-size: 1rem;
   overflow: hidden;
   color: $textColor;
   padding: 0.1rem;
   background-color: $backgroundColor;
   border-bottom: 1px solid $textColor;
-  border-left: 1px solid $textColor;
-  border-bottom-left-radius: 0.5rem;
+  border-right: 1px solid $textColor;
+  border-bottom-right-radius: 0.5rem;
+}
+
+.icon .jacked {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 1px;
+  left: 1px;
+  font-size: 1rem;
+  overflow: hidden;
+  color: $textColor;
+  padding: 0.1rem;
+  background-color: $backgroundColor;
+  border-top: 1px solid $textColor;
+  border-right: 1px solid $textColor;
+  border-top-right-radius: 0.5rem;
+}
+
+.icon .jacked .iJ {
+  font-size: $fontSize;
+  color: transparent;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .iA {
