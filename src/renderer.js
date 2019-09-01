@@ -98,26 +98,35 @@ const renderInfo = (picked) => {
 
 const Renderer = {};
 
+Renderer.clear = (table) => {
+  const ids = ['S', 'Hx', 'Hy', 'Px', 'Py']
+    .concat(table.x.hand)
+    .concat(table.x.played)
+    .concat(table.y.hand)
+    .concat(table.y.played);
+
+  ids.forEach((id) => $(id).removeClass('playable').removeClass('picked'));
+};
+
 Renderer.render = (table, picked, touched) => {
+  Renderer.clear(table);
+
   const visible = Rules.visible(table, 'x');
 
-  $('S').removeClass('playable').removeClass('picked');
   $('discard').html(renderDiscard(table.discard));
 
-  $('Hy').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.hand, visible.includes('y'), table.jacked, 6, 'Hy'));
-  $('Py').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.y.played, true, table.jacked, 10, 'Py'));
-  $('Px').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.played, true, table.jacked, 10, 'Px'));
-  $('Hx').removeClass('playable').removeClass('picked')
-    .html(renderPile(table.x.hand, visible.includes('x'), table.jacked, 10, 'Hx'));
+  $('Hy').html(renderPile(table.y.hand, visible.includes('y'), table.jacked, 6, 'Hy'));
+  $('Py').html(renderPile(table.y.played, true, table.jacked, 10, 'Py'));
+  $('Px').html(renderPile(table.x.played, true, table.jacked, 10, 'Px'));
+  $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.jacked, 10, 'Hx'));
 
-  if (picked) {
-    $(picked).addClass('picked');
-    Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
-  } else {
-    Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
+  if (picked !== 'animate') {
+    if (picked) {
+      $(picked).addClass('picked');
+      Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
+    } else {
+      Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
+    }
   }
 
   if (visible.includes('y') || !table.y.hand.includes(touched)) {
@@ -154,13 +163,16 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   $('card').removeClass('hidden');
 
   requestAnimationFrame(() => {
+    Renderer.clear(oldTable);
+
     $('card').animate('sliding', () => {
       $('card').addClass('hidden');
       oldCopy = Table.play(oldCopy, [move]);
-      Renderer.invalidate(oldCopy, picked, touched, () => {
+      Renderer.invalidate(oldCopy, 'animate', touched, () => {
         Renderer.animate(oldCopy, newCopy, picked, touched, complete);
       });
     });
+
     $('card').css('left', `${erect.left}px`);
     $('card').css('top', `${erect.top}px`);
   });
