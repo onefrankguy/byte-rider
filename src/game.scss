@@ -219,7 +219,8 @@ a, a:visited {
 }
 
 .sliding {
-  transition: top 0.6s linear, left 0.6s linear;
+  transition-timing-function: linear;
+  transition-property: top, left;
 }
 
 /* TOGGLES */

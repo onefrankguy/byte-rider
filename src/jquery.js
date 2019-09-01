@@ -50,12 +50,16 @@ Fn.prototype.offset = function offset() {
   const result = {
     left: window.scrollX,
     top: window.scrollY,
+    width: 0,
+    height: 0,
   };
 
   if (this.element) {
     const rect = this.element.getBoundingClientRect();
     result.left += rect.left;
     result.top += rect.top;
+    result.width = rect.width;
+    result.height = rect.height;
   }
 
   return result;
@@ -78,6 +82,17 @@ Fn.prototype.top = function top(value) {
       return parseInt(this.element.style.top, 10);
     }
     this.element.style.top = `${value}px`;
+  }
+
+  return this;
+};
+
+Fn.prototype.css = function css(property, value) {
+  if (this.element && this.element.style) {
+    if (value === undefined) {
+      return this.element.style[property];
+    }
+    this.element.style[property] = value;
   }
 
   return this;

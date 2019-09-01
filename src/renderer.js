@@ -121,11 +121,16 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   const erect = $(end).offset();
   const scard = start.startsWith('S') ? oldTable.stock[0] : start;
   const visible = !scard.startsWith('S');
+  const dx = erect.left - srect.left;
+  const dy = erect.top - srect.top;
+  const length = Math.sqrt((dx * dx) + (dy * dy));
+  const speed = (length / srect.width) / 4;
 
   $(scard).addClass('invisible');
   $('card').html(renderCard(scard, visible, oldTable.jacked));
   $('card').top(srect.top);
   $('card').left(srect.left);
+  $('card').css('transition-duration', `${speed}s`);
   $('card').removeClass('hidden');
 
   requestAnimationFrame(() => {
