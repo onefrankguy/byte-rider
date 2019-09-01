@@ -177,3 +177,18 @@ test('Table#play allows players to move cards across the table', () => {
   expect(table.y.hand).toStrictEqual([]);
   expect(table.y.played).toStrictEqual([]);
 });
+
+test('Table#play ignores card-to-card moves', () => {
+  let table = Table.create();
+  table = Table.play(table, [
+    'Sy-Hy',
+    'AC-Py',
+    'Sx-Hx',
+    '2C-AC',
+  ]);
+
+  expect(table.x.hand).toStrictEqual(['2C']);
+  expect(table.x.played).toStrictEqual([]);
+  expect(table.y.hand).toStrictEqual([]);
+  expect(table.y.played).toStrictEqual(['AC']);
+});

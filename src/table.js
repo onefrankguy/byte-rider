@@ -5,10 +5,16 @@ const Table = {};
 const SUITS = ['C', 'D', 'H', 'S'];
 const VALUES = ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'];
 
+const isCard = (value) => VALUES.includes((value || '').split('')[0]);
 const isStock = (value) => (value || '').startsWith('S');
 const isHand = (value) => (value || '').startsWith('H');
 const isTable = (value) => (value || '').startsWith('P');
 const isDiscard = (value) => (value || '').startsWith('D');
+
+const playableMove = (move) => {
+  const [start, end] = (move || '').split('-');
+  return !isCard(start) || !isCard(end);
+};
 
 Table.player = (table, value) => {
   if (!table || !value) {
@@ -115,7 +121,7 @@ Table.create = () => ({
 Table.play = (table, moves) => {
   let copy = Utils.clone(table);
 
-  (moves || []).forEach((move) => {
+  (moves || []).filter(playableMove).forEach((move) => {
     copy = playMove(copy, move);
   });
 
