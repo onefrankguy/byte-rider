@@ -128,8 +128,8 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
 
   $(scard).addClass('invisible');
   $('card').html(renderCard(scard, visible, oldTable.jacked));
-  $('card').top(srect.top);
-  $('card').left(srect.left);
+  $('card').css('left', `${srect.left}px`);
+  $('card').css('top', `${srect.top}px`);
   $('card').css('transition-duration', `${speed}s`);
   $('card').removeClass('hidden');
 
@@ -141,8 +141,8 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
         Renderer.animate(oldCopy, newCopy, picked, touched, complete);
       });
     });
-    $('card').top(erect.top);
-    $('card').left(erect.left);
+    $('card').css('left', `${erect.left}px`);
+    $('card').css('top', `${erect.top}px`);
   });
 };
 

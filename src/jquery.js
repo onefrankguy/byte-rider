@@ -65,28 +65,6 @@ Fn.prototype.offset = function offset() {
   return result;
 };
 
-Fn.prototype.left = function left(value) {
-  if (this.element) {
-    if (value === undefined) {
-      return parseInt(this.element.style.left, 10);
-    }
-    this.element.style.left = `${value}px`;
-  }
-
-  return this;
-};
-
-Fn.prototype.top = function top(value) {
-  if (this.element) {
-    if (value === undefined) {
-      return parseInt(this.element.style.top, 10);
-    }
-    this.element.style.top = `${value}px`;
-  }
-
-  return this;
-};
-
 Fn.prototype.css = function css(property, value) {
   if (this.element && this.element.style) {
     if (value === undefined) {
