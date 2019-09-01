@@ -132,15 +132,15 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   const [start, end] = move.split('-');
   const srect = $(animationId(start)).offset();
   const erect = $(animationId(end)).offset();
-  const scard = start.startsWith('S') ? oldCopy.stock[0] : start;
+  const card = start.startsWith('S') ? oldCopy.stock[0] : start;
   const visible = start !== 'Sy';
   const dx = erect.left - srect.left;
   const dy = erect.top - srect.top;
   const length = Math.sqrt((dx * dx) + (dy * dy));
   const speed = (length / srect.width) / 4;
 
-  $(scard).addClass('invisible');
-  $('card').html(renderCard(scard, visible, oldCopy.jacked));
+  $(card).addClass('invisible');
+  $('card').html(renderCard(card, visible, oldCopy.jacked));
   $('card').css('left', `${srect.left}px`);
   $('card').css('top', `${srect.top}px`);
   $('card').css('transition-duration', `${speed}s`);
