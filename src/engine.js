@@ -15,6 +15,7 @@ Engine.tick = (table, player, start, end) => {
 
   if (Rules.allowed(table, player, move)) {
     let next = Rules.play(table, player, [move]);
+    next = Rules.autoplay(next, player);
     console.log('x played', move);
 
     if (Rules.winner(next) !== player && next[player].allowed.length <= 0) {

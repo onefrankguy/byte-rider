@@ -424,6 +424,18 @@ Rules.play = (table, player, moves) => {
   return Rules.play(copy, player, allowed);
 };
 
+Rules.autoplay = (table, player) => {
+  let copy = Utils.clone(table);
+  let moves = Rules.moves(copy, player);
+
+  while (moves.length === 1 && moves[0] === `S${player}-H${player}`) {
+    copy = Rules.play(copy, player, moves);
+    moves = Rules.moves(copy, player);
+  }
+
+  return copy;
+};
+
 Rules.resolve = (table, player, start, end) => {
   const moves = Rules.moves(table, player);
   let pick = start;

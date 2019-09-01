@@ -286,6 +286,19 @@ test('Rules#play shuffles the discard back into the stock', () => {
   expect(newTable.discard).toStrictEqual(['AH', '2H', '3H', '4H']);
 });
 
+test('Rules#autoplay plays allowed draw moves', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['9H'];
+  oldTable.stock = ['AH', '2H', '3H'];
+
+  let newTable = Rules.play(oldTable, 'x', ['9H-Dx']);
+  newTable = Rules.autoplay(newTable, 'x');
+
+  expect(newTable.x.hand).toStrictEqual(['AH', '2H', '3H']);
+  expect(newTable.stock).toStrictEqual([]);
+  expect(newTable.discard).toStrictEqual(['9H']);
+});
+
 test('Rules#chain(S) draws the top card', () => {
   const table = Table.create();
 
