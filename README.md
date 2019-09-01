@@ -8,7 +8,7 @@ The beginning of a project for [js13kGames 2019][js13k].
 * [skull-with-syringe][]
 * [companion-cube][]
 * [digital-trace][]
-* [keyboard][]
+* [usb-key][]
 * [family-tree][]
 * [load][]
 * [cyborg-face][]
@@ -48,7 +48,7 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [skull-with-syringe]: https://game-icons.net/1x1/zajkonur/skull-with-syringe.html "Zajkonur (game-icons.net): This cranium has the cure between its teeth."
 [companion-cube]: https://game-icons.net/1x1/delapouite/companion-cube.html "Delapouite (game-icons.net): The ultimate empathy test when Shell is about to destroy it in Portal following the orders of Glados."
 [digital-trace]: https://game-icons.net/1x1/spencerdub/digital-trace.html "SpencerDub (game-icons.net): Coordinate pinpoint indicating a precise location on a map."
-[keyboard]: https://game-icons.net/1x1/delapouite/keyboard.html "Delapouite (game-icons.net): To type letters and texts in order to interact with a computer."
+[usb-key]: https://game-icons.net/1x1/delapouite/usb-key.html "Delapouite (game-icons.net): External memory stick to store important data if you manage to plug in the right way on the first try."
 [family-tree]: https://game-icons.net/1x1/delapouite/family-tree.html "Delapouite (game-icons.net): A network of people, connecting parents and children. Like the brackets of a championship."
 [load]: https://game-icons.net/1x1/delapouite/load.html "Delapouite (game-icons.net): Loading data from a floppy disk."
 [cyborg-face]: https://game-icons.net/1x1/delapouite/cyborg-face.html "Delapouite (game-icons.net): A emotionless humanoid with some robotic enhancements: an antenna forehead and extra vision."
