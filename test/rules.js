@@ -12,17 +12,6 @@ test('Rules#pickable allows players to draw or play cards', () => {
   expect(Rules.pickable(table, 'x')).toStrictEqual(['AC', '2C', 'Sx']);
 });
 
-test('Rules#pickable prevents drawing if the stock is empty', () => {
-  let table = Table.create();
-  table = Table.play(table, [
-    'Sx-Hx',
-    'Sx-Hx',
-  ]);
-  table.stock = [];
-
-  expect(Rules.pickable(table, 'x')).toStrictEqual(['AC', '2C']);
-});
-
 test('Rules#pickable handles invalid players and tables', () => {
   let table = Table.create();
   table = Table.play(table, [
@@ -234,6 +223,20 @@ test('Rules#play(J) double jacks cards in play', () => {
   expect(newTable.y.played).toStrictEqual(['4H']);
   expect(newTable.discard).toStrictEqual([]);
   expect(newTable.jacked).toStrictEqual({ '4H': ['JC', 'JS'] });
+});
+
+test('Rules#play shuffles the discard back into the stock', () => {
+  const oldTable = Table.create();
+  oldTable.stock = [];
+  oldTable.discard = ['AH', '2H', '3H', '4H', '5H', '6H', '7H', '8H'];
+  oldTable.debug = true;
+
+  const newTable = Rules.play(oldTable, 'x', ['Sx-Hx']);
+  const newStock = ['5H', '6H', '7H', '8H'].filter((c) => !newTable.x.hand.includes(c));
+
+  expect(newTable.stock.length).toEqual(newStock.length);
+  expect(newTable.stock).toEqual(expect.arrayContaining(newStock));
+  expect(newTable.discard).toStrictEqual(['AH', '2H', '3H', '4H']);
 });
 
 test('Rules#chain(S) draws the top card', () => {

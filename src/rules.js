@@ -72,10 +72,8 @@ Rules.pickable = (table, player) => {
       // You can play your own cards.
       table[player].hand.forEach((card) => result.add(card));
 
-      // You can take a card from the stock unless it's empty.
-      if (table.stock.length > 0) {
-        result.add(`S${player}`);
-      }
+      // You can take a card from the stock.
+      result.add(`S${player}`);
     }
   }
 
@@ -318,6 +316,11 @@ Rules.play = (table, player, moves) => {
 
   let copy = Utils.clone(table);
   let allowed = [];
+
+  if (copy.stock.length <= 0) {
+    copy.stock = Utils.shuffle(copy.discard.slice(4));
+    copy.discard = copy.discard.slice(0, 4);
+  }
 
   if (copy && copy[player]) {
     const [start, end] = move.split('-');
