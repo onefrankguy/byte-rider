@@ -431,7 +431,10 @@ Rules.autoplay = (table, player) => {
   let copy = Utils.clone(table);
   let moves = Rules.moves(copy, player);
 
-  while (moves.length === 1 && moves[0] === `S${player}-H${player}`) {
+  while (moves.length === 1
+    && moves[0] === `S${player}-H${player}`
+    && table[player].allowed.length > 0
+  ) {
     copy = Rules.play(copy, player, moves);
     moves = Rules.moves(copy, player);
   }

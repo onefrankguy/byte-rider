@@ -299,6 +299,17 @@ test('Rules#autoplay plays allowed draw moves', () => {
   expect(newTable.discard).toStrictEqual(['9H']);
 });
 
+test('Rules#autoplay doesn\'t draw for the player', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = [];
+  oldTable.stock = ['AH', '2H', '3H'];
+
+  const newTable = Rules.autoplay(oldTable, 'x');
+
+  expect(newTable.x.hand).toStrictEqual([]);
+  expect(newTable.stock).toStrictEqual(['AH', '2H', '3H']);
+});
+
 test('Rules#chain(S) draws the top card', () => {
   const table = Table.create();
 
