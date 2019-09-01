@@ -12,7 +12,7 @@ The beginning of a project for [js13kGames 2019][js13k].
 * [family-tree][]
 * [load][]
 * [cyborg-face][]
-* [beer-bottle][]
+* [heart-bottle][]
 * [death-note][]
 * [trojan-horse][]
 * [skull-shield][]
@@ -52,7 +52,7 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [family-tree]: https://game-icons.net/1x1/delapouite/family-tree.html "Delapouite (game-icons.net): A network of people, connecting parents and children. Like the brackets of a championship."
 [load]: https://game-icons.net/1x1/delapouite/load.html "Delapouite (game-icons.net): Loading data from a floppy disk."
 [cyborg-face]: https://game-icons.net/1x1/delapouite/cyborg-face.html "Delapouite (game-icons.net): A emotionless humanoid with some robotic enhancements: an antenna forehead and extra vision."
-[beer-bottle]: https://game-icons.net/1x1/delapouite/beer-bottle.html "Delapouite (game-icons.net): Alcoholic beverage made of hops and malted cereal grains."
+[heart-bottle]: https://game-icons.net/1x1/lorc/heart-bottle.html "Lorc (game-icons.net): Transparent container with floating life inside to restore health points."
 [death-note]: https://game-icons.net/1x1/lorc/death-note.html "Lorc (game-icons.net): A bad omen written on a paper. The reader will be doomed just by skimming through the pages of this cursed book."
 [trojan-horse]: https://game-icons.net/1x1/delapouite/trojan-horse.html "Delapouite (game-icons.net): Huge wooden decoy used by the Greeks to capture the city of Troy."
 [skull-shield]: https://game-icons.net/1x1/lorc/skull-shield.html "Lorc (game-icons.net): A pugnacious cranium as emblem."
