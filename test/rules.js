@@ -194,6 +194,21 @@ test('Rules#play(number) scuttles', () => {
   expect(newTable.discard).toEqual(['4H', '4C']);
 });
 
+test('Rules#play(number) scuttles and clears jacks', () => {
+  const oldTable = Table.create();
+  oldTable.x.hand = ['4C'];
+  oldTable.y.played = ['4H'];
+  oldTable.stock = [];
+  oldTable.jacked = { '4H': ['JH', 'JS'] };
+
+  const newTable = Rules.play(oldTable, 'x', ['4C-4H']);
+
+  expect(newTable.x.hand).toEqual([]);
+  expect(newTable.y.played).toEqual([]);
+  expect(newTable.discard).toEqual(['4H', 'JH', 'JS', '4C']);
+  expect(newTable.jacked).toStrictEqual({ '4H': [] });
+});
+
 test('Rules#play(J) jacks cards in play', () => {
   const oldTable = Table.create();
   oldTable.x.hand = ['JC'];
