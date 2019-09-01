@@ -271,6 +271,34 @@ a, a:visited {
   visibility: hidden !important;
 }
 
+/* COLOPHON */
+.colophon {
+  width: 32rem;
+  font-size: .9rem;
+  line-height: .9rem;
+  text-align: right;
+  color: $textColor;
+  margin: $fontSize auto;
+}
+
+.colophon > a:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+abbr[title="and"] {
+  font-family: 'Adobe Caslon Pro', 'Baskerville', 'Goudy Old Style', 'Palatino',
+  'Palatino Linotype', 'Book Antiqua', 'Georgia', 'Times New Roman', 'Times', serif;
+  font-style: italic;
+  text-decoration: none;
+  font-size: 110%;
+  cursor: help;
+  /* Prevents `abbr` affecting the `line-height`. */
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
 @media screen and (min-width:40em) {
   html {
     font-size: 100%;
