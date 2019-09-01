@@ -7,11 +7,11 @@ The beginning of a project for [js13kGames 2019][js13k].
 * [walking-turret][]
 * [skull-with-syringe][]
 * [companion-cube][]
-* [cyborg-face][]
+* [digital-trace][]
 * [keyboard][]
 * [family-tree][]
 * [load][]
-* [cyber-eye][]
+* [cyborg-face][]
 * [beer-bottle][]
 * [death-note][]
 * [trojan-horse][]
@@ -47,11 +47,11 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [walking-turret]: https://game-icons.net/1x1/delapouite/walking-turret.html "Delapouite (game-icons.net): An automatic sentry tower that can move along short distances."
 [skull-with-syringe]: https://game-icons.net/1x1/zajkonur/skull-with-syringe.html "Zajkonur (game-icons.net): This cranium has the cure between its teeth."
 [companion-cube]: https://game-icons.net/1x1/delapouite/companion-cube.html "Delapouite (game-icons.net): The ultimate empathy test when Shell is about to destroy it in Portal following the orders of Glados."
-[cyborg-face]: https://game-icons.net/1x1/delapouite/cyborg-face.html "Delapouite (game-icons.net): A emotionless humanoid with some robotic enhancements: an antenna forehead and extra vision."
+[digital-trace]: https://game-icons.net/1x1/spencerdub/digital-trace.html "SpencerDub (game-icons.net): Coordinate pinpoint indicating a precise location on a map."
 [keyboard]: https://game-icons.net/1x1/delapouite/keyboard.html "Delapouite (game-icons.net): To type letters and texts in order to interact with a computer."
 [family-tree]: https://game-icons.net/1x1/delapouite/family-tree.html "Delapouite (game-icons.net): A network of people, connecting parents and children. Like the brackets of a championship."
 [load]: https://game-icons.net/1x1/delapouite/load.html "Delapouite (game-icons.net): Loading data from a floppy disk."
-[cyber-eye]: https://game-icons.net/1x1/delapouite/cyber-eye.html "Delapouite (game-icons.net): Enhance vision thanks to microchips addition to this eyeball."
+[cyborg-face]: https://game-icons.net/1x1/delapouite/cyborg-face.html "Delapouite (game-icons.net): A emotionless humanoid with some robotic enhancements: an antenna forehead and extra vision."
 [beer-bottle]: https://game-icons.net/1x1/delapouite/beer-bottle.html "Delapouite (game-icons.net): Alcoholic beverage made of hops and malted cereal grains."
 [death-note]: https://game-icons.net/1x1/lorc/death-note.html "Lorc (game-icons.net): A bad omen written on a paper. The reader will be doomed just by skimming through the pages of this cursed book."
 [trojan-horse]: https://game-icons.net/1x1/delapouite/trojan-horse.html "Delapouite (game-icons.net): Huge wooden decoy used by the Greeks to capture the city of Troy."
