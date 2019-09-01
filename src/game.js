@@ -2,15 +2,21 @@ const $ = require('./jquery');
 const Table = require('./table');
 const Renderer = require('./renderer');
 const Engine = require('./engine');
+const Utils = require('./utils');
 
 const Game = {};
 
+let animating = false;
 let table;
 let input = [];
 let picked;
 let touched;
 
 const onBoard = (_, event) => {
+  if (animating) {
+    return;
+  }
+
   if (event.target && event.target.matches('.reset')) {
     event.stopPropagation();
     $(event.target).addClass('picked');
@@ -24,6 +30,10 @@ const onBoard = (_, event) => {
 };
 
 const offBoard = (_, event) => {
+  if (animating) {
+    return;
+  }
+
   if (event.target && event.target.matches('.reset')) {
     event.stopPropagation();
     Game.reset();
@@ -34,9 +44,14 @@ const offBoard = (_, event) => {
   if (event.target && (event.target.matches('.card') || event.target.matches('.pile')) && event.target.id) {
     event.stopPropagation();
     input.push(event.target.id);
+    const oldTable = Utils.clone(table);
     [table, picked] = Engine.tick(table, 'x', ...input);
     input = picked ? [picked] : [];
-    Renderer.invalidate(table, picked, touched);
+    animating = true;
+    Renderer.animate(oldTable, table, picked, touched, () => {
+      table.moves = [];
+      animating = false;
+    });
   }
 };
 
@@ -46,6 +61,7 @@ Game.reset = () => {
   input = [];
   picked = undefined;
   touched = undefined;
+  animating = false;
   Renderer.invalidate(table, picked, touched);
 };
 

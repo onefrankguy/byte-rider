@@ -1,3 +1,5 @@
+let animations = [];
+
 function Fn(selector) {
   if (selector instanceof Fn) {
     return selector;
@@ -44,6 +46,55 @@ Fn.prototype.html = function html(value) {
   return this;
 };
 
+Fn.prototype.offset = function offset() {
+  const result = {
+    left: window.scrollX,
+    top: window.scrollY,
+  };
+
+  if (this.element) {
+    const rect = this.element.getBoundingClientRect();
+    result.left += rect.left;
+    result.top += rect.top;
+  }
+
+  return result;
+};
+
+Fn.prototype.left = function left(value) {
+  if (this.element) {
+    if (value === undefined) {
+      return parseInt(this.element.style.left, 10);
+    }
+    this.element.style.left = `${value}px`;
+  }
+
+  return this;
+};
+
+Fn.prototype.top = function top(value) {
+  if (this.element) {
+    if (value === undefined) {
+      return parseInt(this.element.style.top, 10);
+    }
+    this.element.style.top = `${value}px`;
+  }
+
+  return this;
+};
+
+Fn.prototype.on = function on(event, callback) {
+  if (this.element) {
+    this.element.addEventListener(event, callback, false);
+  }
+};
+
+Fn.prototype.off = function off(event, callback) {
+  if (this.element) {
+    this.element.removeEventListener(event, callback, false);
+  }
+};
+
 Fn.prototype.click = function click(start, end) {
   const that = this;
 
@@ -84,6 +135,35 @@ Fn.prototype.click = function click(start, end) {
   }
 
   return this;
+};
+
+Fn.prototype.animate = function animate(klass, complete) {
+  const self = this;
+
+  function onTransitionEnd() {
+    animations = animations.filter((a) => (
+      a.element !== self
+        && a.callback !== onTransitionEnd
+        && a.klass !== klass
+    ));
+
+    self.off('webkitTransitionEnd', onTransitionEnd);
+    self.off('otransitionend', onTransitionEnd);
+    self.off('transitionend', onTransitionEnd);
+    self.removeClass(klass);
+
+    if (complete) {
+      complete();
+    }
+  }
+
+  if (this.element) {
+    animations.push({ element: self, callback: onTransitionEnd, klass });
+    this.on('webkitTransitionEnd', onTransitionEnd);
+    this.on('otransitionend', onTransitionEnd);
+    this.on('transitionend', onTransitionEnd);
+    this.addClass(klass);
+  }
 };
 
 Fn.prototype.unwrap = function unwrap() {

@@ -1,5 +1,7 @@
 const jQuery = require('./jquery');
 const Rules = require('./rules');
+const Utils = require('./utils');
+const Table = require('./table');
 
 const renderValue = (value) => (value >= 0 ? `${value}<sup>&boxbox;</sup>` : '');
 
@@ -106,8 +108,46 @@ Renderer.render = (table, picked, touched) => {
   }
 };
 
-Renderer.invalidate = (table, picked, touched) => {
-  requestAnimationFrame(() => Renderer.render(table, picked, touched));
+Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
+  const newCopy = Utils.clone(newTable);
+  const move = newCopy.moves.shift();
+  if (!move) {
+    Renderer.invalidate(newCopy, picked, touched, complete);
+    return;
+  }
+
+  const [start, end] = move.split('-');
+  const srect = $(start).offset();
+  const erect = $(end).offset();
+  const scard = start.startsWith('S') ? oldTable.stock[0] : start;
+  const visible = !scard.startsWith('S');
+
+  $(scard).addClass('invisible');
+  $('card').html(renderCard(scard, visible, oldTable.jacked));
+  $('card').top(srect.top);
+  $('card').left(srect.left);
+  $('card').removeClass('hidden');
+
+  requestAnimationFrame(() => {
+    $('card').animate('sliding', () => {
+      $('card').addClass('hidden');
+      const oldCopy = Table.play(Utils.clone(oldTable), [move]);
+      Renderer.invalidate(oldCopy, picked, touched, () => {
+        Renderer.animate(oldCopy, newCopy, picked, touched, complete);
+      });
+    });
+    $('card').top(erect.top);
+    $('card').left(erect.left);
+  });
+};
+
+Renderer.invalidate = (table, picked, touched, complete) => {
+  requestAnimationFrame(() => {
+    Renderer.render(table, picked, touched);
+    if (complete) {
+      complete();
+    }
+  });
 };
 
 module.exports = Renderer;

@@ -408,6 +408,7 @@ Rules.play = (table, player, moves) => {
     }
 
     copy = Table.play(copy, play);
+    copy.moves = copy.moves.concat(play);
   }
 
   return Rules.play(copy, player, allowed);
