@@ -23,9 +23,9 @@ const renderIcon = (card, jacks) => {
   return html;
 };
 
-const renderCard = (card, visible, jacked) => {
+const renderCard = (card, visible, jacked, owner) => {
   const jacks = (jacked[card] || []).length;
-  let html = `<div id="${card}" class="card">`;
+  let html = `<div id="${card}" class="card ${owner}">`;
   if (visible) {
     html += renderIcon(card, jacks);
   }
@@ -34,11 +34,12 @@ const renderCard = (card, visible, jacked) => {
 };
 
 const renderPile = (pile, visible, jacked, padding, id) => {
-  let html = pile.map((c) => renderCard(c, visible, jacked)).join('');
+  const owner = (id || '').split('')[1];
+  let html = pile.slice(0, padding).map((c) => renderCard(c, visible, jacked, owner)).join('');
 
   let blanks = 0;
   while (blanks < padding - pile.length) {
-    html += `<div id="${id}${blanks}" class="card invisible"></div>`;
+    html += `<div id="${id}${blanks}" class="card ${owner} invisible"></div>`;
     blanks += 1;
   }
 
@@ -106,7 +107,10 @@ Renderer.clear = (table) => {
     .concat(table.y.hand)
     .concat(table.y.played);
 
-  ids.forEach((id) => $(id).removeClass('playable').removeClass('picked'));
+  ids.forEach((id) => $(id)
+    .removeClass('pickable')
+    .removeClass('playable')
+    .removeClass('picked'));
 };
 
 Renderer.render = (table, picked, touched) => {
@@ -122,11 +126,10 @@ Renderer.render = (table, picked, touched) => {
   $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.jacked, 10, 'Hx'));
 
   if (picked !== 'animate') {
+    Rules.pickable(table, 'x').forEach((c) => $(c).addClass('pickable'));
     if (picked) {
-      $(picked).addClass('picked');
       Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
-    } else {
-      Rules.pickable(table, 'x').forEach((c) => $(c).addClass('playable'));
+      $(picked).addClass('picked');
     }
   }
 
@@ -155,9 +158,10 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   const dy = erect.top - srect.top;
   const length = Math.sqrt((dx * dx) + (dy * dy));
   const speed = (length / srect.width) / 4;
+  const owner = Table.player(oldCopy, card);
 
   $(card).addClass('invisible');
-  $('card').html(renderCard(card, visible, oldCopy.jacked));
+  $('card').html(renderCard(card, visible, oldCopy.jacked, owner));
   $('card').css('left', `${srect.left}px`);
   $('card').css('top', `${srect.top}px`);
   $('card').css('transition-duration', `${speed}s`);
