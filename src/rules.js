@@ -601,6 +601,13 @@ Rules.info = (card) => {
     result.effect = 'Reduce the number of points needed to win by 7.';
   }
 
+  if (isStock(card)) {
+    result.name = 'Stock';
+    result.type = 'Exploit';
+    result.value = 0;
+    result.effect = 'Draw 1 card and add it to your hand.';
+  }
+
   return result;
 };
 

@@ -76,6 +76,8 @@ const renderInfo = (picked) => {
   let html = '<p>';
 
   if (info.name) {
+    const [value] = picked.split('');
+    html += `<span class="icon i${value}"></span>`;
     html += `<strong>${info.name}</strong>`;
   }
 
@@ -84,15 +86,17 @@ const renderInfo = (picked) => {
     html += `<em>${info.type}</em>`;
   }
 
-  if (info.value >= 0) {
-    html += ' &mdash; ';
-    html += renderValue(info.value);
-  }
-
   html += '</p>';
 
   if (info.effect) {
-    html += `<p>${info.effect}</p>`;
+    const icon = info.value > 0 ? 'iS' : '';
+    if (icon) {
+      html += `<p>&rdsh; Score ${renderValue(info.value)} points OR discard an equal or lower value points card.</p>`;
+      html += `<p><span class="inline ${icon}"></span>`;
+    } else {
+      html += '<p>&rdsh;';
+    }
+    html += ` ${info.effect}</p>`;
   }
 
   return html;

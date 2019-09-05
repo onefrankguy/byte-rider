@@ -133,6 +133,8 @@ a, a:visited {
 
 /* INFO */
 .info {
+  position: relative;
+  flex-grow: 1;
   font-size: 1.2rem;
 }
 
@@ -140,15 +142,33 @@ a, a:visited {
   margin-top: 0.6rem;
 }
 
+.info .icon {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  opacity: 0.2;
+  height: $cardHeight * 2;
+  width: $cardWidth * 2;
+}
+
+.info .inline {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+}
+
 /* ICONS */
 .icon {
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: $cardWidth;
   height: $cardHeight;
   background-repeat: no-repeat;
   background-position: center center;
   pointer-events: none;
+  color: transparent;
 }
 
 .icon .value {
@@ -244,7 +264,7 @@ a, a:visited {
   background-image: url('../img/cpu.svg');
 }
 
-.stack {
+.iS {
   background-image: url('../img/stack.svg');
 }
 
