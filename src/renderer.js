@@ -88,15 +88,12 @@ const renderInfo = (picked) => {
 
   html += '</p>';
 
+  if (info.play) {
+    html += `<p>&rdsh; ${info.play.replace('{value}', renderValue(info.value))}</p>`;
+  }
+
   if (info.effect) {
-    const icon = info.value > 0 ? 'iS' : '';
-    if (icon) {
-      html += `<p>&rdsh; Score ${renderValue(info.value)} points OR discard an equal or lower value points card.</p>`;
-      html += `<p><span class="inline ${icon}"></span>`;
-    } else {
-      html += '<p>&rdsh;';
-    }
-    html += ` ${info.effect}</p>`;
+    html += `<p><span class="inline iS"></span> ${info.effect}</p>`;
   }
 
   return html;
