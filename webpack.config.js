@@ -19,9 +19,14 @@ module.exports = (_, argv) => {
         ],
       }, {
         test: /\.svg$/,
-        use: {
+        use: [{
           loader: 'svg-url-loader',
-        },
+        }, {
+          loader: 'svgo-loader',
+          options: {
+            externalConfig: 'svgo-config.json',
+          },
+        }],
       }],
     },
     plugins: [
