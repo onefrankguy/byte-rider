@@ -35,7 +35,7 @@ const renderCard = (card, visible, jacked, owner) => {
 
 const renderPile = (pile, visible, jacked, padding, id) => {
   const owner = (id || '').split('')[1];
-  let html = pile.slice(0, padding).map((c) => renderCard(c, visible, jacked, owner)).join('');
+  let html = pile.slice(-padding).map((c) => renderCard(c, visible, jacked, owner)).join('');
 
   let blanks = 0;
   while (blanks < padding - pile.length) {
