@@ -496,7 +496,7 @@ Rules.winner = (table) => {
 };
 
 Rules.info = (card) => {
-  const play = 'Score {value} points OR discard an equal or lower value points card.';
+  const play = 'Score {value} points OR play on an equal or lower value point card and discard both cards.';
   const result = {};
 
   if (isAce(card)) {
