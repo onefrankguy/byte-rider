@@ -78,7 +78,7 @@ test('Rules#play(A) discards a jacked card', () => {
   expect(newTable.x.played).toStrictEqual(['4H']);
   expect(newTable.y.played).toStrictEqual([]);
   expect(newTable.discard).toStrictEqual(['JH', 'AC']);
-  expect(newTable.stacked).toStrictEqual({ '4H': [] });
+  expect(newTable.stacked).toStrictEqual({});
 });
 
 test('Rules#play(2) discards all point cards', () => {
@@ -108,7 +108,7 @@ test('Rules#play(2) discards jacks', () => {
   expect(newTable.x.hand).toStrictEqual([]);
   expect(newTable.x.played).toStrictEqual([]);
   expect(newTable.discard).toStrictEqual(['4H', 'JS', 'JH', '2C']);
-  expect(newTable.stacked).toStrictEqual({ '4H': [] });
+  expect(newTable.stacked).toStrictEqual({});
 });
 
 test('Rules#play(2) only triggers if it came from your hand', () => {
@@ -160,11 +160,7 @@ test('Rules#play(3) discards jacks', () => {
   expect(newTable.x.played).toEqual([]);
   expect(newTable.y.played).toEqual(['4H', '4S']);
   expect(newTable.discard).toEqual(['8S', 'JS', 'JD', 'JC', 'JH', '3C']);
-  expect(newTable.stacked).toStrictEqual({
-    '4H': [],
-    '4S': [],
-    '8S': [],
-  });
+  expect(newTable.stacked).toStrictEqual({});
 });
 
 test('Rules#play(3) only triggers if it came from your hand', () => {
@@ -238,7 +234,7 @@ test('Rules#play(number) scuttles and clears jacks', () => {
   expect(newTable.x.hand).toEqual([]);
   expect(newTable.y.played).toEqual([]);
   expect(newTable.discard).toEqual(['4H', 'JS', 'JH', '4C']);
-  expect(newTable.stacked).toStrictEqual({ '4H': [] });
+  expect(newTable.stacked).toStrictEqual({});
 });
 
 test('Rules#play(J) jacks cards in play', () => {
@@ -269,7 +265,7 @@ test('Rules#play(J) double jacks cards in play', () => {
   expect(newTable.y.hand).toStrictEqual([]);
   expect(newTable.y.played).toStrictEqual(['4H']);
   expect(newTable.discard).toStrictEqual([]);
-  expect(newTable.stacked).toStrictEqual({ '4H': ['JC', 'JS'] });
+  expect(newTable.stacked).toStrictEqual({ '4H': ['JS', 'JC'] });
 });
 
 test('Rules#play shuffles the discard back into the stock', () => {

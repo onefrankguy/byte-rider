@@ -60,6 +60,11 @@ const animationId = (table, id) => {
     return `${id}0`;
   }
 
+  const stacked = Object.keys(table.stacked).find((key) => table.stacked[key].includes(id));
+  if (stacked) {
+    return stacked;
+  }
+
   return id;
 };
 

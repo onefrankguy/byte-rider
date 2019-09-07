@@ -11,11 +11,6 @@ const isHand = (value) => (value || '').startsWith('H');
 const isTable = (value) => (value || '').startsWith('P');
 const isDiscard = (value) => (value || '').startsWith('D');
 
-const playableMove = (move) => {
-  const [start, end] = (move || '').split('-');
-  return !isCard(start) || !isCard(end);
-};
-
 Table.player = (table, value) => {
   if (!table || !value) {
     return '';
@@ -70,6 +65,20 @@ const playMove = (table, move) => {
     copy[pile] = copy[pile].filter((c) => c !== card);
   });
 
+  Object.keys(copy.stacked).forEach((key) => {
+    copy.stacked[key] = copy.stacked[key].filter((c) => c !== card);
+    if (key === card && copy.stacked[key].length <= 0) {
+      delete copy.stacked[key];
+    }
+  });
+
+  if (isCard(card) && isCard(end)) {
+    if (!copy.stacked[end]) {
+      copy.stacked[end] = [];
+    }
+    copy.stacked[end].unshift(card);
+  }
+
   if (card && isStock(end)) {
     copy.stock.unshift(card);
   }
@@ -121,7 +130,7 @@ Table.create = () => ({
 Table.play = (table, moves) => {
   let copy = Utils.clone(table);
 
-  (moves || []).filter(playableMove).forEach((move) => {
+  (moves || []).forEach((move) => {
     copy = playMove(copy, move);
   });
 

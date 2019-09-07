@@ -187,8 +187,9 @@ test('Table#play ignores card-to-card moves', () => {
     '2C-AC',
   ]);
 
-  expect(table.x.hand).toStrictEqual(['2C']);
+  expect(table.x.hand).toStrictEqual([]);
   expect(table.x.played).toStrictEqual([]);
   expect(table.y.hand).toStrictEqual([]);
   expect(table.y.played).toStrictEqual(['AC']);
+  expect(table.stacked).toStrictEqual({ AC: ['2C'] });
 });

@@ -395,13 +395,8 @@ Rules.play = (table, player, moves) => {
       `${start}-${end}`,
       `${start}-D${player}`,
     ];
-    if (isJacked(copy)(end)) {
-      let jack = copy.stacked[end].shift();
-      while (jack) {
-        play = play.concat(`${jack}-D${opponent}`);
-        jack = copy.stacked[end].shift();
-      }
-    }
+    const stacked = copy.stacked[end] || [];
+    play = play.concat(stacked.map((c) => `${c}-D${opponent}`));
     play = play.concat(`${end}-D${opponent}`);
   }
 
@@ -409,11 +404,7 @@ Rules.play = (table, player, moves) => {
   if (!play && isJack(copy.discard[0]) && end === `P${player}`) {
     const opponent = Table.opponent(player);
     if (copy[opponent].played.includes(start)) {
-      const jack = copy.discard.shift();
-      if (!copy.stacked[start]) {
-        copy.stacked[start] = [];
-      }
-      copy.stacked[start].push(jack);
+      play = [`${copy.discard[0]}-${start}`, move];
     }
   }
 
