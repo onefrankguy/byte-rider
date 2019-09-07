@@ -5,6 +5,7 @@ const Table = require('./table');
 
 const renderValue = (value) => (value >= 0 ? `${value}<sup>&boxbox;</sup>` : '');
 const renderJacked = (value) => (value > 0 ? `${value}<sup class="iJ">${value}</sup>` : '');
+const isJack = (card) => (card || '').startsWith('J');
 
 const renderIcon = (card, jacks) => {
   const info = Rules.info(card);
@@ -23,8 +24,8 @@ const renderIcon = (card, jacks) => {
   return html;
 };
 
-const renderCard = (card, visible, jacked, owner) => {
-  const jacks = (jacked[card] || []).length;
+const renderCard = (card, visible, stacked, owner) => {
+  const jacks = (stacked[card] || []).filter(isJack).length;
   let html = `<div id="${card}" class="card ${owner}">`;
   if (visible) {
     html += renderIcon(card, jacks);
@@ -33,9 +34,9 @@ const renderCard = (card, visible, jacked, owner) => {
   return html;
 };
 
-const renderPile = (pile, visible, jacked, padding, id) => {
+const renderPile = (pile, visible, stacked, padding, id) => {
   const owner = (id || '').split('')[1];
-  let html = pile.slice(-padding).map((c) => renderCard(c, visible, jacked, owner)).join('');
+  let html = pile.slice(-padding).map((c) => renderCard(c, visible, stacked, owner)).join('');
 
   let blanks = 0;
   while (blanks < padding - pile.length) {
@@ -121,10 +122,10 @@ Renderer.render = (table, picked, touched) => {
 
   $('discard').html(renderDiscard(table.discard));
 
-  $('Hy').html(renderPile(table.y.hand, visible.includes('y'), table.jacked, 6, 'Hy'));
-  $('Py').html(renderPile(table.y.played, true, table.jacked, 10, 'Py'));
-  $('Px').html(renderPile(table.x.played, true, table.jacked, 10, 'Px'));
-  $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.jacked, 10, 'Hx'));
+  $('Hy').html(renderPile(table.y.hand, visible.includes('y'), table.stacked, 6, 'Hy'));
+  $('Py').html(renderPile(table.y.played, true, table.stacked, 10, 'Py'));
+  $('Px').html(renderPile(table.x.played, true, table.stacked, 10, 'Px'));
+  $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.stacked, 10, 'Hx'));
 
   if (picked !== 'animate') {
     Rules.pickable(table, 'x').forEach((c) => $(c).addClass('pickable'));
@@ -162,7 +163,7 @@ Renderer.animate = (oldTable, newTable, picked, touched, complete) => {
   const owner = Table.player(oldCopy, card);
 
   $(card).addClass('invisible');
-  $('card').html(renderCard(card, visible, oldCopy.jacked, owner));
+  $('card').html(renderCard(card, visible, oldCopy.stacked, owner));
   $('card').css('left', `${srect.left}px`);
   $('card').css('top', `${srect.top}px`);
   $('card').css('transition-duration', `${speed}s`);

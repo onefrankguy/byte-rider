@@ -105,7 +105,7 @@ Table.create = () => ({
   stock: Table.deck(),
   discard: [],
   moves: [],
-  jacked: {},
+  stacked: {},
   x: {
     hand: [],
     played: [],

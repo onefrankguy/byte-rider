@@ -54,7 +54,7 @@ const getScore = (card) => {
 
 const canScuttle = (card) => (c) => isNumber(card) && isNumber(c) && getPoints(c) <= getPoints(card);
 
-const isJacked = (table) => (c) => ((table || { jacked: {} }).jacked[c] || []).length > 0;
+const isJacked = (table) => (c) => ((table || { stacked: {} }).stacked[c] || []).filter(isJack).length > 0;
 const isRoyalOrJacked = (table) => (c) => isRoyal(c) || isJacked(table)(c);
 
 Rules.pickable = (table, player) => {
@@ -339,7 +339,7 @@ Rules.play = (table, player, moves) => {
   // A - Discard any non-point card in play.
   if (!play && isAce(copy.discard[0]) && isJacked(copy)(start) && isDiscard(end)) {
     const opponent = Table.opponent(player);
-    const jack = copy.jacked[start].pop();
+    const jack = copy.stacked[start].shift();
     play = [`${jack}-D${opponent}`, `${start}-P${player}`];
   }
 
@@ -349,10 +349,10 @@ Rules.play = (table, player, moves) => {
     if (copy[player].hand.includes(start)) {
       ['x', 'y'].forEach((p) => {
         copy[p].played.filter(isNumber).forEach((c) => {
-          let jack = (copy.jacked[c] || []).pop();
+          let jack = (copy.stacked[c] || []).shift();
           while (jack) {
             play.push(`${jack}-D${p}`);
-            jack = (copy.jacked[c] || []).pop();
+            jack = (copy.stacked[c] || []).shift();
           }
           play.push(`${c}-D${p}`);
         });
@@ -367,11 +367,11 @@ Rules.play = (table, player, moves) => {
       ['x', 'y'].forEach((p) => {
         copy[p].played.filter(isJacked(copy)).forEach((c) => {
           let opponent;
-          let jack = copy.jacked[c].pop();
+          let jack = copy.stacked[c].shift();
           while (jack) {
             opponent = Table.opponent(opponent || p);
             play = play.concat([`${jack}-D${p}`, `${c}-P${opponent}`]);
-            jack = copy.jacked[c].pop();
+            jack = copy.stacked[c].shift();
           }
         });
         play = play.concat(copy[p].played.filter(isRoyal)
@@ -383,7 +383,7 @@ Rules.play = (table, player, moves) => {
   // 4 - Return any card in play to the top of the stock.
   if (!play && isFour(copy.discard[0]) && isJacked(copy)(start) && isStock(end)) {
     const opponent = Table.opponent(player);
-    const jack = copy.jacked[start].pop();
+    const jack = copy.stacked[start].shift();
     play = [`${jack}-S${opponent}`, `${start}-P${player}`];
   }
 
@@ -396,10 +396,10 @@ Rules.play = (table, player, moves) => {
       `${start}-D${player}`,
     ];
     if (isJacked(copy)(end)) {
-      let jack = copy.jacked[end].pop();
+      let jack = copy.stacked[end].shift();
       while (jack) {
         play = play.concat(`${jack}-D${opponent}`);
-        jack = copy.jacked[end].pop();
+        jack = copy.stacked[end].shift();
       }
     }
     play = play.concat(`${end}-D${opponent}`);
@@ -410,10 +410,10 @@ Rules.play = (table, player, moves) => {
     const opponent = Table.opponent(player);
     if (copy[opponent].played.includes(start)) {
       const jack = copy.discard.shift();
-      if (!copy.jacked[start]) {
-        copy.jacked[start] = [];
+      if (!copy.stacked[start]) {
+        copy.stacked[start] = [];
       }
-      copy.jacked[start].push(jack);
+      copy.stacked[start].push(jack);
     }
   }
 

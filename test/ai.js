@@ -20,7 +20,7 @@ test('AI#winning shows winning transfer moves', () => {
   table.x.hand = ['JH', 'AC'];
   table.x.played = ['KH', 'KS'];
   table.y.played = ['KD'];
-  table.jacked = { KD: ['JC'] };
+  table.stacked = { KD: ['JC'] };
 
   const moves = AI.winning(table, 'x');
 
@@ -64,7 +64,7 @@ test('AI#blocking shows blocking transfer moves', () => {
   // X can discard an A, 3, or 4 to block
   table.x.hand = ['AC', '3C', '4C', '8C'];
   table.y.played = ['7H'];
-  table.jacked = { '7H': ['JH'] };
+  table.stacked = { '7H': ['JH'] };
 
   const moves = AI.blocking(table, 'x');
 
