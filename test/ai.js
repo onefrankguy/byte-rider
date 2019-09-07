@@ -25,7 +25,7 @@ test('AI#winning shows winning transfer moves', () => {
   const moves = AI.winning(table, 'x');
 
   expect(moves).toEqual([
-    'JH-Dx',
+    'JH-KD',
     'AC-Dx',
   ]);
 });

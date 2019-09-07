@@ -265,7 +265,7 @@ Rules.chain = (table, player, card) => {
     const filter = table[opponent].played.find(isQueen) ? isQueen : isCard;
     return table[opponent].played
       .filter(filter)
-      .map((c) => [`${card}-D${player}`, `${c}-P${player}`]);
+      .map((c) => [`${card}-${c}`]);
   }
 
   // Q - All your cards in play are protected from effects that target single
@@ -401,10 +401,10 @@ Rules.play = (table, player, moves) => {
   }
 
   // J - Transfer control of an opponent's card in play.
-  if (!play && isJack(copy.discard[0]) && end === `P${player}`) {
+  if (!play && isJack(start)) {
     const opponent = Table.opponent(player);
-    if (copy[opponent].played.includes(start)) {
-      play = [`${copy.discard[0]}-${start}`, move];
+    if (copy[opponent].played.includes(end)) {
+      play = [move, `${end}-P${player}`];
     }
   }
 

@@ -243,7 +243,7 @@ test('Rules#play(J) jacks cards in play', () => {
   oldTable.y.played = ['4H'];
   oldTable.stock = [];
 
-  const newTable = Rules.play(oldTable, 'x', ['JC-Dx', '4H-Px']);
+  const newTable = Rules.play(oldTable, 'x', ['JC-4H']);
 
   expect(newTable.x.hand).toStrictEqual([]);
   expect(newTable.x.played).toStrictEqual(['4H']);
@@ -259,7 +259,7 @@ test('Rules#play(J) double jacks cards in play', () => {
   oldTable.stock = [];
   oldTable.stacked = { '4H': ['JC'] };
 
-  const newTable = Rules.play(oldTable, 'y', ['JS-Dy', '4H-Py']);
+  const newTable = Rules.play(oldTable, 'y', ['JS-4H']);
 
   expect(newTable.x.played).toStrictEqual([]);
   expect(newTable.y.hand).toStrictEqual([]);
@@ -780,8 +780,8 @@ test('Rules#chain(J) transfers control of an opponent\'s card in play', () => {
   const moves = Rules.chain(table, 'x', 'JC');
 
   expect(moves).toStrictEqual([
-    ['JC-Dx', 'AC-Px'],
-    ['JC-Dx', 'KC-Px'],
+    ['JC-AC'],
+    ['JC-KC'],
   ]);
 });
 
@@ -832,8 +832,8 @@ test('Rules#chain(Q) protects your cards in play from J', () => {
   const moves = Rules.chain(table, 'y', 'JC');
 
   expect(moves).toStrictEqual([
-    ['JC-Dy', 'QC-Py'],
-    ['JC-Dy', 'QH-Py'],
+    ['JC-QC'],
+    ['JC-QH'],
   ]);
 });
 
