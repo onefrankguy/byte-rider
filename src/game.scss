@@ -10,11 +10,12 @@ $red: rgb(220,50,32);
 $blue: rgb(0,90,181);
 $yellow: rgb(255,176,0);
 $gray: rgba(0,0,0,.3);
-$dropShadow: 0.2rem 0.2rem 0.5rem $gray;
+$dropShadow: 0.5rem 0.5rem 0.5rem $gray;
 $redShadow: inset 0 0 1rem $red;
 $blueShadow: inset 0 0 1rem $blue;
+$yellowShadow: inset 0 0 1rem $yellow;
 $grayShadow: inset 0 0 1rem $gray;
-$playableColor: $blue;
+$playableColor: $yellow;
 $playableShadow: inset 0 0 .25rem $playableColor, 0 0 .25rem $playableColor;
 $fontSize: 1.6rem;
 $cardWidth: 4.6rem;
@@ -117,19 +118,41 @@ a, a:visited {
   height: $cardHeight;
   margin: $cardMargin;
   background-color: $backgroundColor;
-  box-shadow: border($textColor), $dropShadow;
+  box-shadow: border($textColor), $grayShadow;
+}
+
+.x {
+  box-shadow: border($textColor), $redShadow;
+}
+
+.y {
+  box-shadow: border($textColor), $blueShadow;
 }
 
 .pickable {
-  box-shadow: border($textColor), $redShadow, $dropShadow;
+  box-shadow: border($textColor), $yellowShadow !important;
 }
 
 .playable {
-  box-shadow: border($playableColor), $playableShadow;
+  box-shadow: border($playableColor), $playableShadow !important;
 }
 
 .picked {
-  box-shadow: border($textColor), $grayShadow;
+  transform: scale(1.2);
+  z-index: 1;
+  box-shadow: border($textColor), $grayShadow, $dropShadow;
+}
+
+.x.picked {
+  box-shadow: border($textColor), $redShadow, $dropShadow;
+}
+
+.y.picked {
+  box-shadow: border($textColor), $blueShadow, $dropShadow;
+}
+
+.pickable.picked {
+  box-shadow: border($textColor), $blueShadow, $dropShadow;
 }
 
 /* INFO */

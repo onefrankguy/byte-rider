@@ -133,7 +133,9 @@ Renderer.render = (table, picked, touched) => {
   $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.stacked, 10, 'Hx'));
 
   if (picked !== 'animate') {
-    Rules.pickable(table, 'x').forEach((c) => $(c).addClass('pickable'));
+    if (table.x.allowed.length > 0) {
+      Rules.pickable(table, 'x').forEach((c) => $(c).addClass('pickable'));
+    }
     if (picked) {
       Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
       $(picked).addClass('picked');
