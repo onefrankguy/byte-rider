@@ -1,5 +1,6 @@
 const Rules = require('./rules');
 const Table = require('./table');
+const Utils = require('./utils');
 
 const AI = {};
 
@@ -77,8 +78,7 @@ AI.moves = (table, player) => {
 
 AI.move = (table, player) => {
   const moves = AI.moves(table, player);
-  const index = Math.floor(Math.random() * moves.length);
-  return moves[index];
+  return Utils.pick(moves);
 };
 
 module.exports = AI;

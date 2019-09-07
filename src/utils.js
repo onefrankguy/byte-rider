@@ -20,4 +20,11 @@ Utils.shuffle = (array) => {
   return result;
 };
 
+Utils.pick = (array = []) => {
+  const index = Math.floor(Math.random() * array.length);
+  return array[index];
+};
+
+Utils.dedupe = (array = []) => array.filter((value, i, self) => self.indexOf(value) === i);
+
 module.exports = Utils;

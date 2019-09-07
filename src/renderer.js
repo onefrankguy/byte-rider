@@ -78,7 +78,7 @@ const $ = (id) => {
 
 const renderDiscard = (pile) => pile.slice(0, 4).reverse().map((c) => renderCard(c, true, {})).join('');
 
-const renderInfo = (picked) => {
+const renderCardInfo = (picked) => {
   const info = Rules.info(picked);
   let html = '<p>';
 
@@ -104,6 +104,62 @@ const renderInfo = (picked) => {
   }
 
   return html;
+};
+
+const renderStory = (table, player) => {
+  let html = '';
+
+  const story1 = Utils.pick([
+    'That&rsquo;s enough to',
+    'It&rsquo;s enough to',
+    'With that, you&rsquo;ll have enough to',
+  ]);
+
+  const story2 = Utils.pick([
+    'pay off your debt',
+    'buy your revenge',
+    'retire',
+  ]);
+
+  const story3 = Utils.pick([
+    'start a new life',
+    'shut down Tesseract for good',
+    'finally travel back home',
+  ]);
+
+  const programs = Utils.dedupe(table[player].hand.map((c) => Rules.info(c).name))
+    .slice(0, 2)
+    .map((c) => `<strong>${c}</strong>`)
+    .join(', ');
+
+  html += '<p>';
+  html += `All you need is ${renderValue(21)} points.`;
+  html += ` ${story1} ${story2} and ${story3}.`;
+  html += ' You&rsquo;ve got ';
+  html += programs;
+  html += ' and a handful of other programs.';
+  html += ' It&rsquo;s time to ride.';
+  html += '</p>';
+
+
+  return html;
+};
+
+const renderInfo = (table, player, touched) => {
+  const opponent = Table.opponent(player);
+  if (!table || !player || !opponent) {
+    return '';
+  }
+
+  if (touched === 'story') {
+    return renderStory(table, player);
+  }
+
+  if (Rules.visible(table, player).includes(opponent) || !table[opponent].hand.includes(touched)) {
+    return renderCardInfo(touched);
+  }
+
+  return '';
 };
 
 const Renderer = {};
@@ -167,11 +223,7 @@ Renderer.render = (table, picked, touched) => {
     }
   }
 
-  if (visible.includes('y') || !table.y.hand.includes(touched)) {
-    $('info').html(renderInfo(touched));
-  } else {
-    $('info').html('');
-  }
+  $('info').html(renderInfo(table, 'x', touched));
 };
 
 Renderer.animate = (oldTable, newTable, picked, touched, complete) => {

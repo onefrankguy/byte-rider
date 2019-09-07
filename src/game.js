@@ -10,7 +10,7 @@ let animating = false;
 let table;
 let input = [];
 let picked;
-let touched;
+let touched = 'story';
 
 const onBoard = (_, event) => {
   if (animating) {
@@ -60,7 +60,7 @@ Game.reset = () => {
   table = Table.deal(table, 'x');
   input = [];
   picked = undefined;
-  touched = undefined;
+  touched = 'story';
   animating = false;
   Renderer.invalidate(table, picked, touched);
 };
