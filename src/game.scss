@@ -3,7 +3,7 @@
 }
 
 $backgroundColor: rgba(253,250,249,1);
-$textColor: rgba(51,51,51,1);
+$textColor: rgba(81,81,81,1);
 $selectColor: rgba(255,0,84,.6);
 /* https://davidmathlogic.com/colorblind/ */
 $red: rgb(220,50,32);
@@ -40,11 +40,11 @@ body {
   color: $textColor;
   font-size: $fontSize;
   background:
-  radial-gradient(rgba(51,51,51,.1) 15%, transparent 16%) 0 0,
-  radial-gradient(rgba(51,51,51,.1) 15%, transparent 16%) 8px 8px,
+  radial-gradient(rgba(81,81,81,.1) 15%, transparent 16%) 0 0,
+  radial-gradient(rgba(81,81,81,.1) 15%, transparent 16%) 8px 8px,
   radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
   radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-  background-color: rgba(51,51,51,.5);
+  background-color: rgba(81,81,81,.5);
   background-size: 16px 16px;
 }
 
@@ -63,7 +63,7 @@ a, a:visited {
   background: rgb(253,250,249);
   color: $textColor;
   border-radius: 0.5rem;
-  box-shadow: border(rgb(229,223,210)), 0.1rem 0.1rem 0.3rem rgb(51,51,51);
+  box-shadow: border(rgb(229,223,210)), 0.1rem 0.1rem 0.3rem $textColor;
   background:
   radial-gradient(circle farthest-side at 0% 50%,rgb(253,250,249) 23.5%,rgba(240,166,17,0) 0)21px 30px,
   radial-gradient(circle farthest-side at 0% 50%,rgba(229,223,210,.3) 24%,rgba(240,166,17,0) 0)19px 30px,
