@@ -121,9 +121,12 @@ Renderer.clear = (table) => {
     .removeClass('picked'));
 
   $('S')
+    .removeClass('hidden')
     .removeClass('x')
     .removeClass('iDraw')
     .removeClass('iBurn');
+
+  $('reset').addClass('hidden');
 };
 
 Renderer.render = (table, picked, touched) => {
@@ -155,6 +158,12 @@ Renderer.render = (table, picked, touched) => {
       }
       playable.forEach((c) => $(c).addClass('playable'));
       $(picked).addClass('picked');
+    }
+
+    const winner = Rules.winner(table);
+    if (winner) {
+      $('S').addClass('hidden');
+      $('reset').removeClass('hidden');
     }
   }
 
