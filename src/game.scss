@@ -58,7 +58,8 @@ a, a:visited {
 .world {
   /* Usable area on an iPhone SE is 320x444 pixels */
   width: 32rem;
-  min-height: 44.4rem;
+  height: 44.4rem;
+  overflow: hidden;
   margin: 0 auto;
   padding: $cardMargin * 2;
   background: rgb(253,250,249);
@@ -140,6 +141,8 @@ a, a:visited {
 .picked {
   transform: scale(1.2);
   z-index: 1;
+  top: -$cardMargin;
+  left: -$cardMargin;
   box-shadow: border($textColor), $grayShadow, $dropShadow;
 }
 
@@ -152,7 +155,7 @@ a, a:visited {
 }
 
 .pickable.picked {
-  box-shadow: border($textColor), $blueShadow, $dropShadow;
+  box-shadow: border($textColor), $yellowShadow, $dropShadow !important;
 }
 
 /* INFO */
@@ -290,6 +293,18 @@ a, a:visited {
 
 .iS {
   background-image: url('../img/stack.svg');
+}
+
+.iPlay {
+  background-image: url('../img/card-play.svg');
+}
+
+.iDraw {
+  background-image: url('../img/card-draw.svg');
+}
+
+.iBurn {
+  background-image: url('../img/card-burn.svg');
 }
 
 /* UI */

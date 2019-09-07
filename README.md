@@ -18,6 +18,9 @@ The beginning of a project for [js13kGames 2019][js13k].
 * [skull-shield][]
 * [cpu][]
 * [stack][]
+* [card-play][]
+* [card-draw][]
+* [card-burn][]
 
 ## Development ##
 
@@ -58,3 +61,6 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [skull-shield]: https://game-icons.net/1x1/lorc/skull-shield.html "Lorc (game-icons.net): A pugnacious cranium as emblem."
 [cpu]: https://game-icons.net/1x1/delapouite/cpu.html "Delapouite (game-icons.net): The heart of a computer, juggling with bits to process data."
 [stack]: https://game-icons.net/1x1/delapouite/stack.html "Delapouite (game-icons.net): Pile of cards on top of each others, in layers."
+[card-play]: https://game-icons.net/1x1/quoting/card-play.html "Quoting (game-icons.net): One of the cards in your hand will have a big impact on the game: choose carefully the one needed."
+[card-draw]: https://game-icons.net/1x1/faithtoken/card-draw.html "Faithtoken (game-icons.net): Grab the card on top of the stack."
+[card-burn]: https://game-icons.net/1x1/delapouite/card-burn.html "Delapouite (game-icons.net): This card should be discarded from the stack. No players will be able to use it."

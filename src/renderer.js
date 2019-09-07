@@ -6,6 +6,7 @@ const Table = require('./table');
 const renderValue = (value) => (value >= 0 ? `${value}<sup>&boxbox;</sup>` : '');
 const renderJacked = (value) => (value > 0 ? `${value}<sup class="iJ">${value}</sup>` : '');
 const isJack = (card) => (card || '').startsWith('J');
+const isStock = (value) => ['Dx', 'Dy', 'Sx', 'Sy'].includes(value);
 
 const renderIcon = (card, jacks) => {
   const info = Rules.info(card);
@@ -48,7 +49,7 @@ const renderPile = (pile, visible, stacked, padding, id) => {
 };
 
 const animationId = (table, id) => {
-  if (id === 'Dx' || id === 'Dy' || id === 'Sx' || id === 'Sy') {
+  if (isStock(id)) {
     return 'S';
   }
 
@@ -95,11 +96,11 @@ const renderInfo = (picked) => {
   html += '</p>';
 
   if (info.play) {
-    html += `<p>&rdsh; ${info.play.replace('{value}', renderValue(info.value))}</p>`;
+    html += `<p><span class="inline iPlay" title="Play"></span> ${info.play.replace('{value}', renderValue(info.value))}</p>`;
   }
 
   if (info.effect) {
-    html += `<p><span class="inline iS"></span> ${info.effect}</p>`;
+    html += `<p><span class="inline iBurn" title="Discard"></span> ${info.effect}</p>`;
   }
 
   return html;
@@ -118,6 +119,11 @@ Renderer.clear = (table) => {
     .removeClass('pickable')
     .removeClass('playable')
     .removeClass('picked'));
+
+  $('S')
+    .removeClass('x')
+    .removeClass('iDraw')
+    .removeClass('iBurn');
 };
 
 Renderer.render = (table, picked, touched) => {
@@ -133,11 +139,21 @@ Renderer.render = (table, picked, touched) => {
   $('Hx').html(renderPile(table.x.hand, visible.includes('x'), table.stacked, 10, 'Hx'));
 
   if (picked !== 'animate') {
-    if (table.x.allowed.length > 0) {
-      Rules.pickable(table, 'x').forEach((c) => $(c).addClass('pickable'));
+    const pickable = Rules.pickable(table, 'x');
+    if (pickable.filter(isStock).length > 0) {
+      $('S').addClass('x').addClass('iDraw');
     }
+
+    if (table.x.allowed.length > 0) {
+      pickable.forEach((c) => $(c).addClass('pickable'));
+    }
+
     if (picked) {
-      Rules.playable(table, 'x', picked).forEach((c) => $(c).addClass('playable'));
+      const playable = Rules.playable(table, 'x', picked);
+      if (playable.filter(isStock).length > 0) {
+        $('S').addClass('iBurn');
+      }
+      playable.forEach((c) => $(c).addClass('playable'));
       $(picked).addClass('picked');
     }
   }
