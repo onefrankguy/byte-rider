@@ -1,4 +1,4 @@
-# js13k2019 #
+# Byte Rider #
 
 The beginning of a project for [js13kGames 2019][js13k].
 
