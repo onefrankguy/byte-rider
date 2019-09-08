@@ -141,6 +141,20 @@ const renderStory = (table, player) => {
   return html;
 };
 
+const renderWinner = (table, player, winner) => {
+  let html = '';
+
+  html += '<p class="ninetyfive fg">Byte Rider</p>';
+  html += '<p>';
+  html += 'Your connection to the server closes in a burst of static.';
+  html += player === winner ? ' You win' : ' The AI wins';
+  html += ` with ${renderValue(Rules.score(table, winner))} points.`;
+  html += ' Will you ride again?';
+  html += '</p>';
+
+  return html;
+};
+
 const renderInfo = (table, player, touched) => {
   const opponent = Table.opponent(player);
   if (!table || !player || !opponent) {
@@ -149,6 +163,11 @@ const renderInfo = (table, player, touched) => {
 
   if (touched === 'story') {
     return renderStory(table, player);
+  }
+
+  const winner = Rules.winner(table);
+  if (winner) {
+    return renderWinner(table, player, winner);
   }
 
   if (Rules.visible(table, player).includes(opponent) || !table[opponent].hand.includes(touched)) {
