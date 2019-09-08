@@ -96,7 +96,8 @@ const renderCardInfo = (picked) => {
   html += '</p>';
 
   if (info.play) {
-    html += `<p><span class="inline iPlay" title="Play"></span> ${info.play.replace('{value}', renderValue(info.value))}</p>`;
+    const value = info.play.replace('{value}', renderValue(info.value));
+    html += `<p><span class="inline iPlay" title="Play"></span> ${value}</p>`;
   }
 
   if (info.effect) {
