@@ -501,7 +501,6 @@ Rules.info = (card) => {
 
   if (isAce(card)) {
     result.name = 'Automated Response';
-    result.type = 'Exploit';
     result.value = 1;
     result.play = play;
     result.effect = 'Discard any non-point card in play.';
@@ -509,7 +508,6 @@ Rules.info = (card) => {
 
   if (isTwo(card)) {
     result.name = 'Viral Infection';
-    result.type = 'Exploit';
     result.value = 2;
     result.play = play;
     result.effect = 'Discard all point cards in play.';
@@ -517,7 +515,6 @@ Rules.info = (card) => {
 
   if (isThree(card)) {
     result.name = 'Logic Bomb';
-    result.type = 'Exploit';
     result.value = 3;
     result.play = play;
     result.effect = 'Discard all non-point cards in play.';
@@ -525,7 +522,6 @@ Rules.info = (card) => {
 
   if (isFour(card)) {
     result.name = 'Stack Corruption';
-    result.type = 'Patch';
     result.value = 4;
     result.play = play;
     result.effect = 'Return any card in play to the top of the stock.';
@@ -533,7 +529,6 @@ Rules.info = (card) => {
 
   if (isFive(card)) {
     result.name = 'Code Review';
-    result.type = 'Tool';
     result.value = 5;
     result.play = play;
     result.effect = 'Choose 2 of your opponent\'s cards that they must discard.';
@@ -541,7 +536,6 @@ Rules.info = (card) => {
 
   if (isSix(card)) {
     result.name = 'Branch Prediction';
-    result.type = 'Patch';
     result.value = 6;
     result.play = play;
     result.effect = 'Draw 2 cards. Return 1 card to the top of the stock. '
@@ -550,7 +544,6 @@ Rules.info = (card) => {
 
   if (isSeven(card)) {
     result.name = 'Data Recovery';
-    result.type = 'Patch';
     result.value = 7;
     result.play = play;
     result.effect = 'Add any card from the top 3 in the discard to your hand.';
@@ -558,13 +551,11 @@ Rules.info = (card) => {
 
   if (isEight(card)) {
     result.name = 'Network Monitor';
-    result.type = 'Exploit';
     result.play = 'Your opponent must play with their hand exposed.';
   }
 
   if (isNine(card)) {
     result.name = 'Energy Drink';
-    result.type = 'Patch';
     result.value = 9;
     result.play = play;
     result.effect = 'Draw 3 cards. Return one card to the top of the stock. '
@@ -573,7 +564,6 @@ Rules.info = (card) => {
 
   if (isTen(card)) {
     result.name = 'Phishing Campaign';
-    result.type = 'Patch';
     result.value = 10;
     result.play = play;
     result.effect = 'Add any card from your opponent\'s hand to your hand.';
@@ -581,27 +571,23 @@ Rules.info = (card) => {
 
   if (isJack(card)) {
     result.name = 'Trojan Horse';
-    result.type = 'Patch';
     result.play = 'Transfer control of an opponent\'s card in play.';
   }
 
   if (isQueen(card)) {
     result.name = 'Filtering Router';
-    result.type = 'Exploit';
     result.play = 'All your cards in play are protected from effects that target single cards. '
     + 'Routers are not protected by themselves or other Routers.';
   }
 
   if (isKing(card)) {
     result.name = 'Overclocked Processor';
-    result.type = 'Exploit';
     result.value = 7;
     result.play = 'Score {value} points. Processors are protected from effects that target point cards.';
   }
 
   if (isStock(card)) {
     result.name = 'Stock';
-    result.type = 'Exploit';
     result.play = 'Draw 1 card and add it to your hand.';
   }
 

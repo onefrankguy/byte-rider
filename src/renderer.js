@@ -88,11 +88,6 @@ const renderCardInfo = (picked) => {
     html += `<strong>${info.name}</strong>`;
   }
 
-  if (info.type) {
-    html += ' &mdash; ';
-    html += `<em>${info.type}</em>`;
-  }
-
   html += '</p>';
 
   if (info.play) {
@@ -128,17 +123,17 @@ const renderStory = (table, player) => {
     'finally go back home',
   ]);
 
-  const programs = Utils.dedupe(table[player].hand.map((c) => Rules.info(c).name))
+  const cards = Utils.dedupe(table[player].hand.map((c) => Rules.info(c).name))
     .slice(0, 2)
     .map((c) => `<strong>${c}</strong>`)
     .join(', ');
 
   html += '<p>';
-  html += `All you need is ${renderValue(21)} points.`;
+  html += `You need ${renderValue(21)} points to win.`;
   html += ` ${story1} ${story2} and ${story3}.`;
   html += ' You&rsquo;ve got ';
-  html += programs;
-  html += ' and a handful of other programs.';
+  html += cards;
+  html += ' and a handful of other cards.';
   html += ' It&rsquo;s time to ride.';
   html += '</p>';
 
