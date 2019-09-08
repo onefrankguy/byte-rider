@@ -40,13 +40,6 @@ body {
   background: $backgroundColor;
   color: $textColor;
   font-size: $fontSize;
-  background:
-  radial-gradient(rgba(81,81,81,.1) 15%, transparent 16%) 0 0,
-  radial-gradient(rgba(81,81,81,.1) 15%, transparent 16%) 8px 8px,
-  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
-  radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
-  background-color: rgba(81,81,81,.5);
-  background-size: 16px 16px;
 }
 
 a, a:visited {
@@ -85,8 +78,24 @@ a, a:visited {
   flex-direction: column;
 }
 
+/* LOGO */
+.logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: $cardHeight * 6;
+  font-size: $fontSize * 4;
+  pointer-events: none;
+  text-align: center;
+}
+
 /* GAME */
 .board {
+  position: relative;
   margin-bottom: $cardMargin;
 }
 
@@ -140,8 +149,6 @@ a, a:visited {
 .picked {
   transform: scale(1.2);
   z-index: 1;
-  top: -$cardMargin;
-  left: -$cardMargin;
   box-shadow: border($textColor), $grayShadow, $dropShadow;
 }
 
@@ -332,13 +339,16 @@ a, a:visited {
   visibility: hidden !important;
 }
 
+.faded {
+  opacity: 0.05;
+}
+
 /* COLOPHON */
 .colophon {
   width: 32rem;
-  font-size: .9rem;
-  line-height: .9rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
   text-align: right;
-  color: $textColor;
   margin: $fontSize auto;
 }
 
@@ -358,6 +368,31 @@ abbr[title="and"] {
   line-height: 0;
   position: relative;
   vertical-align: baseline;
+}
+
+/* GFX */
+/* Atari by Max Kohler */
+/* https://codepen.io/maxakohler/pen/zacsg */
+.atari.bg {
+  background: rgb(30,30,40);
+  $b: rgba(0,0,0,.3);
+  background-image: linear-gradient($b 0%, $b 50%, transparent 50%, transparent 100%);
+  background-repeat: repeat;
+  background-size: 2rem 1rem;
+}
+
+.atari.fg {
+  color: rgba(255,255,255,.9);
+  text-shadow: 0 .1em 0 rgb(0,0,0);
+  font-family: monospace;
+}
+
+/* Ninety-Five by Max Kohler */
+/* https://codepen.io/maxakohler/pen/zacsg */
+.ninetyfive.fg {
+  font-weight: bold;
+  color: rgba(81,81,81,.8);
+  text-shadow: -.1em .1em 0 rgba(220,50,32,.5), .1em -.1em 0 rgba(0,90,181,.5);
 }
 
 @media screen and (min-width:40em) {

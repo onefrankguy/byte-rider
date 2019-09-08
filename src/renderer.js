@@ -124,7 +124,7 @@ const renderStory = (table, player) => {
   const story3 = Utils.pick([
     'start a new life',
     'shut down Tesseract for good',
-    'finally travel back home',
+    'finally go back home',
   ]);
 
   const programs = Utils.dedupe(table[player].hand.map((c) => Rules.info(c).name))
@@ -221,6 +221,12 @@ Renderer.render = (table, picked, touched) => {
       $('S').addClass('hidden');
       $('reset').removeClass('hidden');
     }
+  }
+
+  if (touched === 'story') {
+    $('logo').removeClass('faded');
+  } else {
+    $('logo').addClass('faded');
   }
 
   $('info').html(renderInfo(table, 'x', touched));
