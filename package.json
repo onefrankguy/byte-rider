@@ -12,7 +12,7 @@
     "postbuild": "npm run zip",
     "sync": "cd dist && rsync -avz --delete --files-from=../manifest.txt ./ frankmitchell.org:/home/public/byte-rider/",
     "check-size": "node ./check-size.js; exit 0",
-    "zip": "cd dist && zip -9 ../game.zip $(cat ../manifest.txt)",
+    "zip": "cd dist && advzip -a -4 ../game.zip $(cat ../manifest.txt)",
     "postzip": "npm run check-size"
   },
   "devDependencies": {
