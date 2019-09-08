@@ -134,9 +134,9 @@ const renderStory = (table, player) => {
   html += ' You&rsquo;ve got ';
   html += cards;
   html += ' and a handful of other cards.';
+  html += ' Pick one. Play one.';
   html += ' It&rsquo;s time to ride.';
   html += '</p>';
-
 
   return html;
 };
