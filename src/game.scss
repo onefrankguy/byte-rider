@@ -150,6 +150,10 @@ a, a:visited {
   box-shadow: border($textColor), $grayShadow, $dropShadow;
 }
 
+.sliding > .card {
+  box-shadow: border($textColor), $grayShadow, $dropShadow;
+}
+
 .x.picked {
   box-shadow: border($textColor), $redShadow, $dropShadow;
 }
