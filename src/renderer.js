@@ -49,24 +49,30 @@ const renderPile = (pile, visible, stacked, padding, id) => {
 };
 
 const animationId = (table, id) => {
+  let result = id;
+
   if (isStock(id)) {
-    return 'S';
+    result = 'S';
   }
 
   if (id === 'Hy' && table.y.hand.length >= 6) {
-    return 'Hy';
+    result = 'Hy';
   }
 
   if (id === 'Px' || id === 'Py' || id === 'Hx' || id === 'Hy') {
-    return `${id}0`;
+    result = `${id}0`;
   }
 
   const stacked = Object.keys(table.stacked).find((key) => table.stacked[key].includes(id));
   if (stacked) {
-    return stacked;
+    result = stacked;
   }
 
-  return id;
+  if (!jQuery(`#${result}`).unwrap()) {
+    result = 'S';
+  }
+
+  return result;
 };
 
 const $ = (id) => {
