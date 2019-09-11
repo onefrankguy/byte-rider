@@ -134,8 +134,14 @@ a, a:visited {
   box-shadow: border($textColor), $yellowShadow !important;
 }
 
-.playable {
+.playable.card {
   box-shadow: border($playableColor), $playableShadow !important;
+}
+
+.playable > .card.invisible {
+  box-shadow: border($playableColor), $playableShadow !important;
+  visibility: visible !important;
+  pointer-events: none;
 }
 
 .picked {
