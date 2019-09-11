@@ -105,24 +105,6 @@ const renderCardInfo = (picked) => {
 const renderStory = (table, player) => {
   let html = '';
 
-  const story1 = Utils.pick([
-    'That&rsquo;s enough to',
-    'It&rsquo;s enough to',
-    'With that, you&rsquo;ll have enough to',
-  ]);
-
-  const story2 = Utils.pick([
-    'pay off your debt',
-    'buy your revenge',
-    'retire',
-  ]);
-
-  const story3 = Utils.pick([
-    'start a new life',
-    'shut down Tesseract for good',
-    'finally go back home',
-  ]);
-
   const cards = Utils.dedupe(table[player].hand.map((c) => Rules.info(c).name))
     .slice(0, 2)
     .map((c) => `<strong>${c}</strong>`)
@@ -130,7 +112,6 @@ const renderStory = (table, player) => {
 
   html += '<p>';
   html += `You need ${renderValue(21)} points to win.`;
-  html += ` ${story1} ${story2} and ${story3}.`;
   html += ' You&rsquo;ve got ';
   html += cards;
   html += ' and a handful of other cards.';
@@ -146,7 +127,6 @@ const renderWinner = (table, player, winner) => {
 
   html += '<p class="ninetyfive fg">Byte Rider</p>';
   html += '<p>';
-  html += 'Your connection to the server closes in a burst of static.';
   html += player === winner ? ' You win' : ' The AI wins';
   html += ` with ${renderValue(Rules.score(table, winner))} points.`;
   html += ' Will you ride again?';
