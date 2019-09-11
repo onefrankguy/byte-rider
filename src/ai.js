@@ -4,7 +4,8 @@ const Utils = require('./utils');
 
 const AI = {};
 
-const validHand = (table, player) => table && table[player] && table[player].hand.length <= 6;
+const getHand = (table, player) => (table && table[player] ? table[player].hand : []);
+const validHand = (table, player) => getHand(table, player).length <= 6;
 
 const getChain = (table, player, start) => {
   if (table && table[player] && table[player].allowed.length > 0) {
@@ -66,7 +67,7 @@ AI.moves = (table, player) => {
 
   const opponent = Table.opponent(player);
   const score = Rules.score(table, opponent);
-  if (score >= 11) {
+  if (score >= 11 && getHand(table, opponent).length > 0) {
     const blocking = AI.blocking(table, player);
     if (blocking.length > 0) {
       return blocking;
