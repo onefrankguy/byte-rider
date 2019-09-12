@@ -1,6 +1,25 @@
 # Byte Rider #
 
-The beginning of a project for [js13kGames 2019][js13k].
+> "What do you call an eight bit jockey? ... A byte rider."
+
+Byte Rider is a two player card game, you against an AI. On your turn you may
+take one action...
+
+1. Draw a card and add it to your hand.
+2. Play a point card and score its value.
+3. Discard a point card to trigger an effect.
+4. Play a non-point card to trigger a permanent effect.
+5. Play a point card on an equal or lower value point card. Discard both cards.
+
+...then it's the AI's turn. The first to reach 21 points wins.
+
+Byte Rider was built for [js13kGames 2019][js13k].
+
+## Inspiration ##
+
+Byte Rider is a digital version of [Cuttle][], a combat card game from the
+1970s. I started with a set of [rule revisiosns][bgg] by Brian Wirsing, and
+tweaked them until I had something that worked for touch screens and AI.
 
 ## Graphics ##
 
@@ -58,6 +77,8 @@ licensed under a [Creative Commons Attribution 4.0 International License][cc4].
 
 
 [js13k]: https://2019.js13kgames.com/ "Andrzej Mazur (js13kGames): HTML5 and JavaScript game development competition in just 13 kB"
+[Cuttle]: https://www.pagat.com/combat/cuttle.html "John McLeod (Pagat): Cuttle"
+[bgg]: https://boardgamegeek.com/thread/1351248/beamer159s-rule-revisions "Brian Wirsing (Board Game Geek): Beamer159's Rule Revisions"
 [mk]: https://codepen.io/maxakohler/pen/zacsg "Max Kohler (CodePen): Playing w/ Retro Typography"
 [hex]: http://lea.verou.me/css3patterns/#honeycomb "Paul Salentiny (CSS3 Patterns Gallery): HoneyComb"
 [color]: https://davidmathlogic.com/colorblind/#%23005AB5-%23DC3220-%23FFB000 "David Nichols: Colring for Colorblindness"
