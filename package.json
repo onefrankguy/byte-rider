@@ -2,7 +2,7 @@
   "name": "byte-rider",
   "private": true,
   "license": "MIT",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint src test *.js 2>&1",
