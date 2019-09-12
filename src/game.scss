@@ -348,10 +348,11 @@ a, a:visited {
 /* COLOPHON */
 .colophon {
   width: 32rem;
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 0.9rem;
   text-align: right;
   margin: $fontSize auto;
+  padding: 0 0.6rem;
 }
 
 .colophon > a:hover {
@@ -386,7 +387,6 @@ abbr[title="and"] {
 .atari.fg {
   color: rgba(255,255,255,.9);
   text-shadow: 0 .1em 0 rgb(0,0,0);
-  font-family: monospace;
 }
 
 /* Ninety-Five by Max Kohler */

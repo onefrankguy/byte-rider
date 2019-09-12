@@ -4,6 +4,16 @@ The beginning of a project for [js13kGames 2019][js13k].
 
 ## Graphics ##
 
+The background graphic and logo design are from [Playing w/ Retro Typography][mk]
+by Max Kohler. The board graphic is a recolor of [HoneyComb][hex] by Paul
+Salentiny. The color scheme was built with the help of [Coloring for Colorblindness][color]
+by David Nichols.
+
+### Icons ###
+
+Icons for the cards are from [game-icons.net][gin] by various artists. They are
+all licensed under a [CC BY 3.0][cc3] license. Links below are to the originals.
+
 * [walking-turret][]
 * [skull-with-syringe][]
 * [companion-cube][]
@@ -42,9 +52,17 @@ npm run build
 ## License ##
 
 All code is licensed under a MIT license. See the LICENSE file for more details.
+Most graphics are licensed under some form of Creative Commons license. See the
+"Graphics" section of this README for more details. The game and text are
+licensed under a [Creative Commons Attribution 4.0 International License][cc4].
 
 
 [js13k]: https://2019.js13kgames.com/ "Andrzej Mazur (js13kGames): HTML5 and JavaScript game development competition in just 13 kB"
+[mk]: https://codepen.io/maxakohler/pen/zacsg "Max Kohler (CodePen): Playing w/ Retro Typography"
+[hex]: http://lea.verou.me/css3patterns/#honeycomb "Paul Salentiny (CSS3 Patterns Gallery): HoneyComb"
+[color]: https://davidmathlogic.com/colorblind/#%23005AB5-%23DC3220-%23FFB000 "David Nichols: Colring for Colorblindness"
+[gin]: https://game-icons.net "Various (game-icons.net): 3614 free SVG and PNG icons for your games and apps"
+[cc3]: https://creativecommons.org/licenses/by/3.0/ "Creative Commons Attribution 3.0 Unported"
 [Node]: https://nodejs.org/ "Various (Node.js Foundation): Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine"
 [NVM]: https://github.com/nvm-sh/nvm "Various (GitHub): Node Version Manager"
 [walking-turret]: https://game-icons.net/1x1/delapouite/walking-turret.html "Delapouite (game-icons.net): An automatic sentry tower that can move along short distances."
@@ -64,3 +82,4 @@ All code is licensed under a MIT license. See the LICENSE file for more details.
 [card-play]: https://game-icons.net/1x1/quoting/card-play.html "Quoting (game-icons.net): One of the cards in your hand will have a big impact on the game: choose carefully the one needed."
 [card-draw]: https://game-icons.net/1x1/faithtoken/card-draw.html "Faithtoken (game-icons.net): Grab the card on top of the stack."
 [card-burn]: https://game-icons.net/1x1/delapouite/card-burn.html "Delapouite (game-icons.net): This card should be discarded from the stack. No players will be able to use it."
+[cc4]: https://creativecommons.org/licenses/by/4.0/ "Creative Commons Attribution 4.0 International"
