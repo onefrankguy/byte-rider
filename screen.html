@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Byte Rider - Screen 400x250</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="dist/main.css" />
+  <style>
+    .world {
+      width: 400px;
+      height: 250px;
+      min-width: 400px;
+      min-height: 250px;
+      overflow: hidden;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      height: 100%;
+      font-size: 3.2rem;
+    }
+
+    .card,
+    .icon {
+      width: 54px;
+      height: 54px;
+    }
+  </style>
+</head>
+
+<body class="bg atari">
+  <div class="bg honeycomb col world">
+    <div id="board" class="col board">
+      <div id="logo" class="fg ninetyfive logo">Byte<br />Rider</div>
+      <div id="Hy" class="row pile">
+        <div class="card y"></div>
+        <div class="card y"></div>
+        <div class="card y"></div>
+        <div class="card y"></div>
+        <div class="card y"></div>
+        <div class="card y"></div>
+      </div>
+      <div class="row">
+        <div class="col piles">
+          <div id="Py" class="row pile">
+            <div class="card invisible"></div>
+          </div>
+          <div id="Px" class="row pile">
+            <div class="card invisible"></div>
+          </div>
+          <div id="Hx" class="row pile">
+            <div class="card x"><div class="icon i4"><div class="value">4<sup>&boxbox;</sup></div></div></div>
+            <div class="card x"><div class="icon i8"></div></div>
+            <div class="card x"><div class="icon iK"><div class="value">7<sup>&boxbox;</sup></div></div></div>
+            <div class="card x"><div class="icon iA"><div class="value">1<sup>&boxbox;</sup></div></div></div>
+            <div class="card x"><div class="icon i5"><div class="value">5<sup>&boxbox;</sup></div></div></div>
+          </div>
+        </div>
+        <div class="col navi">
+          <div id="discard" class="pile col discard"></div>
+          <div id="S" class="card x iS"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
